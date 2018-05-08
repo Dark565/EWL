@@ -6,11 +6,11 @@ qlobjs=$(objdir)/pixmap.o $(objdir)/images.o $(objdir)/colors.o $(objdir)/consol
 qllibs=-lql-pixmap -ql-console -ql-images -ql-maths -lql-video -lql-system
 
 prefix=/
-compiled=0
+compiled:=0
 
 ifneq ($(compiled),1)
 	ifneq ("$(wildcard $(objdir)/compiled)","")
-		compiled=1
+		compiled:=1
 	endif
 endif
 
@@ -18,18 +18,18 @@ all: build
 
 install:
 ifeq ($(compiled),1)
-	ifeq ("$(wildcard $(prefix)usr/include/QL)","")
-		mkdir -p $(prefix)usr/include/QL
-	endif
+ifeq ("$(wildcard $(prefix)usr/include/QL)","")
+	mkdir -p $(prefix)usr/include/QL
+endif
 	rsync -v -r --exclude='*.cpp' $(libdir)/ $(prefix)usr/include/QL/
-	rsync -v -r --exclude='*.o' $(objdir)/ /$(prefix)usr/lib64/
+	rsync -v -r --exclude='*.o' --exclude='compiled' $(objdir)/ $(prefix)usr/lib64/
 else
-	printf "Ohh, it looks like, that .so files don't exist yet"
+	@echo "Ohh, it looks like, that .so files don't exist yet"
 endif
 
 
 delete:
-ifneq ("$(wildcard /usr/include/QL)","")
+ifneq ("$(wildcard $(prefix)usr/include/QL)","")
 	rm -rf $(prefix)usr/include/QL
 endif
 	rm -f $(prefix)usr/lib64/libql-colors.so
@@ -42,7 +42,7 @@ endif
 
 build: directory compile libs 
 
-libs: compile
+libs:
 	g++ -shared $(objdir)/colors.o -o $(objdir)/libql-colors.so
 	g++ -shared $(objdir)/console.o -o $(objdir)/libql-console.so
 	g++ -shared $(objdir)/images.o -o $(objdir)/libql-images.so
