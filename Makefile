@@ -3,29 +3,31 @@ libdir=QL
 
 libs=-ltiff -lpng -ljpeg
 qlobjs=$(objdir)/pixmap.o $(objdir)/images.o $(objdir)/colors.o $(objdir)/console.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o $(objdir)/maths.o $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/system.o $(objdir)/time.o
-qllibs=-lql-pixmap -ql-console -ql-images -ql-maths -lql-video -lql-system 
+qllibs=-lql-pixmap -ql-console -ql-images -ql-maths -lql-video -lql-system
+
+prefix=/
 
 all: build
 
 install: build
-ifeq ("$(wildcard /usr/include/QL)","")
-	mkdir /usr/include/QL
+ifeq ("$(wildcard $(prefix)usr/include/QL)","")
+	mkdir -p $(prefix)usr/include/QL
 endif
-	rsync -v -r --exclude='*.cpp' $(libdir)/ /usr/include/QL/
-	rsync -v -r --exclude='*.o' $(objdir)/ /usr/lib64/
+	rsync -v -r --exclude='*.cpp' $(libdir)/ $(prefix)usr/include/QL/
+	rsync -v -r --exclude='*.o' $(objdir)/ /$(prefix)usr/lib64/
 
 
 delete:
 ifneq ("$(wildcard /usr/include/QL)","")
-	rm -rf /usr/include/QL
+	rm -rf $(prefix)usr/include/QL
 endif
-	rm -f /usr/lib64/libql-colors.so
-	rm -f /usr/lib64/libql-console.so
-	rm -f /usr/lib64/libql-images.so
-	rm -f /usr/lib64/libql-maths.so
-	rm -f /usr/lib64/libql-video.so
-	rm -f /usr/lib64/libql-system.so
-	rm -f /usr/lib64/libql-pixmap.so
+	rm -f $(prefix)usr/lib64/libql-colors.so
+	rm -f $(prefix)usr/lib64/libql-console.so
+	rm -f $(prefix)usr/lib64/libql-images.so
+	rm -f $(prefix)usr/lib64/libql-maths.so
+	rm -f $(prefix)usr/lib64/libql-video.so
+	rm -f $(prefix)usr/lib64/libql-system.so
+	rm -f $(prefix)usr/lib64/libql-pixmap.so
 
 build: directory compile libs 
 
