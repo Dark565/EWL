@@ -16,7 +16,7 @@ endif
 
 
 delete:
-ifeq ("$(wildcard /usr/include/QL)","")
+ifneq ("$(wildcard /usr/include/QL)","")
 	rm -rf /usr/include/QL
 endif
 	rm -f /usr/lib64/libql-colors.so
@@ -30,11 +30,11 @@ endif
 build: directory compile libs 
 
 libs: compile
-	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(objdir)/libql-pixmap.so $(libs) -Wall
 	g++ -shared $(objdir)/colors.o -o $(objdir)/libql-colors.so -Wall
 	g++ -shared $(objdir)/console.o -o $(objdir)/libql-console.so -Wall
 	g++ -shared $(objdir)/images.o -o $(objdir)/libql-images.so -Wall
-	g++ -shared $(objdir)/maths.o -o $(objdir)/libql-maths.so -Wall
+	g++ -shared $(objdir)/maths.o -o $(objdir)/libql-maths.so -lql-console -L$(objdir) -Wall
+	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(objdir)/libql-pixmap.so -lql-maths $(libs) -L$(objdir) -Wall
 	g++ -shared $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o -o $(objdir)/libql-video.so -lavcodec -I/usr/include/ffmpeg/ -Wall
 	g++ -shared $(objdir)/system.o $(objdir)/time.o -o $(objdir)/libql-system.so -Wall
 
