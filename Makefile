@@ -1,6 +1,9 @@
 objdir=Build/Object
 sodir=Build
+
 libdir=QL
+srcdir=$(libdir)/source
+headir=$(libdir)/headers
 
 libs=-ltiff -lpng -ljpeg
 qlobjs=$(objdir)/pixmap.o $(objdir)/images.o $(objdir)/colors.o $(objdir)/console.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o $(objdir)/maths.o $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/system.o $(objdir)/time.o
@@ -17,7 +20,7 @@ endif
 
 all: build
 
-clear:
+clean:
 	@rm -rf $(sodir)
 
 install:
@@ -25,7 +28,7 @@ ifeq ($(compiled),1)
 ifeq ("$(wildcard $(prefix)usr/include/QL)","")
 	mkdir -p $(prefix)usr/include/QL
 endif
-	rsync -v -r --exclude='*.cpp' $(libdir)/ $(prefix)usr/include/QL/
+	install -d $(headir) $(prefix)usr/include/QL
 	install -d $(sodir) $(prefix)usr/lib64/
 else
 	@echo "Ohh, it looks like, that .so files don't exist yet"
@@ -38,42 +41,44 @@ ifneq ("$(wildcard $(prefix)usr/include/QL)","")
 endif
 	rm -f $(prefix)usr/lib64/libql-colors.so
 	rm -f $(prefix)usr/lib64/libql-console.so
-	rm -f $(prefix)usr/lib64/libql-images.so
 	rm -f $(prefix)usr/lib64/libql-maths.so
 	rm -f $(prefix)usr/lib64/libql-video.so
 	rm -f $(prefix)usr/lib64/libql-system.so
 	rm -f $(prefix)usr/lib64/libql-pixmap.so
 
-build: directory compile libs 
+build:
+	$(MAKE) directory
+	$(MAKE) compile
+	$(MAKE) libs
 
 libs:
 	g++ -shared $(objdir)/colors.o -o $(sodir)/libql-colors.so
 	g++ -shared $(objdir)/console.o -o $(sodir)/libql-console.so
-	g++ -shared $(objdir)/maths.o -o $(sodir)/libql-maths.so -lql-console -L$(objdir)
-	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(sodir)/libql-pixmap.so -lql-maths $(libs) -L$(objdir)
+	g++ -shared $(objdir)/maths.o -o $(sodir)/libql-maths.so -lql-console -L$(sodir)
+	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(sodir)/libql-pixmap.so -lql-maths $(libs) -L$(sodir)
 	g++ -shared $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/files.o -o $(sodir)/libql-video.so -lavcodec -I/usr/include/ffmpeg/
-	g++ -shared $(objdir)/system.o $(objdir)/time.o -o $(sodir)/libql-system.so
+	g++ -shared $(objdir)/system.o $(objdir)/time.o $(objdir)/files.o -o $(sodir)/libql-system.so
 	touch $(objdir)/compiled
 compile:
 ifneq ("$(wildcard $(sodir))","")
 	rm -rf $(objdir)
 endif
 	mkdir $(objdir)
-	g++ -fPIC -c $(libdir)/Pixmap/pixmap.cpp -o $(objdir)/pixmap.o
-	g++ -fPIC -c $(libdir)/Files/files.cpp -o $(objdir)/files.o
-	g++ -fPIC -c $(libdir)/Colorize/colors.cpp -o $(objdir)/colors.o
-	g++ -fPIC -c $(libdir)/Console/console.cpp -o $(objdir)/console.o
-	g++ -fPIC -c $(libdir)/Pixmap/IO/tiff.cpp -o $(objdir)/tiff.o
-	g++ -fPIC -c $(libdir)/Pixmap/IO/png.cpp -o $(objdir)/png.o
-	g++ -fPIC -c $(libdir)/Pixmap/IO/jpeg.cpp -o $(objdir)/jpeg.o
-	g++ -fPIC -c $(libdir)/Maths/maths.cpp -o $(objdir)/maths.o
-	g++ -fPIC -c $(libdir)/Video/video.cpp -o $(objdir)/video.o
-	g++ -fPIC -c $(libdir)/Video/IO/gif.cpp -o $(objdir)/vgif.o -I/usr/include/ffmpeg
-	g++ -fPIC -c $(libdir)/Video/IO/mkv.cpp -o $(objdir)/vmkv.o -I/usr/include/ffmpeg
-	g++ -fPIC -c $(libdir)/Video/IO/mp4.cpp -o $(objdir)/vmp4.o -I/usr/include/ffmpeg
-	g++ -fPIC -c $(libdir)/Video/IO/wmv.cpp -o $(objdir)/vwmv.o -I/usr/include/ffmpeg
-	g++ -fPIC -c $(libdir)/System/system.cpp -o $(objdir)/system.o
-	g++ -fPIC -c $(libdir)/Time/units.cpp -o $(objdir)/time.o
+	g++ -fPIC -c $(srcdir)/Pixmap/pixmap.cpp -o $(objdir)/pixmap.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Files/files.cpp -o $(objdir)/files.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Colorize/colors.cpp -o $(objdir)/colors.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Console/console.cpp -o $(objdir)/console.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Pixmap/IO/tiff.cpp -o $(objdir)/tiff.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Pixmap/IO/png.cpp -o $(objdir)/png.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Pixmap/IO/jpeg.cpp -o $(objdir)/jpeg.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Maths/maths.cpp -o $(objdir)/maths.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Video/video.cpp -o $(objdir)/video.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Video/IO/gif.cpp -o $(objdir)/vgif.o -I$(headir) -I/usr/include/ffmpeg
+	g++ -fPIC -c $(srcdir)/Video/IO/mkv.cpp -o $(objdir)/vmkv.o -I$(headir) -I/usr/include/ffmpeg
+	g++ -fPIC -c $(srcdir)/Video/IO/mp4.cpp -o $(objdir)/vmp4.o -I$(headir) -I/usr/include/ffmpeg
+	g++ -fPIC -c $(srcdir)/Video/IO/wmv.cpp -o $(objdir)/vwmv.o -I$(headir) -I/usr/include/ffmpeg
+	g++ -fPIC -c $(srcdir)/System/system.cpp -o $(objdir)/system.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Time/units.cpp -o $(objdir)/time.o -I$(headir)
 
 directory:
 ifneq  ("$(wildcard $(sodir))","")
