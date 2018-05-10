@@ -1,4 +1,4 @@
-#include "images.hpp"
+#include "files.hpp"
 
 #include <cstdint>
 #include <string.h>
@@ -13,7 +13,6 @@
 #include <iostream>
 
 std::string ql::readFormat(const char* format) {
-    //std::cout << format << '\n';
     const char* f2 = format;
     while(*f2 != '\0') {
         if(*f2 == '.') return readFormat(f2+1);

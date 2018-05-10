@@ -1,9 +1,10 @@
-objdir=Build
+objdir=Build/Object
+sodir=Build
 libdir=QL
 
 libs=-ltiff -lpng -ljpeg
 qlobjs=$(objdir)/pixmap.o $(objdir)/images.o $(objdir)/colors.o $(objdir)/console.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o $(objdir)/maths.o $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/system.o $(objdir)/time.o
-qllibs=-lql-pixmap -ql-console -ql-images -ql-maths -lql-video -lql-system
+qllibs=-lql-pixmap -ql-console -ql-maths -lql-video -lql-system
 
 prefix=/
 compiled:=0
@@ -16,13 +17,16 @@ endif
 
 all: build
 
+clear:
+	@rm -rf $(sodir)
+
 install:
 ifeq ($(compiled),1)
 ifeq ("$(wildcard $(prefix)usr/include/QL)","")
 	mkdir -p $(prefix)usr/include/QL
 endif
 	rsync -v -r --exclude='*.cpp' $(libdir)/ $(prefix)usr/include/QL/
-	rsync -v -r --exclude='*.o' --exclude='compiled' $(objdir)/ $(prefix)usr/lib64/
+	install -d $(sodir) $(prefix)usr/lib64/
 else
 	@echo "Ohh, it looks like, that .so files don't exist yet"
 endif
@@ -43,18 +47,20 @@ endif
 build: directory compile libs 
 
 libs:
-	g++ -shared $(objdir)/colors.o -o $(objdir)/libql-colors.so
-	g++ -shared $(objdir)/console.o -o $(objdir)/libql-console.so
-	g++ -shared $(objdir)/images.o -o $(objdir)/libql-images.so
-	g++ -shared $(objdir)/maths.o -o $(objdir)/libql-maths.so -lql-console -L$(objdir)
-	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(objdir)/libql-pixmap.so -lql-maths $(libs) -L$(objdir)
-	g++ -shared $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o -o $(objdir)/libql-video.so -lavcodec -I/usr/include/ffmpeg/
-	g++ -shared $(objdir)/system.o $(objdir)/time.o -o $(objdir)/libql-system.so
+	g++ -shared $(objdir)/colors.o -o $(sodir)/libql-colors.so
+	g++ -shared $(objdir)/console.o -o $(sodir)/libql-console.so
+	g++ -shared $(objdir)/maths.o -o $(sodir)/libql-maths.so -lql-console -L$(objdir)
+	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/png.o $(objdir)/jpeg.o -o $(sodir)/libql-pixmap.so -lql-maths $(libs) -L$(objdir)
+	g++ -shared $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/files.o -o $(sodir)/libql-video.so -lavcodec -I/usr/include/ffmpeg/
+	g++ -shared $(objdir)/system.o $(objdir)/time.o -o $(sodir)/libql-system.so
 	touch $(objdir)/compiled
-
 compile:
+ifneq ("$(wildcard $(sodir))","")
+	rm -rf $(objdir)
+endif
+	mkdir $(objdir)
 	g++ -fPIC -c $(libdir)/Pixmap/pixmap.cpp -o $(objdir)/pixmap.o
-	g++ -fPIC -c $(libdir)/Images/images.cpp -o $(objdir)/images.o
+	g++ -fPIC -c $(libdir)/Files/files.cpp -o $(objdir)/files.o
 	g++ -fPIC -c $(libdir)/Colorize/colors.cpp -o $(objdir)/colors.o
 	g++ -fPIC -c $(libdir)/Console/console.cpp -o $(objdir)/console.o
 	g++ -fPIC -c $(libdir)/Pixmap/IO/tiff.cpp -o $(objdir)/tiff.o
@@ -70,7 +76,7 @@ compile:
 	g++ -fPIC -c $(libdir)/Time/units.cpp -o $(objdir)/time.o
 
 directory:
-ifneq  ("$(wildcard $(objdir))","")
-	rm -rf $(objdir)
+ifneq  ("$(wildcard $(sodir))","")
+	rm -rf $(sodir)
 endif
-	mkdir $(objdir)
+	mkdir $(sodir)

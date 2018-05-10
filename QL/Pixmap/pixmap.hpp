@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
-#include "../Images/images.hpp"
 #include "../Colorize/colors.hpp"
 #include "../Compress/compressors.hpp"
 #include "../Arrays/array.hpp"
@@ -19,6 +19,7 @@ namespace ql {
         /*Data compressor*/
 
         Compressor* compressor;
+
 
     public:
 

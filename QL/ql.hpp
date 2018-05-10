@@ -6,7 +6,7 @@
 #include "Console/console.hpp"
 #include "Maths/maths.hpp"
 #include "Pixmap/pixmap.hpp"
-#include "Images/images.hpp"
+#include "Files/files.hpp"
 #include "Compress/compressors.hpp"
 #include "System/system.hpp"
 #include "Time/units.hpp"

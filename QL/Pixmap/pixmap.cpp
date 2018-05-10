@@ -1,6 +1,5 @@
 #include "pixmap.hpp"
 
-#include "../Images/images.hpp"
 #include "../Colorize/colors.hpp"
 #include "../Arrays/array.hpp"
 #include "../Maths/maths.hpp"
