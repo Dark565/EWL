@@ -21,3 +21,7 @@
 #ifdef __ANDROID__
 #define __QL_ANDROID
 #endif
+
+#ifdef __FREEBSD__
+#define __QL_FREEBSD
+#endif

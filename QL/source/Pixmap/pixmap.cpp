@@ -8,13 +8,8 @@
 
 #include <cstdint>
 #include <iostream>
+#include <string.h>
 #include <math.h>
-
-/*Image libraries*/
-
-#include <png.h>
-#include <tiffio.h>
-#include <jpeglib.h>
 
 ////
 

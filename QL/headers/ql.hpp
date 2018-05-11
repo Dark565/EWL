@@ -11,4 +11,5 @@
 #include "System/system.hpp"
 #include "Time/units.hpp"
 #include "Gui/clipboard.hpp"
+#include "Windows/window.hpp"
 #include "Interpreter/asm.hpp"
