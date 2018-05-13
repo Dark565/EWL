@@ -1,3 +1,3 @@
 <img src = https://dark565.github.io/Qer.png>
 
-QL is general library for cooperating with operating system and multimedias.
+QL is general management library for working with system and multimedia.
