@@ -1,5 +1,6 @@
 /* Main header */
 
+#include "NotCopyable.hpp"
 #include "Definitions/defs.hpp"
 #include "Arrays/array.hpp"
 #include "Colorize/colors.hpp"
@@ -13,3 +14,4 @@
 #include "Gui/clipboard.hpp"
 #include "Windows/window.hpp"
 #include "Interpreter/asm.hpp"
+#include "Thread/thread.hpp"

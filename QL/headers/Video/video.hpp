@@ -19,7 +19,7 @@ namespace ql {
 
             Pixmap* getFramesPtr() const;
 
-            /*Gets frame what is on taken position*/
+            /*Gets frame from videon on the position*/
 
             Pixmap* getFrame(uint32_t num) const;
 
