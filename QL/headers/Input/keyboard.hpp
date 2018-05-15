@@ -2,13 +2,13 @@
 
 namespace ql {
     namespace keyboard {
-        class enum Key : char {
+        enum class Key : char {
 
-        }
+        };
 
-        class enum Press : char {
+        enum class Press : char {
             up,
             down
-        }
+        };
     }
 }

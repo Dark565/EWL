@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Pixmap/pixmap.hpp>
-#include <Compress/compressors.hpp>
+#include "../Pixmap/pixmap.hpp"
+#include "../Compress/compressors.hpp"
 
 #include <vector>
 

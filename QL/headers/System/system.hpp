@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Time/units.hpp>
-#include <Definitions/defs.hpp>
+#include "../Time/units.hpp"
+#include "../Definitions/defs.hpp"
 
 #include <string>
 #include <cstdint>

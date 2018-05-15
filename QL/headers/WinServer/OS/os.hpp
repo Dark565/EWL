@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Definitions/defs.hpp>
+#include "../../Definitions/defs.hpp"
 
 #if defined __QL_OS_LINUX || defined __QL_OS_FREEBSD
     #include "Unix/types.hpp"

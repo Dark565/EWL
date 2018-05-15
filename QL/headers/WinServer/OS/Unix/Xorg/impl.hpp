@@ -2,7 +2,7 @@
 
 #include <X11/Xlib.h>
 
-#include <WinServer/man.hpp>
+#include "../../../man.hpp"
 
 namespace ql {
     namespace Servers {

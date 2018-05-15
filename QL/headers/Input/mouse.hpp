@@ -12,6 +12,6 @@ namespace ql {
             off,
             on,
             double_click
-        }
-    }
+        };
+    };
 }
