@@ -5,8 +5,8 @@
 
 #include <queue>
 
-#include <Arrays/array.hpp>
-#include <Colorize/colors.hpp>
+#include "../Arrays/array.hpp"
+#include "../Colorize/colors.hpp"
 #include "../Definitions/defs.hpp"
 #include "../Pixmap/pixmap.hpp"
 #include "event.hpp"
