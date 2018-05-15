@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-#include "../Input/mouse.hpp"
+#include <Input/mouse.hpp>
 
 namespace ql {
     struct Event {

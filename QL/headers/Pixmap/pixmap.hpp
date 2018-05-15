@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <string>
 
-#include "../Colorize/colors.hpp"
-#include "../Compress/compressors.hpp"
-#include "../Arrays/array.hpp"
+#include <Colorize/colors.hpp>
+#include <Compress/compressors.hpp>
+#include <Arrays/array.hpp>
 
 
 namespace ql {

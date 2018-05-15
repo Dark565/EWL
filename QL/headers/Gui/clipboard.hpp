@@ -1,5 +1,5 @@
 #include <string>
-#include "../Pixmap/pixmap.hpp"
+#include <Pixmap/pixmap.hpp>
 
 namespace ql {
     namespace gui {

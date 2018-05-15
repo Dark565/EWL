@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Colorize/colors.hpp"
+#include <Colorize/colors.hpp>
 
 #include <cstdint>
 #include <iostream>

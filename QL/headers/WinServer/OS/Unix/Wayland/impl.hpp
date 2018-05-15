@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../man.hpp"
+#include <WinServer/man.hpp>
 
 #include <wayland-client.h>
 

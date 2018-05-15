@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../NotCopyable.hpp"
+#include <NotCopyable.hpp>
 
 #include <pthread.h>
 
