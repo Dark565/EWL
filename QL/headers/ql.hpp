@@ -15,3 +15,4 @@
 #include "Windows/window.hpp"
 #include "Interpreter/asm.hpp"
 #include "Thread/thread.hpp"
+#include "Formats/bmp.hpp"

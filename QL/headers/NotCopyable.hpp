@@ -5,8 +5,8 @@
 namespace ql {
 
     struct NotCopyable {
-        NotCopyable() = default;
     protected:
+        NotCopyable() = default;
         NotCopyable(const NotCopyable&) = delete;
         NotCopyable& operator =(const NotCopyable&) = delete;
     };

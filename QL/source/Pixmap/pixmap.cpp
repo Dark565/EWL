@@ -14,16 +14,18 @@
 
 ////
 
-void ql::Pixmap::create(uint32_t a_size_x, uint32_t a_size_y, const Pixel& col) {
+void ql::Pixmap::create(uint32_t a_size_x, uint32_t a_size_y, const Pixel& col, uint32_t bps) {
     destroy();
     deletable = true;
 
-    pixels = (uint32_t*)malloc(sizeof(uint32_t)*a_size_x*a_size_y);
+    pixels = (uint8_t*)malloc(sizeof(uint32_t)*a_size_x*a_size_y*bps);
     size_x = a_size_x;
     size_y = a_size_y;
+
+    bytes_per_pixel = bps;
     
     for(uint32_t x = 0; x < a_size_x * a_size_y; x++) {
-        pixels[x] = *(uint32_t*)&col;
+        memcpy(&pixels[x*bps],&col,bps);
     }
 }
 
@@ -41,11 +43,78 @@ bool ql::Pixmap::destroy() {
     return false;
 }
 
+ql::Pixmap ql::Pixmap::constructLesser(uint64_t ch, uint32_t ch_count) const {
+    ql::Pixmap px;
+
+    if(isLegit()) {
+
+        if(ch != ql::Pixmap::Channels::C_RGBA) {
+
+            uint32_t ch_sz = 0;
+
+            for(uint32_t i = 0; i < 4; i++) {
+                if(ql::maths::getBit(ch,i)) ch_sz++;
+            }
+            uint32_t s = size_x * size_y * ch_sz;
+            px.create(size_x,size_y,ql::Black,ch_sz);
+
+            for(uint32_t x = 0; x < size_x*size_y; x++) {
+                ql::Pixel px;
+                uint8_t* px_c_ptr = (uint8_t*)&px;
+
+
+                uint32_t curr_c = 0;
+                for(uint32_t c = 0; c < ch_sz; c++) {
+                    while(!ql::maths::getBit(ch,curr_c)) curr_c++;
+                    px_c_ptr[curr_c] = getPixelX(x).getAsCharPtr()[curr_c];
+                }
+            }
+
+
+        } else
+        px = *this;
+    }
+    return px;
+}
+
+ql::Pixmap ql::Pixmap::constructDecreased(uint32_t ch_count) const {
+    ql::Pixmap px;
+
+    if(isLegit()) {
+        px.create(size_x, size_y, ql::Black, ch_count);
+        for(uint32_t x = 0; x < size_x * size_y; x++) {
+            px.setPixelX(x,getPixelXCareful(x));
+        }
+
+    }
+    return px;
+
+}
+
+bool ql::Pixmap::copy(const ql::Pixmap& from, bool COPY_BPP_VALUE) {
+    if(from.isLegit()) {
+        destroy();
+
+        size_x = from.size_x;
+        size_y = from.size_y;
+
+        pixels = (uint8_t*)malloc(size_x * size_y * bytes_per_pixel);
+        if(COPY_BPP_VALUE) bytes_per_pixel = from.bytes_per_pixel;
+
+        for(uint32_t x = 0; x < size_x * size_y; x++) {
+            setPixelX(x,from.getPixelX(x));
+        }
+        
+        return 1;
+    }
+    return 0;
+}
+
 bool ql::Pixmap::scale(uint32_t n_x, uint32_t n_y) {
     if(isLegit()) {
         if(n_x != size_x && n_x != size_y) {
             ql::Pixmap n_p;
-            n_p.create(n_x, n_y);
+            n_p.create(n_x, n_y,ql::Black,bytes_per_pixel);
 
             float px = (float)size_x / n_x;
             float py = (float)size_y / n_y;
@@ -56,6 +125,7 @@ bool ql::Pixmap::scale(uint32_t n_x, uint32_t n_y) {
             for(uint32_t xx = 0; xx < n_x; xx++) {
                 for(uint32_t yy = 0; yy < n_y; yy++) {
                     n_p.setPixelXY(xx,yy,getPixelXY(f_add_x, f_add_y));
+
                     f_add_y += py;
                 }
                 f_add_x += px;
@@ -78,7 +148,7 @@ bool ql::Pixmap::merge(const Pixmap& ap, uint32_t ax, uint32_t ay, bool EXCLUDE_
                 if(!EXCLUDE_ALPHA) {
                     ql::Pixel tp = getPixelXY(x+ax,y+ay);
 
-                    tp.merge(from_p);
+                    tp.alpha_compose(from_p);
                     from_p = tp;
                 }
                 setPixelXY(x+ax, y+ay, from_p);
@@ -95,7 +165,7 @@ bool ql::Pixmap::cut(uint32_t from_x, uint32_t from_y, uint32_t to_x, uint32_t t
 
     if(isLegit() && n_width >= 0 && n_height >= 0) {
         Pixmap n;
-        n.create(n_width, n_height);
+        n.create(n_width, n_height,ql::Black, bytes_per_pixel);
         for(uint32_t x = 0; x < n_width; x++) {
             for(uint32_t y = 0; y < n_height; y++) {
                 n.setPixelXY(x,y,getPixelXY(x+from_x,y+from_y));
@@ -129,7 +199,7 @@ bool ql::Pixmap::rotate(float rad, ql::Pixel emptyColor) {
         uint32_t r_w = n_w - m_w, r_h = n_h - m_h;
 
         ql::Pixmap n_p;
-        n_p.create(r_w, r_h, emptyColor);
+        n_p.create(r_w, r_h, emptyColor, bytes_per_pixel);
         for(int32_t x = m_w; x < n_w; x++) {
             for(int32_t y = m_h; y < n_h; y++) {
                 
@@ -154,7 +224,7 @@ bool ql::Pixmap::replaceColor(const ql::Pixel& a, const ql::Pixel& b) {
     return false;
 }
 
-const uint32_t* ql::Pixmap::getPixelPtr() {
+const uint8_t* ql::Pixmap::getPixelPtr() {
     return pixels;
 }
 
@@ -166,6 +236,10 @@ uint32_t ql::Pixmap::getHeight() const {
     return size_y;
 }
 
+uint32_t ql::Pixmap::getSize() const {
+    return size_x * size_y;
+}
+
 bool ql::Pixmap::isLegit() const {
     return pixels;
 }
@@ -174,20 +248,17 @@ bool ql::Pixmap::isDeletable() const {
     return deletable;
 }
 
+uint32_t ql::Pixmap::getBytesPerPixel() const {
+    return bytes_per_pixel;
+}
+
 bool ql::Pixmap::setGlobalColor(const ql::Pixel& pix, uint8_t color_channel) {
     if(isLegit()) {
         for(uint32_t x = 0; x < size_x * size_y; x++) {
-            if(ql::maths::getBit(color_channel,0)) {
-                getPixelX(x).r = pix.r;
-            }
-            if(ql::maths::getBit(color_channel,1)) {
-                getPixelX(x).g = pix.g;
-            }
-            if(ql::maths::getBit(color_channel,2)) {
-                getPixelX(x).b = pix.b;
-            }
-            if(ql::maths::getBit(color_channel,3)) {
-                getPixelX(x).alpha = pix.alpha;
+            for(uint32_t i = 0; i<bytes_per_pixel; i++) {
+                if(ql::maths::getBit(color_channel,i)) {
+                    getPixelX(x).getAsCharPtr()[i] = pix.getAsCharPtr()[i];
+                }
             }
         }
         return true;
@@ -197,15 +268,7 @@ bool ql::Pixmap::setGlobalColor(const ql::Pixel& pix, uint8_t color_channel) {
 
 bool ql::Pixmap::setPixelX(uint32_t x, const ql::Pixel& col) {
     if(x < size_x * size_y) {
-        unsigned char* p_r = (unsigned char*)&pixels[x];
-        unsigned char* p_g = p_r+1;
-        unsigned char* p_b = p_r+2;
-        unsigned char* p_a = p_r+3;
-
-        *p_r = col.r;
-        *p_g = col.g;
-        *p_b = col.b;
-        *p_a = col.alpha;
+        memcpy(&pixels[x*bytes_per_pixel],&col,bytes_per_pixel);
 
         return true;
     }
@@ -222,9 +285,17 @@ bool ql::Pixmap::setPixelY(uint32_t y, const ql::Pixel& col) {
     return setPixelX(index,col);
 }
 
+ql::Pixel ql::Pixmap::getPixelXCareful(uint32_t x) const {
+    ql::Pixel px = {0,0,0,0};
+    if(x < size_x * size_y) {
+        memcpy(&px,&pixels[x*bytes_per_pixel],bytes_per_pixel);
+    }
+    return px;
+}
+
 ql::Pixel& ql::Pixmap::getPixelX(uint32_t x) const {
     if(x < size_x * size_y) {
-        return *(Pixel*)&pixels[x];
+        return *(Pixel*)&pixels[x*bytes_per_pixel];
     }
     return *(ql::Pixel*)NULL;
 }
@@ -250,35 +321,30 @@ bool ql::Pixmap::drawCircle(float radius, int sensitivity, int middle_x, int mid
     }
 }
 
-void ql::Pixmap::setNonDeletableFromMemory(uint32_t* ptr, uint32_t x, uint32_t y) {
+void ql::Pixmap::setNonDeletableFromMemory(uint8_t* ptr, uint32_t x, uint32_t y, uint32_t bpp) {
     destroy();
 
     deletable = false;
     pixels = ptr;
+    bytes_per_pixel = bpp;
 
     size_x = x;
     size_y = y;
 }
 
-void ql::Pixmap::setDeletableFromMemory(uint32_t* ptr, uint32_t x, uint32_t y) {
+void ql::Pixmap::setDeletableFromMemory(uint8_t* ptr, uint32_t x, uint32_t y, uint32_t bpp) {
     destroy();
 
     deletable = true;
     pixels = ptr;
+    bytes_per_pixel = bpp;
 
     size_x = x;
     size_y = y;
 }
 
 ql::Pixmap& ql::Pixmap::operator=(const ql::Pixmap& pix) {
-    destroy();
-    if(pix.isLegit()) {
-        pixels = (uint32_t*)malloc(sizeof(uint32_t)*pix.size_x*pix.size_y);
-        memcpy(pixels,pix.pixels,sizeof(uint32_t)*pix.size_x*pix.size_y);
-
-        size_x = pix.size_x;
-        size_y = pix.size_y;
-    }
+    copy(pix,true);
 
     return *this;
 }
@@ -288,6 +354,7 @@ void ql::Pixmap::init() {
     deletable = false;
     compressor = NULL;
     compressed = NULL;
+    bytes_per_pixel = 4;
 }
 
 ql::Pixmap::Pixmap() {

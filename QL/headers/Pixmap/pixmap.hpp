@@ -10,9 +10,10 @@
 
 namespace ql {
     class Pixmap {
-        uint32_t* pixels;
+        uint8_t* pixels;
         uint32_t size_x, size_y;
         bool deletable;
+        uint32_t bytes_per_pixel;
 
         bool compressed;
 
@@ -24,17 +25,32 @@ namespace ql {
     public:
 
         enum Channels {
-            R = 1,
-            G = 2,
-            B = 4,
-            A = 8,
-            RGBA = 15
+            C_R = 1,
+            C_G = 2,
+            C_B = 4,
+            C_A = 8,
+            C_RGB = C_R | C_G | C_B,
+            C_RGBA = C_R | C_G | C_B | C_A
 
+        };
+
+        enum Bytes {
+            B_RGB = 3,
+            B_RGBA = 4,
+            B_MAX_256 = 1
         };
         
         /*Creates image filled with color*/
 
-        void create(uint32_t size_x, uint32_t size_y, const Pixel& col = Black);
+        void create(uint32_t size_x, uint32_t size_y, const Pixel& col = Black, uint32_t bpp = Bytes::B_RGBA);
+
+        /*Copies pixmap but only with channels in 'ch'*/
+
+        Pixmap constructLesser(uint64_t ch, uint32_t ch_count) const;
+
+        /*Copies pixmap with other bytes per pixel count*/
+
+        Pixmap constructDecreased(uint32_t ch_count) const;
 
         /*Sets compressor*/
         /*If you don't wanna have any compressor set it to NULL*/
@@ -60,7 +76,7 @@ namespace ql {
 
         /*Gets pixel array pointer*/
 
-        const uint32_t* getPixelPtr();
+        const uint8_t* getPixelPtr();
 
         /*Scales the image to new sizes*/
 
@@ -69,14 +85,6 @@ namespace ql {
         /*Merges image on taken coordinates*/
 
         bool merge(const Pixmap& ap, uint32_t ax, uint32_t ay, bool EXCLUDE_ALPHA = false);
-
-        /*Puts gaussian blur on the image with taken density*/
-
-        bool blur(float density);
-
-        /*Changes image perspective*/
-
-        bool perspectiveProjection(Array<Array<float,3>,4> angles);
 
         /*Cuts image to the coordinates*/
 
@@ -97,6 +105,14 @@ namespace ql {
         /*Gets height of the image*/
 
         uint32_t getHeight() const;
+
+        /*Gets count of the pixels*/
+
+        uint32_t getSize() const;
+
+        /*Gets number of bytes per pixel*/
+
+        uint32_t getBytesPerPixel() const;
 
         /*Checks does image exist*/
 
@@ -125,6 +141,10 @@ namespace ql {
 
         bool setPixelY(uint32_t y, const Pixel& col);
 
+        /*Gets careful pixel*/
+
+        Pixel getPixelXCareful(uint32_t x) const;
+
         /*Gets pixel color on axis x,y*/
 
         Pixel& getPixelXY(uint32_t x, uint32_t y) const;
@@ -137,34 +157,37 @@ namespace ql {
 
         Pixel& getPixelY(uint32_t y) const;
 
-        /*Loads image from file formats*/
+        /*Loads the image from files*/
 
         bool loadFromTIFF(const char* path);
         bool loadFromPNG(const char* path);
         bool loadFromJPEG(const char* path);
+        bool loadFromBMP(const char* path);
         
-        /*Exports to file formats*/
+        /*Exports the image to files*/
 
         bool exportToTIFF(const char* path) const;
         bool exportToPNG(const char* path) const;
         bool exportToJPEG(const char* path) const;
+        bool exportToBMP(const char* path) const;
 
-        /*Draw circle*/
+        /*Draws a circle*/
 
         bool drawCircle(float radius, int sensitivity, int middle_x, int middle_y, const Pixel& col);
 
-        /*Sets new pixels pointer as non-deletable
+        /*Sets a new pixels pointer as non-deletable
         /Removes existing image*/
 
-        void setNonDeletableFromMemory(uint32_t* ptr, uint32_t x, uint32_t y);
+        void setNonDeletableFromMemory(uint8_t* ptr, uint32_t x, uint32_t y, uint32_t bpp = Bytes::B_RGBA);
 
-        /*Sets new pixels pointer as deletable
+        /*Sets a new pixels pointer as deletable
         /Removes existing image*/
 
-        void setDeletableFromMemory(uint32_t* ptr, uint32_t x, uint32_t y);
+        void setDeletableFromMemory(uint8_t* ptr, uint32_t x, uint32_t y, uint32_t bpp = Bytes::B_RGBA);
 
         /*Copies pixels from other pixmap to issuing one*/
 
+        bool copy(const ql::Pixmap& from, bool COPY_BPP_VALUE = true);
         Pixmap& operator=(const Pixmap& pix);
         Pixmap(const Pixmap&);
 
@@ -172,7 +195,7 @@ namespace ql {
 
         Pixmap();
 
-        /*Calls destroy() on existing image to remove it from memory*/
+        /*Calls destroy() to remove the image from memory*/
 
         ~Pixmap();
 

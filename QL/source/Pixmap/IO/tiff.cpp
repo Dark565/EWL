@@ -5,23 +5,28 @@
 bool ql::Pixmap::loadFromTIFF(const char* path) {
     TIFF* tiff = TIFFOpen(path,"r");
     if(tiff) {
-        TIFFGetField(tiff,TIFFTAG_IMAGEWIDTH,&this->size_x);
+        TIFFGetField(tiff,TIFFTAG_IMAGEWIDTH, &this->size_x);
         TIFFGetField(tiff,TIFFTAG_IMAGELENGTH, &this->size_y);
-        int pix_size = this->size_x * this->size_y;
 
-        this->pixels = (uint32_t*)malloc(sizeof(uint32_t) * pix_size);
-        if(TIFFReadRGBAImage(tiff,this->size_x, this->size_y, this->pixels, 0)) {
+        this->bytes_per_pixel = 4;
+        int pix_size = this->size_x * this->size_y * this->bytes_per_pixel;
+
+        pixels = (uint8_t*)malloc(pix_size);
+
+        if(TIFFReadRGBAImage(tiff,this->size_x, this->size_y, (uint32_t*)this->pixels)) {
             for(uint32_t x = 0; x < this->size_x; x++) {
                 for(uint32_t y = 0; y <= this->size_y/2; y++) {
                     
-                    uint32_t tmprgb = pixels[y*this->size_x+x];
-                    pixels[y*this->size_x+x] = pixels[(this->size_y-1-y)*this->size_x+x];
-                    pixels[(this->size_y-1-y)*this->size_x+x] = tmprgb;
+                    ql::Pixel tmprgb = getPixelX(y*this->size_x+x);
+                    setPixelX(y*this->size_x+x,getPixelX((this->size_y-1-y)*this->size_x+x));
+                    setPixelX((this->size_y-1-y)*this->size_x+x, tmprgb);
                 }
             }
 
+            TIFFClose(tiff);
             return 1;
         }
+        TIFFClose(tiff);
     }
     return 0;
 }
@@ -40,21 +45,10 @@ bool ql::Pixmap::exportToTIFF(const char* path) const {
             TIFFSetField(f,TIFFTAG_BITSPERSAMPLE, 8);
             TIFFSetField(f,TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(f,size_x*samples));
 
+            ql::Pixmap px = constructDecreased(samples);
+
             for(uint32_t y = 0; y < size_y; y++) {
-                unsigned char* rgb = (unsigned char*)malloc(samples*size_x);
-
-                for(uint32_t x = 0; x < size_x; x++) {
-                    unsigned char* r = (unsigned char*)&pixels[y*size_x+x];
-                    unsigned char* g = r+1;
-                    unsigned char* b = r+2;
-
-                    rgb[x*samples] = *r;
-                    rgb[x*samples+1] = *g;
-                    rgb[x*samples+2] = *b;
-                }
-
-                if(TIFFWriteScanline(f,rgb,y));
-                free(rgb);
+                TIFFWriteScanline(f,px.pixels + y * size_x,y);
             }
 
             TIFFClose(f);

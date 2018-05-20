@@ -20,7 +20,7 @@ bool ql::Pixel::operator==(const ql::Pixel& pix) const {
     return (r == pix.r && g == pix.g && b == pix.b && alpha == pix.alpha);
 }
 
-ql::Pixel ql::Pixel::merge(ql::Pixel what) {
+void ql::Pixel::alpha_compose(ql::Pixel what) {
     what.alpha = 255 - what.alpha;
     float d = (float)what.alpha / 255;
     
@@ -33,4 +33,10 @@ ql::Pixel ql::Pixel::merge(ql::Pixel what) {
     what.b += (d*b);
 
     *this = what;
+}
+
+void ql::Pixel::add_compose(ql::Pixel what) {
+    r += what.r;
+    g += what.g;
+    b += what.b;
 }

@@ -13,7 +13,11 @@ namespace ql {
         /*Merges color from other pixel with calling pixel including alpha*/
 
         inline uint32_t getAsUint32() const;
-        Pixel merge(Pixel what);
+        inline uint8_t* getAsCharPtr() const;
+        #define long_ getAsUint32
+        #define char_ptr_ getAsUint8Ptr
+        void alpha_compose(Pixel what);
+        void add_compose(Pixel what);
     };
 
     static Pixel Black = {0,0,0};
@@ -26,3 +30,5 @@ namespace ql {
 
     typedef Pixel Color;
 }
+
+#include "colors.inl"

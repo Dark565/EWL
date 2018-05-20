@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../NotCopyable.hpp"
+#include "os.hpp"
 
 #include <pthread.h>
 
@@ -8,50 +9,67 @@ namespace ql {
     class Thread : NotCopyable {
     private:
         struct ThreadCaller {
+            void* 
+
             virtual void call();
+        };
+
+        /*Function*/
+
+        template <class F> struct FuncThreadCaller : ThreadCaller {
+            F func;
+
+            virtual void call();
+
+            FuncThreadCaller(F f) : func(f) {
+
+            }
         };
 
         /*Function with argument*/
         
-        template struct <class F, class A> ArgThreadCaller : ThreadCaller {
+        template <class F, class A> struct ArgThreadCaller : ThreadCaller {
             F func;
             A arg;
 
             virtual void call();
 
-            ArgThreadCaller(F f, A a) : func(f), arg(a) {}
+            ArgThreadCaller(F f, A a) : func(f), arg(a) {
+
+            }
         };
 
         /*Class pointer with a method*/
+h
+        template <class T, class A> struct ClassTreadCaller : ThreadCaller {
+            typedef void(*T::functionClass_t)(A);
 
-        template struct <class T, class T::F> ClassThreadCaller : ThreadCaller {
-            T* ptr;
-            F func;
-
-            virtual void call();
-
-            ClassThreadCaller(T* t, F f) : ptr(t), func(f) {}
-        };
-
-        /*Class pointer with a method and an argument*/
-
-        template struct <class T, class T::F, class A> ClassArgThreadCaller : ThreadCaller {
             T* ptr;
             F func;
             A arg;
 
             virtual void call();
 
-            ClassArgThreadCaller(T* t, F f, A a) : ptr(t), func(f), arg(a) {}
+            ClassThreadCaller(T* t, functionClass_t f, A arg) : ptr(t), func(f), arg(a) {}
+
         };
 
     public:
 
+        Thread() : 
+            runned(false)
+            thread_data(NULL)
+        {}
+
         /*Build the thread with data*/
 
-        template<class F, class A>              void create(F* f, A a);
-        template<class T, class T::F>           void create(T* ptr, F* func);
-        template<class T, class T::F, class A>  void create(T* ptr, F* func, A arg);
+        template<class F>           inline void create(F f);
+        template<class F, class A>  inline void create(F f, A a);
+        template<class T, class F>  inline void create(T* ptr, F f);
+
+        template<class F>           Thread(F f);
+        template<class F, class A>  Thread(F f, A a);
+        template<class T, class F>  Thread(T* ptr, F f);
 
         /*Joins the thread*/
 
@@ -79,10 +97,15 @@ namespace ql {
         void destroy();
 
     private:
-        ThreadCaller* thread_data;
-        pthread_t thread_v;
+        bool runned;
 
+        ThreadCaller* thread_data;
+        thread::thread_t thread_v;
+        
+        void construct();
         static int runThread(void* data);
     };
 
 }
+
+#include "thread.inl"
