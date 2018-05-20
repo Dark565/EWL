@@ -52,10 +52,11 @@ build:
 	$(MAKE) libs
 
 libs:
+	g++ -shared $(objdir)/fbmp.o -o $(sodir)/libql-files.so
 	g++ -shared $(objdir)/colors.o -o $(sodir)/libql-colors.so
 	g++ -shared $(objdir)/console.o -o $(sodir)/libql-console.so
 	g++ -shared $(objdir)/maths.o -o $(sodir)/libql-maths.so -lql-console -L$(sodir)
-	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/bmp.o -o $(sodir)/libql-pixmap.so -lql-maths $(libs) -L$(sodir)
+	g++ -shared $(objdir)/pixmap.o $(objdir)/tiff.o $(objdir)/bmp.o -o $(sodir)/libql-pixmap.so -lql-maths -lql-files $(libs) -L$(sodir)
 	g++ -shared $(objdir)/video.o $(objdir)/vgif.o $(objdir)/vmkv.o $(objdir)/vmp4.o $(objdir)/vwmv.o $(objdir)/files.o $(objdir)/windows.o -o $(sodir)/libql-video.so -lavcodec -I/usr/include/ffmpeg/
 	g++ -shared $(objdir)/system.o $(objdir)/time.o $(objdir)/files.o -o $(sodir)/libql-system.so
 	touch $(objdir)/compiled
@@ -79,6 +80,7 @@ endif
 	g++ -fPIC -c $(srcdir)/System/system.cpp -o $(objdir)/system.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Time/units.cpp -o $(objdir)/time.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Windows/windows.cpp -o $(objdir)/windows.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Formats/bmp.cpp -o $(objdir)/fbmp.o -I$(headir)
 
 directory:
 ifneq  ("$(wildcard $(sodir))","")
