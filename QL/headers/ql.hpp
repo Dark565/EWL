@@ -16,3 +16,4 @@
 #include "Interpreter/asm.hpp"
 #include "Thread/thread.hpp"
 #include "Formats/bmp.hpp"
+#include "Init/init.hpp"

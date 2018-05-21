@@ -9,6 +9,7 @@
 #include "../Colorize/colors.hpp"
 #include "../Definitions/defs.hpp"
 #include "../Pixmap/pixmap.hpp"
+#include "../Init/init.hpp"
 #include "event.hpp"
 
 namespace ql {

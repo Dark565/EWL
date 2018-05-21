@@ -82,7 +82,7 @@ namespace ql {
 
         bool scale(uint32_t n_x, uint32_t n_y);
 
-        /*Merges image on taken coordinates*/
+        /*Merges image on coordinates given in arguments*/
 
         bool merge(const Pixmap& ap, uint32_t ax, uint32_t ay, bool EXCLUDE_ALPHA = false);
 
