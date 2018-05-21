@@ -1,4 +1,4 @@
-<img src = https://dark565.github.io/Assets/Qer.png>
+<img src = http://qerlib.ct8.pl/Assets/Qer.png>
 <h1> Dev 0.3 </h1>
 <br>
 QL gives you complete API for creating apps integrated with operating system. <br>
