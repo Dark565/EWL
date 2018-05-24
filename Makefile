@@ -52,7 +52,7 @@ build:
 	$(MAKE) libs
 
 libs:
-	g++ -shared $(objdir)/fbmp.o -o $(sodir)/libql-files.so
+	g++ -shared $(objdir)/fbmp.o $(objdir)/fwav.o -o $(sodir)/libql-files.so
 	g++ -shared $(objdir)/colors.o -o $(sodir)/libql-colors.so
 	g++ -shared $(objdir)/console.o -o $(sodir)/libql-console.so
 	g++ -shared $(objdir)/maths.o -o $(sodir)/libql-maths.so -lql-console -L$(sodir)
@@ -81,6 +81,7 @@ endif
 	g++ -fPIC -c $(srcdir)/Time/units.cpp -o $(objdir)/time.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Windows/windows.cpp -o $(objdir)/windows.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Formats/bmp.cpp -o $(objdir)/fbmp.o -I$(headir)
+	g++ -fPIC -c $(srcdir)/Formats/wav.cpp -o $(objdir)/fwav.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Init/init.cpp -o $(objdir)/init.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Program/program.cpp -o $(objdir)/program.o -I$(headir)
 	g++ -fPIC -c $(srcdir)/Info/version.cpp -o $(objdir)/version.o -I$(headir)

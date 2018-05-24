@@ -45,3 +45,10 @@
 #else
 #define __QL_LIBRARY_MAIN_REQUIRED
 #endif
+
+#ifdef QL_I_DONT_WANNA_HAVE_ERRORS
+#define __QL_LIBRARY_ERRORS_DISABLED
+
+#else
+#define __QL_LIBRARY_ERRORS_REQUIRED
+#endif
