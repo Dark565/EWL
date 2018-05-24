@@ -4,12 +4,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-/*Image formats libraries*/
-
-#include <jpeglib.h>
-#include <png.h>
-#include <tiffio.h>
-
 #include <iostream>
 
 std::string ql::readFormat(const char* format) {
