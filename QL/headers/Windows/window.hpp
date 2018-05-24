@@ -13,10 +13,7 @@
 #include "event.hpp"
 
 namespace ql {
-    class Window {
-
-    public:
-
+    namespace Window {
         enum class BarFlags {
             normal = 1,
             no_exit = 2,
@@ -25,6 +22,11 @@ namespace ql {
             no_buttons = 16
 
         };
+    }
+    
+    class Window {
+
+    public:
 
         /*Creates the window*/
 
@@ -53,7 +55,11 @@ namespace ql {
         /*Applies pixmap to the window*/
 
         bool applyPixmap(const Pixmap& pix, uint32_t p_x, uint32_t p_y);
-
+        
+        /* Get Pixmap */
+        
+        const Pixmap& getPixmap();
+        
         /*Applies alpha layer*/
         
         bool applyAlphaLayer(const Pixmap& pix);
@@ -99,6 +105,6 @@ namespace ql {
         Pixmap getWindowContent();
 
     protected:
-
+        Pixmap winPix;
     };
 }
