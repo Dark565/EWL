@@ -1,10 +1,6 @@
 #include <Files/files.hpp>
 
-#include <cstdint>
 #include <string.h>
-#include <stdlib.h>
-
-#include <iostream>
 
 std::string ql::readFormat(const char* format) {
     const char* f2 = format;
