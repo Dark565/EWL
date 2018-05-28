@@ -1,4 +1,4 @@
-#include <Pixmap/pixmap.hpp>
+#include <QL/Pixmap/pixmap.hpp>
 
 #include <tiffio.h>
 

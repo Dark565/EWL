@@ -1,5 +1,5 @@
-#include <Pixmap/pixmap.hpp>
-#include <Formats/bmp.hpp>
+#include <QL/Pixmap/pixmap.hpp>
+#include <QL/Formats/bmp.hpp>
 #include <stdlib.h>
 
 bool ql::Pixmap::loadFromBMP(const char* path) {

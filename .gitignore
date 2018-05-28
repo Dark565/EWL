@@ -1,0 +1,15 @@
+/Images/*
+main.cpp
+ql
+.vscode/*
+*.tar.gz
+DEB
+Build/*
+readme.html
+bin
+*.ogg
+*.wav
+*.bmp
+*.jpg
+*.jpeg
+bin.sh
