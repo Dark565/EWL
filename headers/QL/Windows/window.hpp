@@ -95,7 +95,7 @@ namespace ql {
         bool update();
 
         /*Gets window's content as pixmap*/
-
+        
         Pixmap getWindowContent();
 
     protected:

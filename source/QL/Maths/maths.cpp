@@ -21,4 +21,5 @@ bool ql::maths::getBit(int64_t var, char bit) {
         var/=2;
         bit--;
     }
+    return 0;
 }

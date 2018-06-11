@@ -8,7 +8,7 @@ namespace q3d {
         class Renderable {
         public:
             virtual bool intersect(ql::type::vec3f ray) {return false;}
-        }
+        };
 
     }
 }
