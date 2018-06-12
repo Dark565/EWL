@@ -7,7 +7,7 @@
 
 
 
-bool ql::init(int argc, char** argv, error_ft error_f) {
+bool ql::init(int argc, char** argv) {
     ql::mystery::data* dt = ql::mystery::getMysteryDataPtr();
 
     dt->argc = argc;

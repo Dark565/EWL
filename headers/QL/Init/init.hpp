@@ -8,5 +8,5 @@ namespace ql {
     /*Inits the program
     /Doesn't work if program was inited before*/
 
-    bool init(int argc, char** argv, error_ft err_f = NULL);
+    bool init(int argc, char** argv);
 }

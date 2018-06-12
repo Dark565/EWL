@@ -53,7 +53,7 @@ ql::Pixmap ql::Pixmap::constructLesser(uint64_t ch, uint32_t ch_count) const {
             uint32_t ch_sz = 0;
 
             for(uint32_t i = 0; i < 4; i++) {
-                if(ql::maths::getBit(ch,i)) ch_sz++;
+                if(ql::maths::isBit(ch,i)) ch_sz++;
             }
             uint32_t s = size_x * size_y * ch_sz;
             px.create(size_x,size_y,ql::Black,ch_sz);
@@ -65,7 +65,7 @@ ql::Pixmap ql::Pixmap::constructLesser(uint64_t ch, uint32_t ch_count) const {
 
                 uint32_t curr_c = 0;
                 for(uint32_t c = 0; c < ch_sz; c++) {
-                    while(!ql::maths::getBit(ch,curr_c)) curr_c++;
+                    while(!ql::maths::isBit(ch,curr_c)) curr_c++;
                     px_c_ptr[curr_c] = getPixelX(x).getAsCharPtr()[curr_c];
                 }
             }
@@ -256,7 +256,7 @@ bool ql::Pixmap::setGlobalColor(const ql::Pixel& pix, uint8_t color_channel) {
     if(isLegit()) {
         for(uint32_t x = 0; x < size_x * size_y; x++) {
             for(uint32_t i = 0; i<bytes_per_pixel; i++) {
-                if(ql::maths::getBit(color_channel,i)) {
+                if(ql::maths::isBit(color_channel,i)) {
                     getPixelX(x).getAsCharPtr()[i] = pix.getAsCharPtr()[i];
                 }
             }

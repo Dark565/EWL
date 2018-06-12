@@ -7,6 +7,8 @@
 namespace ql {
     namespace maths {
         Array<float,2> calcMatrix(int32_t x, int32_t y, float angle);
-        bool getBit(int64_t var, char bit);
+        template<class T> constexpr bool isBit(T v, uint8_t b);
     }
 }
+
+#include "maths.inl"
