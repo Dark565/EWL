@@ -30,7 +30,7 @@ namespace ql {
             uint32_t byte_rate;
             uint16_t block_align;
             uint16_t bits_per_sample;
-        };
+        } QL_ATR_PACKED;
         
         struct DATA_Chunk {
             char subchunk2_id[4];
@@ -41,6 +41,7 @@ namespace ql {
             RIFF_Chkdes riff_c;
             FMT_Chunk fmt_c;
             DATA_Chunk data_c;
+            uint32_t d_position;
         } QL_ATR_PACKED;
 
         void constructHeaders(WAVE_Header* head, uint16_t bits_per_sample, uint16_t sample_rate, uint8_t channels, uint32_t samples);

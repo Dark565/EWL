@@ -1,0 +1,58 @@
+#include <QL/Audio/audio.hpp>
+
+#include <QL/Formats/wav.hpp>
+#include <string.h>
+
+bool ql::SoundBuffer::exportToWAV(const char* path) const {
+    if(isLegit()) {
+        FILE* f;
+        if(f = fopen(path,"w")) {
+
+            ql::wav::WAVE_Header head;
+            ql::wav::constructHeaders(&head, bytes_per_sample*8, sample_rate, channels, size);
+
+            ql::wav::writeData(f,&head, samples);
+
+            return true;
+
+        }
+
+        fclose(f);
+
+        return false;
+    }
+
+    return false;
+}
+
+bool ql::SoundBuffer::loadFromWAV(const char* path) {
+
+    FILE* f;
+    if(f = fopen(path,"r")) {
+
+        ql::wav::WAVE_Header head;
+        ql::wav::loadHeaders(f, &head);
+
+        bool gd;
+
+        if (gd = (!memcmp(head.riff_c.format, "WAVE",4))) {
+            destroy();
+
+            bytes_per_sample = head.fmt_c.bits_per_sample/8;
+            sample_rate = head.fmt_c.sample_rate;
+            size = head.data_c.subchunk2_size;
+            channels = head.fmt_c.num_channels;
+
+            samples = (uint8_t*)malloc(head.data_c.subchunk2_size);
+
+            ql::wav::readData(f, &head, samples);
+
+        }
+
+        fclose(f);
+
+        return gd;
+
+    }
+    return false;
+}

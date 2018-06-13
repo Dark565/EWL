@@ -117,7 +117,6 @@ namespace ql {
         /*Checks does image exist*/
 
         bool isLegit() const;
-        #define isGood isLegit
 
         /*Checks is the image deletable*/
 
