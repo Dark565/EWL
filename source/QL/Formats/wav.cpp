@@ -1,7 +1,7 @@
 #include <QL/Formats/wav.hpp>
 #include <string.h>
 
-void ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
+uint8_t ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
     fseek(f,0,SEEK_SET);
     fread(&head->riff_c, 1, ql::wav::RIFF_s, f);
     fread(&head->fmt_c, 1, ql::wav::FMT_s, f);
@@ -9,8 +9,12 @@ void ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
     uint32_t p = ftell(f);
     char d[4];
     do {
-        fseek(f,p++,SEEK_SET);
-        fread(d,1,4,f);
+        if(!feof(f)) {
+            
+            fseek(f,p++,SEEK_SET);
+            fread(d,1,4,f);
+
+        } else return ql::wav::LOAD_DATA_ERROR;
     } while(memcmp(d,"data",4) != 0);
 
     fseek(f,p-1,SEEK_SET);
@@ -18,6 +22,8 @@ void ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
     fread(&head->data_c, 1, ql::wav::DATA_s, f);
 
     head->d_position = ftell(f);
+
+    return 0;
 }
 
 void ql::wav::constructHeaders(ql::wav::WAVE_Header* head, uint16_t bits_per_sample, uint16_t sample_rate, uint8_t channels, uint32_t samples) {

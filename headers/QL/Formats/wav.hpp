@@ -44,8 +44,14 @@ namespace ql {
             uint32_t d_position;
         } QL_ATR_PACKED;
 
+        enum {
+            LOAD_RIFF_ERROR = 1,
+            LOAD_FMT_ERROR = 2,
+            LOAD_DATA_ERROR = 4
+        };
+
         void constructHeaders(WAVE_Header* head, uint16_t bits_per_sample, uint16_t sample_rate, uint8_t channels, uint32_t samples);
-        void loadHeaders(FILE* f, WAVE_Header* head);
+        uint8_t loadHeaders(FILE* f, WAVE_Header* head);
         void readData(FILE* f, WAVE_Header* head, uint8_t* bytes);
         void writeData(FILE* f, WAVE_Header* head, const uint8_t* bytes);
     }

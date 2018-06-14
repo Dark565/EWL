@@ -3,7 +3,7 @@
 template <class T>
 inline bool ql::SoundBuffer::setSample(T sample, uint32_t x) {
     if(isLegit()) {
-        *((T*)+x) = sample;
+        *(((T*)samples)+x) = sample;
         return false;
     }
     return false;
@@ -21,7 +21,11 @@ inline bool ql::SoundBuffer::isGood() const {
     return isLegit();
 }
 
-constexpr uint32_t ql::SoundBuffer::getSize() {
+constexpr uint32_t ql::SoundBuffer::getSamplesCount() {
+    return getBytesCount() / getChannelsCount() / getBPS();
+}
+
+constexpr uint32_t ql::SoundBuffer::getBytesCount() {
     return size;
 }
 
@@ -39,4 +43,8 @@ constexpr uint8_t ql::SoundBuffer::getChannelsCount() {
 
 constexpr uint8_t ql::SoundBuffer::getFlags() {
     return flags;
+}
+
+constexpr uint32_t ql::SoundBuffer::bytesPerSecond() {
+    return getSampleRate() * getBPS() * getChannelsCount();
 }

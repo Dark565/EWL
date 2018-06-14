@@ -4,16 +4,18 @@
 #include <string.h>
 
 bool ql::SoundBuffer::create(uint32_t samples_a, uint16_t bps_a, uint32_t sample_rate_a, uint8_t channels_a) {
-    samples = (uint8_t*)malloc(samples_a*bps_a*channels);
+    destroy();
+
+    samples = (uint8_t*)malloc(samples_a*bps_a*channels_a);
     bytes_per_sample = bps_a;
     sample_rate = sample_rate_a;
     channels = channels_a;
 
-    size = samples_a * bps_a;
+    size = samples_a * bps_a * channels;
 }
 
 bool ql::SoundBuffer::destroy() {
-    if(isLegit()) {
+    if(isLegit() && isDestroyable()) {
         free(samples);
         samples = NULL;
         bytes_per_sample = 0;
@@ -101,4 +103,8 @@ void ql::SoundBuffer::init() {
 
 ql::SoundBuffer::SoundBuffer() {
     init();
+}
+
+ql::SoundBuffer::~SoundBuffer() {
+    destroy();
 }

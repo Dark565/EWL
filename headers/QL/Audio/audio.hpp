@@ -28,6 +28,8 @@ namespace ql {
         bool insert(uint8_t* bytes, uint32_t num, uint32_t pos);
         bool insert(const SoundBuffer& buff, uint32_t pos);
 
+        bool insertFromWAV(const char* path, uint32_t pos);
+
         /* Checks is buffer's memory allocated */
 
         bool isLegit() const;
@@ -38,9 +40,13 @@ namespace ql {
         bool setSampleByte(uint8_t byte, uint32_t x);
         uint8_t* getSampleByte(uint32_t x) const;
 
+        /* Gets count of samples in the buffer*/
+
+        constexpr uint32_t getSamplesCount();
+
         /* Gets size of the buffer in bytes */
 
-        constexpr uint32_t getSize();
+        constexpr uint32_t getBytesCount();
 
         /* Gets bytes per sample */
 
@@ -57,6 +63,10 @@ namespace ql {
         /* Gets flags of the buffer */
 
         constexpr uint8_t getFlags();
+
+        /* Gets bytes per seconds */
+
+        constexpr uint32_t bytesPerSecond();
 
 
         /* Gets sample with specified type */
@@ -80,6 +90,7 @@ namespace ql {
         bool setNonDestroyablePtr(uint8_t* ptr_a, uint32_t size_a, uint32_t bps_a, uint32_t sample_rate_a, uint8_t channels_a);
 
         SoundBuffer();
+        ~SoundBuffer();
 
     protected:
 
