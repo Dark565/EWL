@@ -14,3 +14,7 @@
 ql::Display::Display(bool open) {
     if(open) ql::Display::open(NULL);
 }
+
+ql::Display::~Display() {
+    close();
+}

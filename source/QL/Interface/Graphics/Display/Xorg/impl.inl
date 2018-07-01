@@ -42,7 +42,7 @@ bool ql::Display::getMonitor(int index, ql::Monitor& m) {
     bool r = false;
 
     if(index < size) {
-        m = priv::copyFromXRRMonitorInfo(Xdsp,*mi);
+        m = priv::copyFromXRRMonitorInfo(Xdsp,mi[index]);
 
         r = true;
     }
@@ -67,4 +67,10 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
 
     }
     return ret;
+}
+
+bool ql::Display::close() {
+    if(isOpen()) {
+        XCloseDisplay(Xdsp);
+    }
 }

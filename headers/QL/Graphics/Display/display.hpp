@@ -32,6 +32,8 @@ namespace ql {
             bool open(const char* name);
         #endif
 
+        bool close();
+
         bool isOpen();
 
         int getMonitorCount();
@@ -41,6 +43,7 @@ namespace ql {
         std::vector<Monitor> getMonitors();
 
         Display(bool open = true);
+        ~Display();
 
 
     };
