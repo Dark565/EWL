@@ -38,10 +38,3 @@
 
 #undef __QL_OS_NOTSUPPORTED
 #endif
-
-#ifdef QL_GIVE_ME_MY_MAIN_BAKA
-#define __QL_LIBRARY_MAIN_DISABLED
-
-#else
-#define __QL_LIBRARY_MAIN_REQUIRED
-#endif

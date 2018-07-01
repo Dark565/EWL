@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "../Definitions/compiller.hpp"
+#include <QL/Definitions/compiller.hpp>
 
 namespace ql {
     namespace wav {

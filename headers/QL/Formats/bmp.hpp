@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "../Definitions/compiller.hpp"
+#include <QL/Definitions/compiller.hpp>
 
 namespace ql {
     namespace bmp {
