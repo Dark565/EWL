@@ -80,5 +80,6 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
 bool ql::Display::close() {
     if(isOpen()) {
         XCloseDisplay(Xdsp);
+        Xdsp = NULL;
     }
 }
