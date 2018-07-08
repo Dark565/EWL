@@ -8,8 +8,6 @@
 #include <QL/Graphics/Colorize/colors.hpp>
 #include <QL/Graphics/Pixmap/pixmap.hpp>
 
-#include <QL/System/Init/init.hpp>
-
 #include <QL/Definitions/Arrays/array.hpp>
 #include <QL/Definitions/defs.hpp>
 

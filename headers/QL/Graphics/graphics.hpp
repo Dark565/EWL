@@ -6,3 +6,4 @@
 #include "Video/video.hpp"
 #include "Windows/window.hpp"
 #include "WinServer/man.hpp"
+#include "Display/display.hpp"

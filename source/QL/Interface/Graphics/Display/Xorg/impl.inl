@@ -21,6 +21,14 @@ namespace priv {
     }
 }
 
+bool ql::Display::open(const char* name) {
+    close();
+
+    Xdsp = XOpenDisplay(name);
+    
+    return Xdsp;
+}
+
 bool ql::Display::isOpen() {
     return (Xdsp != NULL);
 }

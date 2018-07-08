@@ -43,7 +43,7 @@ bool ql::Pixmap::destroy() {
     return false;
 }
 
-ql::Pixmap ql::Pixmap::constructLesser(uint64_t ch, uint32_t ch_count) const {
+ql::Pixmap ql::Pixmap::constructLesser(uint64_t ch) const {
     ql::Pixmap px;
 
     if(isLegit()) {

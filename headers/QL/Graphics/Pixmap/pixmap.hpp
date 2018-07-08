@@ -4,7 +4,7 @@
 #include <string>
 
 #include <QL/Graphics/Colorize/colors.hpp>
-#include <QL/Graphics/Compress/compressors.hpp>
+#include <QL/System/Compress/compressors.hpp>
 #include <QL/Definitions/Arrays/array.hpp>
 
 
@@ -46,7 +46,7 @@ namespace ql {
 
         /*Copies pixmap but only with channels in 'ch'*/
 
-        Pixmap constructLesser(uint64_t ch, uint32_t ch_count) const;
+        Pixmap constructLesser(uint64_t ch) const;
 
         /*Copies pixmap with other bytes per pixel count*/
 
