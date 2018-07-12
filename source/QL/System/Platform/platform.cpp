@@ -1,4 +1,4 @@
-#include <QL:platform.hpp>
+#include <QL/System/Platform/platform.hpp>
 
 #include <stdlib.h>
 #include <unistd.h>

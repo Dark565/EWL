@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QL/Time/units.hpp>
+#include <QL/System/Time/units.hpp>
 #include <QL/Definitions/defs.hpp>
 
 #include <string>
@@ -38,7 +38,7 @@ namespace ql {
         /*Gets name of the host*/
         std::string getHostname();
 
-        /*Only unix Windows users :P*/
+        /*Only unix, Windows users :P*/
         #if defined __QL_UNIX
 
         std::string getShell();

@@ -1,4 +1,4 @@
-#include <QL/System/Thread/thread.hpp>
+/*#include <QL/System/Thread/thread.hpp>
 
 #include <QL/Definitions/defs.hpp>
 
@@ -7,3 +7,4 @@
 #elif defined(__QL_OS_WINDOWS)
     #include "Win32/construct.inl"
 #endif
+*/
