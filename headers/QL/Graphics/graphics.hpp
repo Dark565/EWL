@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Colorize/colors.hpp"
-#include "Gui/clipboard.hpp"
-#include "Pixmap/pixmap.hpp"
-#include "Video/video.hpp"
-#include "Windows/window.hpp"
-#include "WinServer/man.hpp"
-#include "Display/display.hpp"
+#include "colors.hpp"
+#include "clipboard.hpp"
+#include "pixmap.hpp"
+#include "video.hpp"
+#include "window.hpp"
+#include "man.hpp"
+#include "display.hpp"

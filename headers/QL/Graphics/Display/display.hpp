@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QL/Graphics/WinServer/servers.hpp>
 #include <QL/Definitions/NotCopyable.hpp>
 #include "monitors.hpp"
+#include "controller.hpp"
 
 #include <vector>
 

@@ -1,4 +1,3 @@
-#include <QL/Graphics/Display/display.hpp>
 #include <X11/extensions/Xrandr.h>
 
 #include <QL/Graphics/Display/monitors.hpp>

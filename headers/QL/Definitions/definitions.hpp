@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Arrays/array.hpp"
-#include "Objects/force_type.hpp"
-#include "Objects/vector.hpp"
+#include "Objects/objects.hpp"
+
+#include "array.hpp"
 #include "defs.hpp"
 #include "NotCopyable.hpp"
 #include "preprocessor.hpp"

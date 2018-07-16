@@ -1,4 +1,4 @@
-#include <QL/Graphics/Windows/window.hpp>
+#include <QL/Graphics/Display/window.hpp>
 #include <QL/Definitions/defs.hpp>
 
 #include <cstdint>
