@@ -1,4 +1,4 @@
-#include "../Private/Data/data.hpp"
+#include "Private/data.hpp"
 #include <QL/System/program.hpp>
 
 static ql::mystery::data dt;

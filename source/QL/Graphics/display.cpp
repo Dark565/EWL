@@ -5,9 +5,9 @@
 #include <cstdint>
 
 #if defined(__QL_WINSERVER_XORG)
-    #include "Xorg/impl.inl"
+    #include "Display/impl_xorg.inl"
 #elif defined(__QL_WINSERVER_WINAPI)
-    #include "Win32/impl.inl"
+    #include "Display/impl_win32.inl"
 //#elif defined ...
 #endif
 

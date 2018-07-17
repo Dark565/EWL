@@ -1,0 +1,1 @@
+#define __QL_LIBRARY_SUFFIX ".dll"
