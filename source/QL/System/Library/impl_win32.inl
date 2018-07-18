@@ -1,12 +1,13 @@
 #include <winapi.h>
 
-bool ql::Library::load(const std::string& p) {
-    free();
+inline void* lib::load(const char* p) {
+    return (void*)LoadLibrary(p);
+}
 
-    if(l_p = (void*)LoadLibrary(p.c_str())) {
-        return 1;
-    } 
-    else {
-        return l_p = NULL;
-    }
+inline void lib::free(void* t) {
+    FreeLibrary((HMODULE)t);
+}
+
+inline void* lib::getFunc(void* t, const char* p) {
+    return GetProcAddress((HMODULE)t,p);
 }

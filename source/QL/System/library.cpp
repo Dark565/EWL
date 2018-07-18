@@ -1,6 +1,8 @@
 #include <QL/System/library.hpp>
 #include <QL/Definitions/defs.hpp>
 
+#include <string.h>
+
 namespace lib {
     inline void* load(const char*);
     inline void free(void*);
@@ -8,7 +10,7 @@ namespace lib {
 }
 
 #if defined(__QL_OS_UNIX)
-    #include "Library/impl_posix.inl"
+    #include "Library/impl_unix.inl"
 #elif defined(__QL_OS_WIN32)
     #include "Library/impl_win32.inl"
 #else
