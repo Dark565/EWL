@@ -180,20 +180,20 @@ bool ql::Pixmap::rotate(float rad, ql::Pixel emptyColor) {
     if(isLegit()) {
 
         ql::Array<float,2> coords[4] =  
-        {   ql::maths::calcMatrix(0,0,rad),
-            ql::maths::calcMatrix(size_x,0,rad),
-            ql::maths::calcMatrix(0,size_y,rad),
-            ql::maths::calcMatrix(size_x,size_y,rad) };
+        {   maths::calcMatrix(0,0,rad),
+            maths::calcMatrix(size_x,0,rad),
+            maths::calcMatrix(0,size_y,rad),
+            maths::calcMatrix(size_x,size_y,rad) };
 
-        int32_t n_w = coords[0].x[0], n_h = coords[0].x[1];
-        int32_t m_w = coords[0].x[0], m_h = coords[0].x[1];
+        int32_t n_w = coords[0][0], n_h = coords[0][1];
+        int32_t m_w = coords[0][0], m_h = coords[0][1];
 
         for(uint32_t i = 1; i < 4; i++) {
-            if(coords[i].x[0] > n_w) n_w = coords[i].x[0];
-            if(coords[i].x[1] > n_h) n_h = coords[i].x[1];
+            if(coords[i][0] > n_w) n_w = coords[i][0];
+            if(coords[i][1] > n_h) n_h = coords[i][1];
 
-            if(coords[i].x[0] < m_w) m_w = coords[i].x[0];
-            if(coords[i].x[1] < m_h) m_h = coords[i].x[1];
+            if(coords[i][0] < m_w) m_w = coords[i][0];
+            if(coords[i][1] < m_h) m_h = coords[i][1];
         }
 
         uint32_t r_w = n_w - m_w, r_h = n_h - m_h;
@@ -203,9 +203,9 @@ bool ql::Pixmap::rotate(float rad, ql::Pixel emptyColor) {
         for(int32_t x = m_w; x < n_w; x++) {
             for(int32_t y = m_h; y < n_h; y++) {
                 
-                Array<float,2> m = ql::maths::calcMatrix(x,y,-rad);
+                Array<float,2> m = maths::calcMatrix(x,y,-rad);
 
-                n_p.setPixelXY(x-m_w,y-m_h,getPixelXY(m.x[0],m.x[1]));
+                n_p.setPixelXY(x-m_w,y-m_h,getPixelXY(m[0],m[1]));
             }
         }
         *this = n_p;

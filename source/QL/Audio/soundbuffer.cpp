@@ -41,14 +41,7 @@ bool ql::SoundBuffer::insert(uint8_t* bytes, uint32_t num, uint32_t pos) {
 
 bool ql::SoundBuffer::insert(const ql::SoundBuffer& buff, uint32_t pos) {
     if(buff.isLegit()) {
-        samples = (uint8_t*)realloc(samples,size+buff.size);
-
-        memmove(samples+pos+buff.size,samples+pos,size-pos);
-        memcpy(samples+pos, buff.samples, buff.size);
-
-        size += buff.size;
-
-        return true;
+        insert(buff.samples,buff.size,pos);
     }
     return false;
 }

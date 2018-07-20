@@ -22,7 +22,7 @@ namespace ql {
             return (uint8_t*)&r;
         }
         
-        constexpr _long() 
+        constexpr uint32_t _long() 
         {
             return  getAsUint32();
         }

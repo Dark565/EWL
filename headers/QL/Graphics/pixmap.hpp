@@ -1,7 +1,8 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
+
+#include <stdint.h>
 
 #include <QL/Graphics/colors.hpp>
 #include <QL/System/Compression/compressors.hpp>
