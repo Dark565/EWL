@@ -198,7 +198,7 @@ bool ql::Pixmap::rotate(float rad, ql::Pixel emptyColor) {
 
         uint32_t r_w = n_w - m_w, r_h = n_h - m_h;
 
-        ql::Pixmap n_p;
+        Pixmap n_p;
         n_p.create(r_w, r_h, emptyColor, bytes_per_pixel);
         for(int32_t x = m_w; x < n_w; x++) {
             for(int32_t y = m_h; y < n_h; y++) {

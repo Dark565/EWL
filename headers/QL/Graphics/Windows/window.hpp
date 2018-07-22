@@ -3,7 +3,7 @@
 #include <string>
 #include <stdint.h>
 
-#include <QL/Definitions/Objects/array.hpp>
+#include <QL/Definitions/Objects/type_arrays.hpp>
 #include <QL/Graphics/pixmap.hpp>
 #include "event.hpp"
 
@@ -26,16 +26,18 @@ namespace ql {
 
         /* Function called on event */
 
-        virtual void onEvent(ql::Event);
+        virtual void onEvent(ql::Event) {}
         
         bool popEvent(ql::Event&);
 
         /* Creates a window */
 
-        bool create(const std::string&,             //window's name
-                    const ql::Array<uint32_t,2>&,   //window's size
-                    const ql::Array<uint32_t,2>&,   //window's position
-                    char  flags = all);             //window's flags
+        bool create(
+            const std::string&,     //window's name
+            const ql::array2ui&,    //window's size
+            const ql::array2ui&,    //window's position
+            char = Style::all       //window's flags
+        );
 
         /* Closes a window */
 
@@ -43,23 +45,23 @@ namespace ql {
 
         /* Changes window's position */
 
-        bool setPosition(const ql::Array<uint32_t,2>&);
+        bool setPosition(const ql::array2ui&);
 
         /* Changes window*s size */
 
-        bool setSize(const ql::Array<uint32_t,2>&);
+        bool setSize(const ql::array2ui&);
 
         /* Gets cursor's size */
 
-        ql::Array<uint32_t,2> getCursorPosition();
+        ql::array2ui getCursorPosition();
 
         /* Gets window's position */
 
-        ql::Array<uint32_t,2> getWindowPosition();
+        ql::array2ui getWindowPosition();
 
         /* Gets window's size */
 
-        ql::Array<uint32_t,2> getWindowSize();
+        ql::array2ui getWindowSize();
 
         /* Gets window's name */
 
@@ -69,16 +71,23 @@ namespace ql {
 
         ql::Pixmap getWindowContent();
 
+        /* Applies pixmap to the window on signed coordinates */
+
+        bool applyPixmap(const ql::Pixmap&, const ql::array2ui&);
+
         /* Checks does window exist */
 
         bool isLegit();
+        inline bool exist() {return isLegit();}
 
         Window(
-            const std::string&,             // window's name
-            const ql::Array<uint32_t,2>&,   // window's size
-            const ql::Array<uint32_t,2>&,   // window's position
-            char = all                      // window managerflags
+            const std::string&,   // window's name
+            const ql::array2ui&,  // window's size
+            const ql::array2ui&,  // window's position
+            char = Style::all     // windows manager flags
         );
+
+        /* Default empty constructor */
 
         Window() = default;
 
