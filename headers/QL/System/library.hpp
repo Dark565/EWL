@@ -19,6 +19,12 @@ namespace ql {
     public:
         void* loadFunction(const std::string&);
 
+        template <class T>
+        T loadFunction(const std::string& s)
+        {
+            return (T)loadFunction(s);
+        }
+
         bool load(const std::string&);
         bool free();
 

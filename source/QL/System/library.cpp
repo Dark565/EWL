@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-namespace lib {
+namespace impl {
     inline void* load(const char*);
     inline void free(void*);
     inline void* getFunc(void*,const char*);
@@ -20,7 +20,7 @@ namespace lib {
 bool ql::Library::load(const std::string& p) {
     free();
 
-    if(l_p = lib::load(p.c_str())) {
+    if(l_p = impl::load(p.c_str())) {
         return 1;
     }
     else {
@@ -30,7 +30,7 @@ bool ql::Library::load(const std::string& p) {
 
 bool ql::Library::free() {
     if(isLegit()) {
-        lib::free(l_p);
+        impl::free(l_p);
         l_p = NULL;
     }
 }
@@ -41,7 +41,7 @@ bool ql::Library::isLegit() {
 
 void* ql::Library::loadFunction(const std::string& p) {
     if(isLegit()) {
-        return lib::getFunc(l_p,p.c_str());
+        return impl::getFunc(l_p,p.c_str());
     }
     return NULL;
 }

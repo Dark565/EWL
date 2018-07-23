@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QL/Definitions/NotCopyable.hpp>
+#include <QL/Graphics/Windows/window.hpp>
 #include "monitors.hpp"
 #include "controller.hpp"
 
@@ -44,6 +45,8 @@ namespace ql {
 
         Display(bool open = true);
         ~Display();
+
+        friend class Window;
 
 
     };

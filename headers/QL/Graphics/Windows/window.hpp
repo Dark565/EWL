@@ -33,10 +33,11 @@ namespace ql {
         /* Creates a window */
 
         bool create(
-            const std::string&,     //window's name
-            const ql::array2ui&,    //window's size
-            const ql::array2ui&,    //window's position
-            char = Style::all       //window's flags
+            const std::string&,         //window's name
+            const ql::array2ui&,        //window's size
+            const ql::array2ui&,        //window's position
+            const char = Style::all,    //window's flags
+            const Window* = NULL        //window's parent
         );
 
         /* Closes a window */
@@ -80,12 +81,13 @@ namespace ql {
         bool isLegit();
         inline bool exist() {return isLegit();}
 
-        Window(
-            const std::string&,   // window's name
-            const ql::array2ui&,  // window's size
-            const ql::array2ui&,  // window's position
-            char = Style::all     // windows manager flags
-        );
+        inline Window(
+            const std::string& name,        // window's name
+            const ql::array2ui& size,       // window's size
+            const ql::array2ui& position,   // window's position
+            const char flags = Style::all,   // windows manager flags
+            const Window* parent = NULL     // window's parent
+        ) {create(name,size,position,flags,parent);}
 
         /* Default empty constructor */
 

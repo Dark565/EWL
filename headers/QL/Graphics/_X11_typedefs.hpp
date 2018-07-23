@@ -1,13 +1,9 @@
 #pragma once
 
-#include <QL/System/library.hpp>
-#include <QL/Definitions/compiller.hpp>
-
 #include <X11/Xlib.h>
 
-#define __QL_X11_SO_PATH "libX11.so"
-
 namespace X11 {
+
     typedef Display*(*OpenDisplay_p)(const char*);
     typedef int(*CloseDisplay_p)(Display*);
     typedef Window(*CreateWindow_p)(
@@ -24,7 +20,13 @@ namespace X11 {
         unsigned long,
         XSetWindowAttributes*
     );
+    typedef int(*StoreName_p)(Display*, Window, char* window_name);
 
-    bool load();
-    ql::Library* getLibrary();
+    typedef Window Window;
+    typedef Display Display;
+    typedef Screen Screen;
+    typedef XEvent XEvent;
+    typedef Visual Visual;
+    typedef XSetWindowAttributes XSetWindowAttributes;
+
 }
