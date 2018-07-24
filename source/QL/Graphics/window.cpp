@@ -1,15 +1,15 @@
 #pragma once
 
 #include <QL/Graphics/Windows/window.hpp>
-#include <QL/Definitions/servers.hpp>
+#include <QL/Definitions/protocols.hpp>
 
 namespace priv  {
 
 }
 
 #if defined(__QL_WINSERVER_XORG)
-    #include "Windows/impl_xorg.inl"
+    #include "Window/impl_xorg.inl"
 #elif defined(__QL_WINSERVER_WINAPI)
-    #include "Windows/impl_win32.inl"
+    #include "Window/impl_win32.inl"
 #endif
 

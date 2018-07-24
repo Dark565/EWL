@@ -1,3 +1,5 @@
+#include "../X11_Impl.hpp"
+
 inline Display* X11::OpenDisplay(const char* d) {
     return XOpenDisplay(d);
 }
@@ -47,6 +49,14 @@ inline void X11::Free(void* d) {
     return XFree(d);
 }
 
-inline Window X11::DefaultRootWindow(Display*d ) {
+inline Window X11::_DefaultRootWindow(Display*d ) {
     return XDefaultRootWindow(d);
+}
+
+inline bool X11::load() {
+    return true;
+}
+
+inline bool X11::unload() {
+    return true;
 }

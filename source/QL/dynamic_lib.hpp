@@ -5,7 +5,7 @@
 #include <QL/System/library.hpp>
 
 namespace ql {
-    namespace dynamicLib {
+    namespace native {
         
         std::map<int,ql::Library>* getLibraryHash();
 
@@ -23,6 +23,20 @@ namespace ql {
         inline ql::Library& getLibrary(int i)
         {
             return getLibraryHash()->at(i);
+        }
+
+        inline bool loadLibrary(int i, const std::strign& s)
+        {
+            ql::Library& lib = getLibrary(i);
+            if(!lib.isLegit()) {
+                return lib.load(s);
+            }
+            return true;
+        }
+
+        inline bool unloadLibrary(int i)
+        {
+            return getLibraryHash()->erase(i);
         }
     }
 }

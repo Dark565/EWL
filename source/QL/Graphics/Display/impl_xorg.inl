@@ -43,7 +43,7 @@ int ql::Display::getMonitorCount() {
     if(!isOpen()) return -1;
 
     int ret;
-    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &ret));
+    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &ret));
     return ret;
 }
 
@@ -51,7 +51,7 @@ bool ql::Display::getMonitor(int index, ql::Monitor& m) {
     if(!isOpen()) return false;
 
     int size;
-    XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &size);
+    XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &size);
 
     bool r = false;
 
@@ -71,7 +71,7 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
     if(isOpen()) {
 
         int size;
-        XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &size);
+        XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &size);
 
         for(uint32_t i = 0; i < size; i++) {
             ret.push_back(priv::copyFromXRRMonitorInfo(Xdsp,mi[i]));
@@ -88,4 +88,8 @@ bool ql::Display::close() {
         X11::CloseDisplay(Xdsp);
         Xdsp = NULL;
     }
+}
+
+bool ql::Display::init() {
+    return X11::load();
 }

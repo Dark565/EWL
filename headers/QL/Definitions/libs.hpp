@@ -5,7 +5,7 @@
 #if defined(QL_LIB_LINK)
     #define __QL_LIBRARY_LINK
 
-#elif defined(__QL_LIB_LOAD)
+#elif defined(QL_LIB_LOAD)
     #define __QL_LIBRARY_LOAD
-    
+
 #endif

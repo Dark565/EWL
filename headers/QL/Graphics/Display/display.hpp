@@ -2,8 +2,8 @@
 
 #include <QL/Definitions/NotCopyable.hpp>
 #include <QL/Graphics/Windows/window.hpp>
+#include <QL/Definitions/protocols.hpp>
 #include "monitors.hpp"
-#include "controller.hpp"
 
 #include <vector>
 
@@ -26,6 +26,8 @@ namespace ql {
         #if defined(__QL_WINSERVER_XORG)
             _XDisplay* Xdsp = NULL;
         #endif
+
+        void init();
 
     public:
 

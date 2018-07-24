@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
+#define __QL_LIB_X11_PATH "libX11.so"
+
 namespace X11 {
     inline Display* OpenDisplay(const char*);
     inline int CloseDisplay(Display*);
@@ -26,11 +28,14 @@ namespace X11 {
     inline int StoreName(Display*, Window, char*);
     inline char* GetAtomName(Display*,Atom);
     inline void Free(void*);
-    inline Window DefaultRootWindow(Display*);
+    inline Window _DefaultRootWindow(Display*);
+
+    inline bool load();
+    inline bool unload();
 }
 
 #if defined(__QL_LIBRARY_LINK)
-    #include "Loaded_Libraries/X11/link.inl"
+    #include "X11/link.inl"
 #elif defined(__QL_LIBRARY_LOAD)
-    #include "Loaded_Libraries/X11/load.inl"
+    #include "X11/load.inl"
 #endif

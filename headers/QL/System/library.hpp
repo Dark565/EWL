@@ -40,7 +40,10 @@ namespace ql {
             free();
         }
 
-        Library() = default;
+        Library() : l_p(NULL)
+        {
+            
+        }
 
 
         static inline std::string toPlatformal(const std::string& s) {
