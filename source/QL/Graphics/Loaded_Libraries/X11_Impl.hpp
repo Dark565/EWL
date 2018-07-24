@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QL/Definitions/libs.hpp>
-#include "../dynamic_lib.hpp"
+#include "../../dynamic_lib.hpp"
 
 #include <X11/Xlib.h>
 
@@ -24,10 +24,13 @@ namespace X11 {
                         XSetWindowAttributes*       //attributes
                     );
     inline int StoreName(Display*, Window, char*);
+    inline char* GetAtomName(Display*,Atom);
+    inline void Free(void*);
+    inline Window DefaultRootWindow(Display*);
 }
 
 #if defined(__QL_LIBRARY_LINK)
-    #include "X11_Load/link.inl"
+    #include "Loaded_Libraries/X11/link.inl"
 #elif defined(__QL_LIBRARY_LOAD)
-    #include "X11_Load/load.inl"
+    #include "Loaded_Libraries/X11/load.inl"
 #endif

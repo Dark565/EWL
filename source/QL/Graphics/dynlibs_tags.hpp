@@ -3,7 +3,8 @@
 namespace ql {
     namespace tags {
         enum {
-            X11
+            X11,
+            Xrandr
         };
     }
 }

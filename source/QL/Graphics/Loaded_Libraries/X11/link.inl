@@ -35,6 +35,18 @@ inline Window X11::CreateWindow
             )
 }
 
-inline int StoreName(Display* dsp, Window wnd, char* n) {
+inline int X11::StoreName(Display* dsp, Window wnd, char* n) {
     return XStoreName(dsp,wnd,n);
+}
+
+inline char* X11::GetAtomName(Display* dsp, Atom a) {
+    return XGetAtomName(dsp,a);
+}
+
+inline void X11::Free(void* d) {
+    return XFree(d);
+}
+
+inline Window X11::DefaultRootWindow(Display*d ) {
+    return XDefaultRootWindow(d);
 }

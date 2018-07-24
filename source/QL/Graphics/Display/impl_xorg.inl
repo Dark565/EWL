@@ -1,6 +1,10 @@
 #include <X11/extensions/Xrandr.h>
+#include <X11/Xlib.h>
 
 #include <QL/Graphics/Display/monitors.hpp>
+#include "../Loaded_Libraries/Xrandr_Impl.hpp"
+#include "../Loaded_Libraries/X11_Impl.hpp"
+
 #include <vector>
 
 namespace priv {
@@ -14,7 +18,10 @@ namespace priv {
         ret.x = mi.x;
         ret.y = mi.y;
 
-        ret.name = XGetAtomName(d, mi.name);
+        char* n = X11::GetAtomName(d, mi.name);
+        ret.name = n;
+
+        XFree(n);
 
         return ret;
     }
@@ -23,7 +30,7 @@ namespace priv {
 bool ql::Display::open(const char* name) {
     close();
 
-    Xdsp = XOpenDisplay(name);
+    Xdsp = X11::OpenDisplay(name);
     
     return Xdsp;
 }
@@ -36,7 +43,7 @@ int ql::Display::getMonitorCount() {
     if(!isOpen()) return -1;
 
     int ret;
-    XRRFreeMonitors(XRRGetMonitors(Xdsp, XDefaultRootWindow(Xdsp), 1, &ret));
+    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &ret));
     return ret;
 }
 
@@ -44,7 +51,7 @@ bool ql::Display::getMonitor(int index, ql::Monitor& m) {
     if(!isOpen()) return false;
 
     int size;
-    XRRMonitorInfo* mi = XRRGetMonitors(Xdsp, XDefaultRootWindow(Xdsp), 1, &size);
+    XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &size);
 
     bool r = false;
 
@@ -54,7 +61,7 @@ bool ql::Display::getMonitor(int index, ql::Monitor& m) {
         r = true;
     }
 
-    XRRFreeMonitors(mi);
+    Xrandr::_XRRFreeMonitors(mi);
 
     return r;
 }
@@ -64,13 +71,13 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
     if(isOpen()) {
 
         int size;
-        XRRMonitorInfo* mi = XRRGetMonitors(Xdsp, XDefaultRootWindow(Xdsp), 1, &size);
+        XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::DefaultRootWindow(Xdsp), 1, &size);
 
         for(uint32_t i = 0; i < size; i++) {
             ret.push_back(priv::copyFromXRRMonitorInfo(Xdsp,mi[i]));
         }
 
-        XRRFreeMonitors(mi);
+        Xrandr::_XRRFreeMonitors(mi);
 
     }
     return ret;
@@ -78,7 +85,7 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
 
 bool ql::Display::close() {
     if(isOpen()) {
-        XCloseDisplay(Xdsp);
+        X11::CloseDisplay(Xdsp);
         Xdsp = NULL;
     }
 }

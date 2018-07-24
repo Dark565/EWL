@@ -3,6 +3,10 @@
 #include <QL/Graphics/Windows/window.hpp>
 #include <QL/Definitions/servers.hpp>
 
+namespace priv  {
+
+}
+
 #if defined(__QL_WINSERVER_XORG)
     #include "Windows/impl_xorg.inl"
 #elif defined(__QL_WINSERVER_WINAPI)
