@@ -34,7 +34,7 @@ inline Window X11::_XCreateWindow
                 visual,
                 valuemask,
                 attributes
-            )
+            );
 }
 
 inline int X11::_XStoreName(Display* dsp, Window wnd, char* n) {

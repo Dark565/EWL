@@ -11,7 +11,7 @@ namespace ql {
 
         inline void* loadFunc(int i, const std::string& s)
         {
-            return getLibraryHash()->at(i).loadFunc(s);
+            return getLibraryHash()->at(i).loadFunction(s);
         }
         
         template <class T>
@@ -25,7 +25,7 @@ namespace ql {
             return getLibraryHash()->at(i);
         }
 
-        inline bool loadLibrary(int i, const std::strign& s)
+        inline bool loadLibrary(int i, const std::string& s)
         {
             ql::Library& lib = getLibrary(i);
             if(!lib.isLegit()) {
