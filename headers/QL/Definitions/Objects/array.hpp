@@ -5,7 +5,7 @@ namespace ql {
         T x[size];
 
         template<class... Args>
-        constexpr Array(Args... args) : x{args}
+        constexpr Array(Args... args) : x{args...}
         {}
 
         constexpr T& operator[](uint32_t i) {

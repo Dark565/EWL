@@ -22,12 +22,12 @@ namespace ql {
             return (uint8_t*)&r;
         }
         
-        constexpr uint32_t _long() 
+        constexpr uint32_t _long_p() 
         {
             return  getAsUint32();
         }
 
-        constexpr uint8_t* getAsCharPtr() const
+        constexpr uint8_t* _char_p() const
         {
             return getAsCharPtr();
         }
