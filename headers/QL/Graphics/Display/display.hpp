@@ -27,8 +27,6 @@ namespace ql {
             _XDisplay* Xdsp = NULL;
         #endif
 
-        void init();
-
     public:
 
         #if defined(__QL_WINSERVER_XORG)
@@ -49,6 +47,8 @@ namespace ql {
         ~Display();
 
         friend class Window;
+
+        static bool init();
 
 
     };

@@ -1,6 +1,6 @@
 #include <QL/Graphics/Display/display.hpp>
 
-#include <QL/Definitons/protocols.hpp>
+#include <QL/Definitions/protocols.hpp>
 
 #include <cstdint>
 
@@ -12,8 +12,8 @@
 #endif
 
 ql::Display::Display(bool open) {
-    if(init())
-        if(open) open(NULL);
+    if(Display::init())
+        if(open) Display::open(NULL);
     else
         throw std::string("Cannot init window protocol");
 }
