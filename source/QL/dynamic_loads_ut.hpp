@@ -7,8 +7,6 @@
     #undef __QL_LIBRARY_LINK
 #endif
 
-#define __QL_LIBRARY_LOAD
-
 namespace native {
     namespace M0 = X11;
     namespace M1 = Xrandr;
