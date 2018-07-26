@@ -24,7 +24,7 @@ namespace ql {
         {
             auto* lib = getLibraryHash();
             if(lib->find(i) == lib->end()) {
-                return lib->insert(std::pair<int,ql::Library>(i,ql::Library()))->second;
+                return lib->emplace(std::make_pair(int(i),ql::Library()))->second;
             }
             return lib->at(i);
         }
