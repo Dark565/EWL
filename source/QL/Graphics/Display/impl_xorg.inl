@@ -21,7 +21,7 @@ namespace priv {
         char* n = X11::_XGetAtomName(d, mi.name);
         ret.name = n;
 
-        XFree(n);
+        X11::_XFree(n);
 
         return ret;
     }
@@ -43,7 +43,7 @@ int ql::Display::getMonitorCount() {
     if(!isOpen()) return -1;
 
     int ret;
-    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &ret));
+    Xrandr::_XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &ret));
     return ret;
 }
 
