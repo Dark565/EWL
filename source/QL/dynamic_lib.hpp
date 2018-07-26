@@ -22,7 +22,11 @@ namespace ql {
 
         inline ql::Library& getLibrary(int i)
         {
-            return (*getLibraryHash())[i];
+            auto* lib = getLibraryHash();
+            if(lib->find(i) == lib->end()) {
+                return lib->insert(std::pair(i,ql::Library()))->second;
+            }
+            return lib->at(i);
         }
 
         inline bool loadLibrary(int i, const std::string& s)
