@@ -12,10 +12,10 @@ inline void Xrandr::_XRRFreeMonitors(XRRMonitorInfo* mi) {
     ql::native::loadFunc<Xrandr::_XRRFreeMonitors_p>(ql::tags::Xrandr,"XRRFreeMonitors")(mi);
 }
 
-inline bool Xrandr::load() {
+inline bool Xrandr::_load() {
     return ql::native::loadLibrary(ql::tags::Xrandr,__QL_LIB_XRANDR_PATH);
 }
 
-inline bool Xrandr::unload() {
+inline bool Xrandr::_unload() {
     return ql::native::unloadLibrary(ql::tags::Xrandr);
 }

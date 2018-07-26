@@ -2,15 +2,15 @@
 
 #include <QL/System/native_load.hpp>
 
-inline Display* X11::OpenDisplay(const char* s) {
+inline Display* X11::_XOpenDisplay(const char* s) {
     return ql::native::loadFunc<X11::OpenDisplay_p>(ql::tags::X11,"XOpenDisplay")(s);
 }
 
-inline int X11::CloseDisplay(Display* d) {
+inline int X11::_XCloseDisplay(Display* d) {
     return ql::native::loadFunc<X11::CloseDisplay_p>(ql::tags::X11,"XCloseDisplay")(d);
 }
 
-inline Window X11::CreateWindow
+inline Window X11::_XCreateWindow
                     (
                         Display* dsp,
                         Window parent,
@@ -39,26 +39,26 @@ inline Window X11::CreateWindow
             );
 }
 
-inline int X11::StoreName(Display* dsp, Window wnd, char* n) {
+inline int X11::_XStoreName(Display* dsp, Window wnd, char* n) {
     return ql::native::loadFunc<X11::StoreName_p>(ql::tags::X11,"XStoreName")(dsp,wnd,n);
 }
 
-inline char* X11::GetAtomName(Display* dsp, Atom a) {
+inline char* X11::_XGetAtomName(Display* dsp, Atom a) {
     return ql::native::loadFunc<X11::GetAtomName_p>(ql::tags::X11,"XGetAtomName")(dsp,a);
 }
 
-inline void X11::Free(void* d) {
-    ql::native::loadFunc<X11::Free_p>(ql::tags::X11,"XFree")(d);
+inline int X11::_XFree(void* d) {
+    return ql::native::loadFunc<X11::Free_p>(ql::tags::X11,"XFree")(d);
 }
 
-inline Window X11::_DefaultRootWindow(Display* d) {
+inline Window X11::_XDefaultRootWindow(Display* d) {
     return ql::native::loadFunc<X11::DefaultRootWindow_p>(ql::tags::X11,"XDefaultRootWindow")(d);
 }
 
-inline bool X11::load() {
+inline bool X11::_load() {
     return ql::native::loadLibrary(ql::tags::X11,__QL_LIB_X11_PATH);
 }
 
-inline bool X11::unload() {
+inline bool X11::_unload() {
     return ql::native::unloadLibrary(ql::tags::X11);
 }

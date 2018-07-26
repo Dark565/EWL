@@ -12,8 +12,8 @@ namespace Xrandr {
     inline XRRMonitorInfo* _XRRGetMonitors(Display*,Window,bool,int*);
     inline void _XRRFreeMonitors(XRRMonitorInfo*);
 
-    inline bool load();
-    inline bool unload();
+    inline bool _load();
+    inline bool _unload();
 }
 
 #if defined(__QL_LIBRARY_LINK)

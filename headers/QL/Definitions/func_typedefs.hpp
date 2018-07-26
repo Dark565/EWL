@@ -23,7 +23,7 @@ namespace X11 {
     );
     typedef int(*StoreName_p)(Display*, Window, char* window_name);
     typedef char*(*GetAtomName_p)(Display*,Atom);
-    typedef void(*Free_p)(void*);
+    typedef int(*Free_p)(void*);
     typedef Window(*DefaultRootWindow_p)(Display*);
 
 }

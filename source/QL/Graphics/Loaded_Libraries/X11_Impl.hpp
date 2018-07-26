@@ -10,9 +10,9 @@
 #define __QL_LIB_X11_PATH "libX11.so"
 
 namespace X11 {
-    inline Display* OpenDisplay(const char*);
-    inline int CloseDisplay(Display*);
-    inline Window CreateWindow 
+    inline Display* _XOpenDisplay(const char*);
+    inline int _XCloseDisplay(Display*);
+    inline Window _XCreateWindow 
                     (
                         Display*,                   //X11 connection data pointer
                         Window,                     //Parent
@@ -25,13 +25,13 @@ namespace X11 {
                         uint32_t,                   //value mask
                         XSetWindowAttributes*       //attributes
                     );
-    inline int StoreName(Display*, Window, char*);
-    inline char* GetAtomName(Display*,Atom);
-    inline void Free(void*);
-    inline Window _DefaultRootWindow(Display*);
+    inline int _XStoreName(Display*, Window, char*);
+    inline char* _XGetAtomName(Display*,Atom);
+    inline int _XFree(void*);
+    inline Window _XDefaultRootWindow(Display*);
 
-    inline bool load();
-    inline bool unload();
+    inline bool _load();
+    inline bool _unload();
 }
 
 #if defined(__QL_LIBRARY_LINK)

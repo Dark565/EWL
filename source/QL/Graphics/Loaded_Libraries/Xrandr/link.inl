@@ -8,10 +8,10 @@ inline void Xrandr::_XRRFreeMonitors(XRRMonitorInfo* mi) {
     XRRFreeMonitors(mi);
 }
 
-inline bool Xrandr::load() {
+inline bool Xrandr::_load() {
     return true;
 }
 
-inline bool Xrandr::unload() {
+inline bool Xrandr::_unload() {
     return true;
 }

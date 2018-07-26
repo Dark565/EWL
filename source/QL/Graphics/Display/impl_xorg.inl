@@ -18,7 +18,7 @@ namespace priv {
         ret.x = mi.x;
         ret.y = mi.y;
 
-        char* n = X11::GetAtomName(d, mi.name);
+        char* n = X11::_XGetAtomName(d, mi.name);
         ret.name = n;
 
         XFree(n);
@@ -30,7 +30,7 @@ namespace priv {
 bool ql::Display::open(const char* name) {
     close();
 
-    Xdsp = X11::OpenDisplay(name);
+    Xdsp = X11::_XOpenDisplay(name);
     
     return Xdsp;
 }
@@ -43,7 +43,7 @@ int ql::Display::getMonitorCount() {
     if(!isOpen()) return -1;
 
     int ret;
-    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &ret));
+    XRRFreeMonitors(Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &ret));
     return ret;
 }
 
@@ -51,7 +51,7 @@ bool ql::Display::getMonitor(int index, ql::Monitor& m) {
     if(!isOpen()) return false;
 
     int size;
-    XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &size);
+    XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &size);
 
     bool r = false;
 
@@ -71,7 +71,7 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
     if(isOpen()) {
 
         int size;
-        XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_DefaultRootWindow(Xdsp), 1, &size);
+        XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &size);
 
         for(uint32_t i = 0; i < size; i++) {
             ret.push_back(priv::copyFromXRRMonitorInfo(Xdsp,mi[i]));
@@ -85,11 +85,11 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
 
 bool ql::Display::close() {
     if(isOpen()) {
-        X11::CloseDisplay(Xdsp);
+        X11::_XCloseDisplay(Xdsp);
         Xdsp = NULL;
     }
 }
 
 bool ql::Display::init() {
-    return X11::load();
+    return X11::_load() && Xrandr::_load();
 }
