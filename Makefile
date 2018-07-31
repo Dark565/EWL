@@ -35,7 +35,7 @@ install:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
 
 install_headers: headers_output
-	install $(INCLUDE_PATH)QL/ $(INSTALL_HEADERS_PREFIX)/
+	cp -r $(INCLUDE_PATH)QL/ $(INSTALL_HEADERS_PREFIX)/
 
 uninstall:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
