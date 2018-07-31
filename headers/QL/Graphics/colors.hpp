@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 namespace ql {
     struct Pixel {
@@ -12,9 +12,9 @@ namespace ql {
 
         /*Merges color from other pixel with calling pixel including alpha*/
 
-        constexpr uint32_t getAsUint32() const
+        constexpr uint32_t* getAsUin32Ptr() const
         {
-            return *(uint32_t*)&r;
+            return (uint32_t*)&r;
         }
 
         constexpr uint8_t* getAsCharPtr() const
@@ -22,9 +22,9 @@ namespace ql {
             return (uint8_t*)&r;
         }
         
-        constexpr uint32_t _long_p() 
+        constexpr uint32_t* _long_p() 
         {
-            return  getAsUint32();
+            return getAsUin32Ptr();
         }
 
         constexpr uint8_t* _char_p() const

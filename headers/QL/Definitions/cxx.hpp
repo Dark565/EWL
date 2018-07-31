@@ -3,46 +3,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <iostream>
+
 #include <cstdio>
 
 namespace ql {
     namespace cxx {
 
-
-        template <class T, T N>
-        struct value {
-            enum {
-                result = N
-            };
-        };
-
-        template <class N>
-        using number = value<long long, N>; 
-
-        template <class T>
-        class has_destructor {
-
-
-            static int chck(number<empty((void*)T::~T)> {return 0;}
-            static char chck( ... ) {return 0;}
-
-        public:
-
-            enum {
-                value = (sizeof(chck(0)) == sizeof(int))
-            };
-
-        };
-
-
         template <class T, class ...Args>
-        constexpr void reconstruct(T& object, Args... args) {
+        constexpr void reconstruct(T& object, Args&... args) {
             new (&object) T(args...);
         }
 
-        template <class T, class ...Args>
-        T* change(T* ptr, uint32_t size, uint32_t after, Args... args) {
+        template <class T>
+        constexpr void deconstruct(T* object) {
+            delete object;
+        }
 
+        template <class T>
+        constexpr size_t size(const T& a) {
+            return sizeof(a);
+        }
+
+        template <class T, class ...Args>
+        constexpr size_t size(const T& a, const Args&... args) {
+            return size(a) + size(args...);
         }
 
     }

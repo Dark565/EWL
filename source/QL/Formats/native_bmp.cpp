@@ -14,7 +14,7 @@ void ql::bmp::loadHeaders(FILE* f, struct ql::bmp::Headers* heads) {
     fread(heads,1,sizeof(ql::bmp::Headers), f);
 }
 
-void ql::bmp::constructHeaders(struct ql::bmp::Headers* heads, uint32_t width, uint32_t height) {
+void ql::bmp::constructHeaders(struct ql::bmp::Headers* heads, ql::uint32_t width, ql::uint32_t height) {
     heads->bmp_magic.signature[0] = 'B';
     heads->bmp_magic.signature[1] = 'M';
     heads->bmp_header.data_offset = 54;
@@ -33,17 +33,17 @@ void ql::bmp::constructHeaders(struct ql::bmp::Headers* heads, uint32_t width, u
     heads->dib_header.height = height;
 }
 
-void ql::bmp::readImage(FILE* f, ql::bmp::Headers* head, uint8_t* pixels) {
+void ql::bmp::readImage(FILE* f, ql::bmp::Headers* head, ql::uint8_t* pixels) {
     fseek(f,head->bmp_header.data_offset,SEEK_SET);
 
-    uint32_t px_p_b = head->dib_header.bits_per_pixel/8;
-    uint32_t size = head->dib_header.width * head->dib_header.height * px_p_b;
+    ql::uint32_t px_p_b = head->dib_header.bits_per_pixel/8;
+    ql::uint32_t size = head->dib_header.width * head->dib_header.height * px_p_b;
 
     fread(pixels,size,size,f);
 
 }
 
-void ql::bmp::writeImage(FILE* f, ql::bmp::Headers* heads, const uint8_t* pixels) {
+void ql::bmp::writeImage(FILE* f, ql::bmp::Headers* heads, const ql::uint8_t* pixels) {
     fseek(f,0,SEEK_SET);
 
     //fwrite(&heads->bmp_magic,1,ql::bmp::Magics,f);
@@ -52,8 +52,8 @@ void ql::bmp::writeImage(FILE* f, ql::bmp::Headers* heads, const uint8_t* pixels
 
     fwrite(heads,1,sizeof(ql::bmp::Headers),f);
 
-    uint32_t bt_p_px = heads->dib_header.bits_per_pixel/8;
-    uint32_t size = heads->dib_header.width * heads->dib_header.height * bt_p_px;
+    ql::uint32_t bt_p_px = heads->dib_header.bits_per_pixel/8;
+    ql::uint32_t size = heads->dib_header.width * heads->dib_header.height * bt_p_px;
 
     fseek(f,heads->bmp_header.data_offset,SEEK_SET);
     fwrite(pixels, 1, size, f);

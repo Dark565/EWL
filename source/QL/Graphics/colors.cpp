@@ -1,9 +1,9 @@
 #include <QL/Graphics/colors.hpp>
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 #include <iostream>
 
-ql::Pixel::Pixel(uint32_t pixel) {
+ql::Pixel::Pixel(ql::uint32_t pixel) {
     unsigned char* a_r = (unsigned char*)&pixel;
     unsigned char* a_g = a_r+1;
     unsigned char* a_b = a_r+2;
@@ -22,7 +22,7 @@ bool ql::Pixel::operator==(const ql::Pixel& pix) const {
 
 void ql::Pixel::alpha_compose(ql::Pixel what) {
     what.alpha = 255 - what.alpha;
-    float d = (float)what.alpha / 255;
+    ql::float32_t d = (ql::float32_t)what.alpha / 255;
     
     what.r -= (d*what.r);
     what.g -= (d*what.g);

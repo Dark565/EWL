@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 /*Compressors header*/
 

@@ -2,7 +2,7 @@
 
 #include <queue>
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 #include <QL/Input/mouse.hpp>
 #include <QL/Input/keyboard.hpp>

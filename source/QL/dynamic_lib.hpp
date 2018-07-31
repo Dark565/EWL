@@ -6,6 +6,11 @@
 
 namespace ql {
     namespace native {
+
+        enum tags {
+            X11,
+            Xrandr
+        };
         
         std::map<int,ql::Library>* getLibraryHash();
 

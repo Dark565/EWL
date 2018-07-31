@@ -5,5 +5,4 @@
 #include "pixmap.hpp"
 #include "video.hpp"
 #include "window.hpp"
-#include "man.hpp"
 #include "display.hpp"

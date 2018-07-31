@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 #include <stdio.h>
 
 #include <QL/Definitions/compiller.hpp>

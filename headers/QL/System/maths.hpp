@@ -2,11 +2,11 @@
 
 #include <QL/Definitions/Objects/array.hpp>
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 namespace ql {
     namespace maths {
-        Array<float,2> calcMatrix(int32_t x, int32_t y, float angle);
+        Array<float32_t,2> calcMatrix(int32_t x, int32_t y, float32_t angle);
         template<class T> constexpr bool isBit(T v, uint8_t b);
     }
 }

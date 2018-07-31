@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 
 #include <QL/Definitions/Objects/type_arrays.hpp>
 #include <QL/Graphics/pixmap.hpp>

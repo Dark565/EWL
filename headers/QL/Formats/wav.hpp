@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 
 #include <QL/Definitions/compiller.hpp>
 

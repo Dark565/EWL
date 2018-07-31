@@ -12,13 +12,13 @@ inline Window X11::_XCreateWindow
                     (
                         Display* dsp,
                         Window parent,
-                        int32_t x, int32_t y,           
-                        uint32_t width, uint32_t height,         
-                        uint32_t border_width,                   
-                        int32_t depth,                    
-                        uint32_t c_class,                   
+                        ql::int32_t x, ql::int32_t y,           
+                        ql::uint32_t width, ql::uint32_t height,         
+                        ql::uint32_t border_width,                   
+                        ql::int32_t depth,                    
+                        ql::uint32_t c_class,                   
                         Visual* visual,                    
-                        uint32_t valuemask,                   
+                        ql::uint32_t valuemask,                   
                         XSetWindowAttributes* attributes      
                     )
 {

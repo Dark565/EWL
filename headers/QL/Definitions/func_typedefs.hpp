@@ -3,7 +3,7 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
 
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 
 namespace X11 {
 

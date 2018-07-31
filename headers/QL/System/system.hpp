@@ -10,5 +10,5 @@
 #include "program.hpp"
 
 #include "Compression/compressors.hpp"
-#include "Thread/thread.hpp"
+#include "thread.hpp"
 #include "Time/units.hpp"

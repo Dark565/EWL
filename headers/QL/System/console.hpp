@@ -2,7 +2,7 @@
 
 #include <QL/Graphics/colors.hpp>
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 #include <iostream>
 
 namespace ql {

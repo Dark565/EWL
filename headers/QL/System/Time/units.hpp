@@ -1,5 +1,5 @@
 #pragma once
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 namespace ql {
     struct us;
@@ -20,8 +20,8 @@ namespace ql {
         };
 
         struct sec {
-            float t;
-            sec(float a) : t(a) {}
+            float32_t t;
+            sec(float32_t a) : t(a) {}
         };
 
         Time& operator=(const us& a);

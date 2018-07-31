@@ -73,7 +73,7 @@ std::vector<ql::Monitor> ql::Display::getMonitors() {
         int size;
         XRRMonitorInfo* mi = Xrandr::_XRRGetMonitors(Xdsp, X11::_XDefaultRootWindow(Xdsp), 1, &size);
 
-        for(uint32_t i = 0; i < size; i++) {
+        for(ql::uint32_t i = 0; i < size; i++) {
             ret.push_back(priv::copyFromXRRMonitorInfo(Xdsp,mi[i]));
         }
 

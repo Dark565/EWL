@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stddef.h>
 
 template <class T>
 inline bool ql::SoundBuffer::setSample(T sample, uint32_t x) {
@@ -21,10 +21,10 @@ inline bool ql::SoundBuffer::isGood() const {
     return isLegit();
 }
 
-constexpr uint32_t ql::SoundBuffer::getSamplesCount() {
-    return getBytesCount() / getChannelsCount() / getBPS();
+constexpr ql::uint32_t ql::SoundBuffer::getSamplesCount() {
+    return size / channels / bytes_per_sample;
 }
 
-constexpr uint32_t ql::SoundBuffer::bytesPerSecond() {
-    return getSampleRate() * getBPS() * getChannelsCount();
+constexpr ql::uint32_t ql::SoundBuffer::bytesPerSecond() {
+    return sample_rate * channels * bytes_per_sample;
 }

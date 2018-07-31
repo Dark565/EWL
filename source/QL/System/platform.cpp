@@ -12,7 +12,7 @@ ql::id_t ql::platform::runProgram(const std::string &path, const std::vector<std
     if (!(pid = fork()))
     {
         const char **str = (const char **)malloc(sizeof(const char *) * (args.size() + 1));
-        for (uint32_t i = 0; i < args.size(); i++)
+        for (ql::uint32_t i = 0; i < args.size(); i++)
         {
             str[i] = args[i].c_str();
         }
@@ -35,14 +35,18 @@ ql::id_t ql::platform::getCurrUserID()
 ql::id_t ql::platform::getUserID(const std::string &str)
 {
     passwd *pw = getpwnam(str.c_str());
-    return pw->pw_uid;
+    int r = pw->pw_uid;
+    free(pw);
+    return r;
 }
 
 std::string ql::platform::getHomeDir(ql::id_t id)
 {
     passwd *pw = getpwuid(id);
+    std::string rets = pw->pw_dir;
+    free(pw);
 
-    return std::string(pw->pw_dir);
+    return rets;
 }
 
 std::string ql::platform::getProgramDir()
@@ -56,7 +60,9 @@ std::string ql::platform::getProgramDir()
 std::string ql::platform::getUsername(ql::id_t id)
 {
     passwd *pw = getpwuid(id);
-    return std::string(pw->pw_name);
+    std::string rets = pw->pw_name;
+    free(pw);
+    return rets;
 }
 
 std::string ql::platform::getHostname()
@@ -71,7 +77,9 @@ std::string ql::platform::getHostname()
 std::string ql::platform::getShell()
 {
     passwd *pw = getpwuid(ql::platform::getCurrUserID());
-    return pw->pw_shell;
+    std::string rets = ps;
+    free(pw);
+    return rets;
 }
 #endif
 

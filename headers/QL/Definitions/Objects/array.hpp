@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QL/Definitions/int.hpp>
+
 namespace ql {
     template<class T ,int size> struct Array {
         T x[size];
@@ -9,10 +11,6 @@ namespace ql {
         {}
 
         constexpr T& operator[](uint32_t i) {
-            return x[i];
-        }
-
-        constexpr const T& operator[](uint32_t i) const {
             return x[i];
         }
     };

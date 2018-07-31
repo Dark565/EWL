@@ -4,7 +4,7 @@
 #include <QL/Definitions/defs.hpp>
 
 #include <string>
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 #include <vector>
 #include <csignal>
 

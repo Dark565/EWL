@@ -2,19 +2,17 @@
 
 #include <string>
 
-#include <stdint.h>
-
 #include <QL/Graphics/colors.hpp>
 #include <QL/System/Compression/compressors.hpp>
 #include <QL/Definitions/Objects/array.hpp>
-
+#include <QL/Definitions/int.hpp>
 
 namespace ql {
     class Pixmap {
         uint8_t* pixels;
         uint32_t size_x, size_y;
-        bool deletable;
         uint32_t bytes_per_pixel;
+        bool deletable;
 
         bool compressed;
 
@@ -93,11 +91,11 @@ namespace ql {
 
         /*Rotates the image*/
 
-        bool rotate(float rad, Pixel emptyColor = Alpha);
+        bool rotate(float32_t rad, Pixel emptyColor = Alpha);
 
         /*Replaces all pixels with the color on different color*/
 
-        bool replaceColor(const ql::Pixel& a, const ql::Pixel& b);
+        bool replaceColor(const Pixel& a, const Pixel& b);
 
         /*Gets width of the image*/
 
@@ -173,7 +171,7 @@ namespace ql {
 
         /*Draws a circle*/
 
-        bool drawCircle(float radius, int sensitivity, int middle_x, int middle_y, const Pixel& col);
+        bool drawCircle(float32_t radius, int sensitivity, int middle_x, int middle_y, const Pixel& col);
 
         /*Sets a new pixels pointer as non-deletable
         /Removes existing image*/

@@ -5,7 +5,7 @@
 
 #include <X11/Xlib.h>
 
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 
 #define __QL_LIB_X11_PATH "libX11.so"
 
@@ -16,13 +16,13 @@ namespace X11 {
                     (
                         Display*,                   //X11 connection data pointer
                         Window,                     //Parent
-                        int32_t, int32_t,           //x, y
-                        uint32_t, uint32_t,         //width, height
-                        uint32_t,                   //border width
-                        int32_t,                    //depth
-                        uint32_t,                   //class
+                        ql::int32_t, ql::int32_t,           //x, y
+                        ql::uint32_t, ql::uint32_t,         //width, height
+                        ql::uint32_t,                   //border width
+                        ql::int32_t,                    //depth
+                        ql::uint32_t,                   //class
                         Visual*,                    //visual
-                        uint32_t,                   //value mask
+                        ql::uint32_t,                   //value mask
                         XSetWindowAttributes*       //attributes
                     );
     inline int _XStoreName(Display*, Window, char*);

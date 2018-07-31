@@ -11,11 +11,11 @@ bool ql::Pixmap::loadFromTIFF(const char* path) {
         this->bytes_per_pixel = 4;
         int pix_size = this->size_x * this->size_y * this->bytes_per_pixel;
 
-        pixels = (uint8_t*)malloc(pix_size);
+        pixels = (ql::uint8_t*)malloc(pix_size);
 
-        if(TIFFReadRGBAImage(tiff,this->size_x, this->size_y, (uint32_t*)this->pixels)) {
-            for(uint32_t x = 0; x < this->size_x; x++) {
-                for(uint32_t y = 0; y <= this->size_y/2; y++) {
+        if(TIFFReadRGBAImage(tiff,this->size_x, this->size_y, (ql::uint32_t*)this->pixels)) {
+            for(ql::uint32_t x = 0; x < this->size_x; x++) {
+                for(ql::uint32_t y = 0; y <= this->size_y/2; y++) {
                     
                     ql::Pixel tmprgb = getPixelX(y*this->size_x+x);
                     setPixelX(y*this->size_x+x,getPixelX((this->size_y-1-y)*this->size_x+x));
@@ -35,7 +35,7 @@ bool ql::Pixmap::exportToTIFF(const char* path) const {
     if(isLegit()) {
         TIFF* f = TIFFOpen(path,"w");
         if(f) {
-            uint16_t samples = 3;
+            ql::uint16_t samples = 3;
 
             TIFFSetField(f,TIFFTAG_IMAGELENGTH,size_y);
             TIFFSetField(f,TIFFTAG_IMAGEWIDTH,size_x);
@@ -47,7 +47,7 @@ bool ql::Pixmap::exportToTIFF(const char* path) const {
 
             ql::Pixmap px = constructDecreased(samples);
 
-            for(uint32_t y = 0; y < size_y; y++) {
+            for(ql::uint32_t y = 0; y < size_y; y++) {
                 TIFFWriteScanline(f,px.pixels + y * size_x,y);
             }
 

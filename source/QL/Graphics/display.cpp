@@ -2,7 +2,7 @@
 
 #include <QL/Definitions/protocols.hpp>
 
-#include <cstdint>
+#include <QL/Definitions/int.hpp>
 
 #if defined(__QL_WINSERVER_XORG)
     #include "Display/impl_xorg.inl"

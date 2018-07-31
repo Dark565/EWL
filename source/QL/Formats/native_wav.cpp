@@ -1,12 +1,12 @@
 #include <QL/Formats/wav.hpp>
 #include <string.h>
 
-uint8_t ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
+ql::uint8_t ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
     fseek(f,0,SEEK_SET);
     fread(&head->riff_c, 1, ql::wav::RIFF_s, f);
     fread(&head->fmt_c, 1, ql::wav::FMT_s, f);
 
-    uint32_t p = ftell(f);
+    ql::uint32_t p = ftell(f);
     char d[4];
     do {
         if(!feof(f)) {
@@ -26,7 +26,7 @@ uint8_t ql::wav::loadHeaders(FILE* f, ql::wav::WAVE_Header* head) {
     return 0;
 }
 
-void ql::wav::constructHeaders(ql::wav::WAVE_Header* head, uint16_t bits_per_sample, uint16_t sample_rate, uint8_t channels, uint32_t samples) {
+void ql::wav::constructHeaders(ql::wav::WAVE_Header* head, ql::uint16_t bits_per_sample, ql::uint16_t sample_rate, ql::uint8_t channels, ql::uint32_t samples) {
     memcpy(head->riff_c.chunk_id, "RIFF", 4);
     memcpy(head->riff_c.format, "WAVE", 4);
 
@@ -47,12 +47,12 @@ void ql::wav::constructHeaders(ql::wav::WAVE_Header* head, uint16_t bits_per_sam
     head->d_position = 44;
 }
 
-void ql::wav::readData(FILE* f, WAVE_Header* head, uint8_t* bytes) {
+void ql::wav::readData(FILE* f, WAVE_Header* head, ql::uint8_t* bytes) {
     fseek(f,head->d_position,SEEK_SET);
     fread(bytes, 1, head->data_c.subchunk2_size, f);
 }
 
-void ql::wav::writeData(FILE* f, WAVE_Header* head, const uint8_t* bytes) {
+void ql::wav::writeData(FILE* f, WAVE_Header* head, const ql::uint8_t* bytes) {
     fseek(f, 0, SEEK_SET);
     fwrite(&head->riff_c, 1, ql::wav::RIFF_s, f);
     fwrite(&head->fmt_c, 1, ql::wav::FMT_s, f);

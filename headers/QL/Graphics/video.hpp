@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QL/Graphicspixmap.hpp>
+#include <QL/Graphics/pixmap.hpp>
 #include <QL/System/Compression/compressors.hpp>
 
 #include <vector>

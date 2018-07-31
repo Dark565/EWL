@@ -1,25 +1,90 @@
 CC=g++
-CCFlags=-c -O2 -fPIC
-LDFlags=-shared
 
-pre=libql-
-suf=.so
+System=		libql-system.so
+Formats=	libql-formats.so
+Graphics=	libql-graphics.so
+Audio=		libql-audio.so
+Network=	libql-network.so
 
-modules=$(pre)audio$(suf) $(pre)formats$(suf) $(pre)graphics$(suf) $(pre)network$(suf) $(pre)system$(suf)
+MERGE=		libql.so
+
+CC_Flags=-I$(INCLUDE_PATH) -O2 -fPIC -m$(ARCH)
+Linker_Flags=-shared -L./ -m$(ARCH)
+
+System_flags:=-ldl
+Formats_flags:=-ltiff
+Graphics_flags:=
+Audio_flags:=
+Network_flags:=
+
+System_flags_shared:=
+Formats_flags_shared:=
+Graphics_flags_shared=-lql-system -lql-formats
+Audio_flags_shared=-lql-system
+Network_flags_shared:=
+
+ADDITIONAL_FLAGS:=
+
+ifeq (QL_TYPE,LINK)
+	ADDITIONAL_FLAGS+=-DQL_LINK
+	Graphics_flags+=-lX11 -lXrandr
+endif
+
+System_source=	$(patsubst %.cpp,%.o,$(subst /,-,$(wildcard System/*.cpp)))
+Formats_source=	$(patsubst %.cpp,%.o,$(subst /,-,$(wildcard Formats/*.cpp)))
+Graphics_source=$(patsubst %.cpp,%.o,$(subst /,-,$(wildcard Graphics/*.cpp)))
+Audio_source=	$(patsubst %.cpp,%.o,$(subst /,-,$(wildcard Audio/*.cpp)))
+Network_source=	$(patsubst %.cpp,%.o,$(subst /,-,$(wildcard Network/*.cpp)))
+
+sources=$(System_source) $(Formats_source) $(Graphics_source) $(Audio_source) $(Network_source)
+modules=$(System) $(Formats) $(Graphics) $(Audio) $(Network)
+
+merge_flags=$(Formats_flags) $(System_flags) $(Graphics_flags) $(Audio_flags) $(Network_flags)
 
 all: build
 
-build: $(modules)
+build:
+ifeq ($(PACK),MERGE)
+	@export QL_TYPE=$(QL_TYPE) && $(MAKE) -f modules.mk $(MERGE)
+else
+	@$(foreach mod,$(modules),export QL_TYPE=$(QL_TYPE) && $(MAKE) -f modules.mk $(mod);)
+endif
 
-$(modules): module_folder:=$(@:$(pre)%=%) module_folder:=$(module_folder:%$(suf)=%) module_folder:=$(shell s=$(module_folder); echo $$(tr '[a-z]' '[A-Z]' <<< $${s:0:1})$${s:1}) specific:=$($(wildcard $(module_folder)/*/*.cpp):/=-) $($(wildcard $(module_folder)/*.cpp):/=-) $(specific)
-	$(eval modules_folder=$(@:$(pre)%=%))
-	$(eval modules_folder:=$(modules_folder:%$(suf)=%))
-	$(eval modules_folder:=$(shell s=$(modules_folder); echo $$(tr '[a-z]' '[A-Z]' <<< $${s:0:1})$${s:1}))
-	$(eval specific=$($(wildcard $(modules_folder)/*/*.cpp) $(wildcard $(modules_folder)/*.cpp)):/=-)
-	$(CC) -o $@ $(wildcard $(shell s=$(module_folder); echo $$(tr '[A-Z]' '[a-z]' <<< $${s:0:1})$${s:1})*.o) $(LDFlags)
+clean:
+	rm -rf $(sources)
 
-$(specific):
-	$(CC) -o $@ $(@:-=/) $(CCFlags)
+clean_modules:
+	rm -rf $(modules) $(MERGE)
+
+install: output
+	@$(foreach mod,$(modules) $(MERGE),install $(mod) $(INSTALL_PREFIX)/ 2>/dev/null)
+
+uninstall:
+	@$(foreach mod,$(modules) $(MERGE),rm -f $(INSTALL_PREFIX)/$(mod) 2>/dev/null)
+
+output:
+	mkdir -p $(INSTALL_PREFIX)/QL/
+
+$(System_source) $(Graphics_source) $(Audio_source) $(Network_source) $(Formats_source):
+	$(CC) -c -o $@ $(patsubst %.o,%.cpp,$(subst -,/,$@)) $(CC_Flags)
+
+$(System): $(System_source)
+	$(CC) -o $@ $^ $(Linker_Flags) $(System_flags) $(System_flags_shared)
+
+$(Formats): $(Formats_source)
+	$(CC) -o $@ $^ $(Linker_Flags) $(Formats_flags) $(Formats_flags_shared)
+
+$(Graphics): $(Graphics_source)
+	$(CC) -o $@ $^ $(Linker_Flags) $(Graphics_flags) $(Graphics_flags_shared)
+
+$(Audio): $(Audio_source)
+	$(CC) -o $@ $^ $(Linker_Flags) $(Audio_flags) $(Audio_flags_shared)
+
+$(Network): $(Network_source)
+	$(CC) -o $@ $^ $(Linker_Flags) $(Network_flags) $(Network_flags_shared)
+
+$(MERGE): $(sources)
+	$(CC) -o $@ $^ $(Linker_Flags) $(merge_flags)
 
 
-.phony: all build clean
+.phony: all build install uninstall clean clean_modules output

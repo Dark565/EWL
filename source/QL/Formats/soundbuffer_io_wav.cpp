@@ -44,7 +44,7 @@ bool ql::SoundBuffer::loadFromWAV(const char* path) {
                 size = head.data_c.subchunk2_size;
                 channels = head.fmt_c.num_channels;
 
-                samples = (uint8_t*)malloc(head.data_c.subchunk2_size);
+                samples = (ql::uint8_t*)malloc(head.data_c.subchunk2_size);
 
                 ql::wav::readData(f, &head, samples);
 
@@ -60,7 +60,7 @@ bool ql::SoundBuffer::loadFromWAV(const char* path) {
     return false;
 }
 
-bool ql::SoundBuffer::insertFromWAV(const char* path, uint32_t pos) {
+bool ql::SoundBuffer::insertFromWAV(const char* path, ql::uint32_t pos) {
     FILE* f;
     if(f = fopen(path, "r")) {
 
@@ -70,7 +70,7 @@ bool ql::SoundBuffer::insertFromWAV(const char* path, uint32_t pos) {
         if(gd = (!ql::wav::loadHeaders(f, &head))) {
 
             if(gd = !(memcmp(head.riff_c.format, "WAVE",4))) {
-                samples = (uint8_t*)realloc(samples, size + head.data_c.subchunk2_size);
+                samples = (ql::uint8_t*)realloc(samples, size + head.data_c.subchunk2_size);
                 memmove(samples+pos+head.data_c.subchunk2_size, samples+pos, size-pos);
                 
                 ql::wav::readData(f, &head, samples+pos);

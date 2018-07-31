@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include <QL/Definitions/int.hpp>
 
 namespace ql {
     class SoundBuffer {
@@ -63,11 +63,11 @@ namespace ql {
 
         /* Gets buffer bytes per second */
 
-        constexpr uint32_t ql::SoundBuffer::bytesPerSecond();
+        constexpr uint32_t bytesPerSecond();
 
         /* Gets samples count */
 
-        constexpr uint32_t ql::SoundBuffer::getSamplesCount();
+        constexpr uint32_t getSamplesCount();
 
         SoundBuffer();
         ~SoundBuffer();

@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool ql::SoundBuffer::create(uint32_t samples_a, uint16_t bps_a, uint32_t sample_rate_a, uint8_t channels_a) {
+bool ql::SoundBuffer::create(ql::uint32_t samples_a, ql::uint16_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
     destroy();
 
-    samples = (uint8_t*)malloc(samples_a*bps_a*channels_a);
+    samples = (ql::uint8_t*)malloc(samples_a*bps_a*channels_a);
     bytes_per_sample = bps_a;
     sample_rate = sample_rate_a;
     channels = channels_a;
@@ -28,8 +28,8 @@ bool ql::SoundBuffer::destroy() {
     return false;
 }
 
-bool ql::SoundBuffer::insert(uint8_t* bytes, uint32_t num, uint32_t pos) {
-    samples = (uint8_t*)realloc(samples,size+num);
+bool ql::SoundBuffer::insert(ql::uint8_t* bytes, ql::uint32_t num, ql::uint32_t pos) {
+    samples = (ql::uint8_t*)realloc(samples,size+num);
 
     memmove(samples+pos+num,samples+pos,size-pos);
     memcpy(samples+pos,bytes,num);
@@ -39,7 +39,7 @@ bool ql::SoundBuffer::insert(uint8_t* bytes, uint32_t num, uint32_t pos) {
     return true;
 }
 
-bool ql::SoundBuffer::insert(const ql::SoundBuffer& buff, uint32_t pos) {
+bool ql::SoundBuffer::insert(const ql::SoundBuffer& buff, ql::uint32_t pos) {
     if(buff.isLegit()) {
         insert(buff.samples,buff.size,pos);
     }
@@ -50,7 +50,7 @@ bool ql::SoundBuffer::isLegit() const {
     return samples;
 }
 
-bool ql::SoundBuffer::setSampleByte(uint8_t byte, uint32_t x) {
+bool ql::SoundBuffer::setSampleByte(ql::uint8_t byte, ql::uint32_t x) {
     if(isLegit()) {
         samples[x] = byte;
 
@@ -59,14 +59,14 @@ bool ql::SoundBuffer::setSampleByte(uint8_t byte, uint32_t x) {
     return false;
 }
 
-uint8_t* ql::SoundBuffer::getSampleByte(uint32_t x) const {
+ql::uint8_t* ql::SoundBuffer::getSampleByte(ql::uint32_t x) const {
     if(isLegit()) {
         return samples+x;
     }
     return NULL;
 }
 
-const uint8_t* ql::SoundBuffer::getSamplesPtr() const {
+const ql::uint8_t* ql::SoundBuffer::getSamplesPtr() const {
     return samples;
 }
 
@@ -74,7 +74,7 @@ bool ql::SoundBuffer::isDestroyable() const {
     return (flags & 1);
 }
 
-bool ql::SoundBuffer::setNonDestroyablePtr(uint8_t* ptr, uint32_t size, uint32_t bps_a, uint32_t sample_rate_a, uint8_t channels_a) {
+bool ql::SoundBuffer::setNonDestroyablePtr(ql::uint8_t* ptr, ql::uint32_t size, ql::uint32_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
     destroy();
     
     samples = ptr;
