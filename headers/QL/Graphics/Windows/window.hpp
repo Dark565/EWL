@@ -85,7 +85,7 @@ namespace ql {
             const std::string& name,        // window's name
             const ql::array2ui& size,       // window's size
             const ql::array2ui& position,   // window's position
-            const char flags = Style::all,   // windows manager flags
+            const char flags = Style::all,  // windows manager flags
             const Window* parent = NULL     // window's parent
         ) {create(name,size,position,flags,parent);}
 

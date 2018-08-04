@@ -41,9 +41,8 @@ namespace ql {
     static Pixel Red = {255,0,0};
     static Pixel Green = {0,255,0};
     static Pixel Blue = {0,0,255};
-    static Pixel Purple = {128,0,128};
-    static Pixel Alpha = {0,0,0,0};
-    static Pixel Yellow = {255,255,0,0};
+    static Pixel Purple = {255,0,255};
+    static Pixel Alpha = {0,0,0,255};
 
     typedef Pixel Color;
 }

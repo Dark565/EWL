@@ -25,7 +25,7 @@ Network_flags_shared:=
 
 ADDITIONAL_FLAGS:=
 
-ifeq (QL_TYPE,LINK)
+ifeq ($(QL_TYPE),LINK)
 	ADDITIONAL_FLAGS+=-DQL_LINK
 	Graphics_flags+=-lX11 -lXrandr
 endif
