@@ -27,14 +27,15 @@ namespace ql {
         };
 
         template <class T, class A>
-        struct ArgumentFunctor : EmptyFunctor<T> {
+        struct ArgumentFunctor : Functor {
+            T func;
             A arg;
 
             virtual void call() {
                 func(arg);
             }
 
-            ArgumentFunctor(T f, A& arg) : EmptyFunctor<T>(f) {}
+            ArgumentFunctor(T f, const A& a) : func(f), arg(a) {}
         };
 
         template <class C>
@@ -64,7 +65,7 @@ namespace ql {
         }
 
         template <class T, class A>
-        inline bool create(T f, A& a) {
+        inline bool create(T f, const A& a) {
             return make_functors(new ArgumentFunctor<T,A>(f,a));
         }
 
@@ -86,12 +87,13 @@ namespace ql {
         Functor* d_data;
         id_t p_data;
 
-        bool make_functors(ql::Thread::Functor*);
+        bool make_functors(Functor*);
         static void* doThread(void*);
 
 
     public:
 
+        ~Thread();
         Thread() : d_data(NULL), p_data(NULL) {}
 
     };

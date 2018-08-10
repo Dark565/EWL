@@ -36,3 +36,7 @@ bool ql::Thread::make_functors(ql::Thread::Functor* f) {
 
     return r;
 }
+
+ql::Thread::~Thread() {
+    destroy();
+}
