@@ -1,10 +1,9 @@
 #pragma once
 
-#include <QL/Graphics/Windows/window.hpp>
 #include <QL/Definitions/protocols.hpp>
 
-namespace priv  {
-
+namespace impl {
+    
 }
 
 #if defined(__QL_WINSERVER_XORG)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QL/System/Time/units.hpp>
+#include <QL/System/thread.hpp>
 #include <QL/Definitions/defs.hpp>
 
 #include <string>
@@ -9,8 +10,9 @@
 #include <csignal>
 
 namespace ql {
-    typedef int id_t;
     namespace platform {
+
+        typedef uint32_t id_t;
 
         const static id_t root_uid = 0;
 
@@ -50,7 +52,7 @@ namespace ql {
     namespace this_thread {
 
         /*Gets id of current thread*/
-        id_t getID();
+        Thread::id_t getID();
 
         /*Sleeps thread for taken microseconds*/
         void sleep(Time s_t);

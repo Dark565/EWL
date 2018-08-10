@@ -6,9 +6,9 @@
 #include <pwd.h>
 #include <pthread.h>
 
-ql::id_t ql::platform::runProgram(const std::string &path, const std::vector<std::string> &args)
+ql::platform::id_t ql::platform::runProgram(const std::string &path, const std::vector<std::string> &args)
 {
-    ql::id_t pid;
+    ql::platform::id_t pid;
     if (!(pid = fork()))
     {
         const char **str = (const char **)malloc(sizeof(const char *) * (args.size() + 1));
@@ -22,17 +22,17 @@ ql::id_t ql::platform::runProgram(const std::string &path, const std::vector<std
     return pid;
 }
 
-ql::id_t ql::platform::getCurrProcessPID()
+ql::platform::id_t ql::platform::getCurrProcessPID()
 {
     return getpid();
 }
 
-ql::id_t ql::platform::getCurrUserID()
+ql::platform::id_t ql::platform::getCurrUserID()
 {
     return getuid();
 }
 
-ql::id_t ql::platform::getUserID(const std::string &str)
+ql::platform::id_t ql::platform::getUserID(const std::string &str)
 {
     passwd *pw = getpwnam(str.c_str());
     int r = pw->pw_uid;
@@ -40,7 +40,7 @@ ql::id_t ql::platform::getUserID(const std::string &str)
     return r;
 }
 
-std::string ql::platform::getHomeDir(ql::id_t id)
+std::string ql::platform::getHomeDir(ql::platform::id_t id)
 {
     passwd *pw = getpwuid(id);
     std::string rets = pw->pw_dir;
@@ -57,7 +57,7 @@ std::string ql::platform::getProgramDir()
     return std::string(buf);
 }
 
-std::string ql::platform::getUsername(ql::id_t id)
+std::string ql::platform::getUsername(ql::platform::id_t id)
 {
     passwd *pw = getpwuid(id);
     std::string rets = pw->pw_name;
@@ -83,7 +83,7 @@ std::string ql::platform::getShell()
 }
 #endif
 
-ql::id_t ql::this_thread::getID()
+ql::Thread::id_t ql::this_thread::getID()
 {
     return pthread_self();
 }

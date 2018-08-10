@@ -17,7 +17,7 @@ Graphics_flags:=
 Audio_flags:=
 Network_flags:=
 
-System_flags_shared:=
+System_flags_shared:=-lpthread
 Formats_flags_shared:=
 Graphics_flags_shared=-lql-system -lql-formats
 Audio_flags_shared=-lql-system

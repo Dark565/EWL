@@ -41,7 +41,7 @@ uninstall:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
 
 uninstall_headers:
-	rm -rd $(INCLUDE_PATH)/QL/
+	rm -rd $(INSTALL_HEADERS_PREFIX)/QL/
 
 headers_output:
 	mkdir -p $(INSTALL_HEADERS_PREFIX)/QL/
