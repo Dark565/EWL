@@ -28,6 +28,9 @@ namespace ql {
         /*Gets process ID of current process*/
         id_t getCurrProcessPID();
 
+        /*Gets count of logical CPUs*/
+        uint32_t getCPUsCount();
+
         /*Gets directory of current program*/
         std::string getProgramDir();
 
@@ -40,13 +43,9 @@ namespace ql {
         /*Gets name of the host*/
         std::string getHostname();
 
-        /*Only unix, Windows users :P*/
-        #if defined __QL_UNIX
-
+        /*Gets shell*/
         std::string getShell();
-        
-        #endif
-
+    
     }
 
     namespace this_thread {

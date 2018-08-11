@@ -50,16 +50,16 @@ else
 	@$(foreach mod,$(modules),export QL_TYPE=$(QL_TYPE) && $(MAKE) -f modules.mk $(mod);)
 endif
 
-clean:
+clean_objects:
 	rm -rf $(sources)
 
 clean_modules:
 	rm -rf $(modules) $(MERGE)
 
-install: output
+install_modules: output
 	@$(foreach mod,$(modules) $(MERGE),install $(mod) $(INSTALL_PREFIX)/ 2>/dev/null)
 
-uninstall:
+uninstall_modules:
 	@$(foreach mod,$(modules) $(MERGE),rm -f $(INSTALL_PREFIX)/$(mod) 2>/dev/null)
 
 output:

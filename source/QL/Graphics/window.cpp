@@ -1,5 +1,3 @@
-#pragma once
-
 #include <QL/Definitions/protocols.hpp>
 
 namespace impl {

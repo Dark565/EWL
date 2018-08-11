@@ -25,20 +25,26 @@ all: build
 build:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@ 
 
-clean:
-	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
+clean: clean_modules clean_objects
 
 clean_modules:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
 
-install:
+clean_objects:
 	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
+
+install: install_modules install_headers
+
+install_modules:
+	@cd $(Src) && $(MAKE) -i -f $(Module_MK) $@
 
 install_headers: headers_output
 	cp -r $(INCLUDE_PATH)QL/ $(INSTALL_HEADERS_PREFIX)/
 
-uninstall:
-	@cd $(Src) && $(MAKE) -f $(Module_MK) $@
+uninstall: uninstall_modules uninstall_headers
+
+uninstall_modules:
+	@cd $(Src) && $(MAKE) -i -f $(Module_MK) $@
 
 uninstall_headers:
 	rm -rd $(INSTALL_HEADERS_PREFIX)/QL/
