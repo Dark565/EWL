@@ -14,16 +14,16 @@ namespace X11 {
     inline int _XCloseDisplay(Display*);
     inline Window _XCreateWindow 
                     (
-                        Display*,                   //X11 connection data pointer
-                        Window,                     //Parent
+                        Display*,                           //X11 connection data pointer
+                        Window,                             //Parent
                         ql::int32_t, ql::int32_t,           //x, y
                         ql::uint32_t, ql::uint32_t,         //width, height
-                        ql::uint32_t,                   //border width
-                        ql::int32_t,                    //depth
-                        ql::uint32_t,                   //class
-                        Visual*,                    //visual
-                        ql::uint32_t,                   //value mask
-                        XSetWindowAttributes*       //attributes
+                        ql::uint32_t,                       //border width
+                        ql::int32_t,                        //depth
+                        ql::uint32_t,                       //class
+                        Visual*,                            //visual
+                        ql::uint32_t,                       //value mask
+                        XSetWindowAttributes*               //attributes
                     );
     inline int _XStoreName(Display*, Window, char*);
     inline char* _XGetAtomName(Display*,Atom);

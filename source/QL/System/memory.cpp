@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-ql::size_t ql::memory::filterForRange(const void* in, void* out, ql::size_t ds, const ql::uint8_t* ranges, ql::size_t size) {
+ql::size_t ql::memory::filterByRange(const void* in, void* out, ql::size_t ds, const ql::uint8_t* ranges, ql::size_t size) {
 
     const   ql::uint8_t* b_in = (const ql::uint8_t*)in;
             ql::uint8_t* b_out = (ql::uint8_t*)out;

@@ -12,19 +12,23 @@ namespace X11 {
     typedef Window(*CreateWindow_p)(
         Display*,
         Window,
-        int32_t, int32_t,
-        uint32_t, uint32_t,
-        uint32_t,
-        int32_t,
-        uint32_t,
+        ql::int32_t, ql::int32_t,
+        ql::uint32_t, ql::uint32_t,
+        ql::uint32_t,
+        ql::int32_t,
+        ql::uint32_t,
         Visual*,
-        uint32_t,
+        ql::uint32_t,
         XSetWindowAttributes*
     );
     typedef int(*StoreName_p)(Display*, Window, char* window_name);
     typedef char*(*GetAtomName_p)(Display*,Atom);
     typedef int(*Free_p)(void*);
     typedef Window(*DefaultRootWindow_p)(Display*);
+
+    typedef Display Display;
+    typedef Window Window;
+    typedef Atom Atom;
 
 }
 

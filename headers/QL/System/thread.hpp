@@ -40,16 +40,33 @@ namespace ql {
 
         template <class C>
         struct ClassFunctor : Functor {
+
             typedef void(C::*method_t)(void);
 
-            C* class_c;
             method_t method;
+            C* class_c;
 
             virtual void call() {
                 (class_c->method)();
             }
 
             ClassFunctor(method_t f, C* p) : method(p), class_c(p) {}
+        };
+
+        template <class C, class A>
+        struct ArgumentClassFunctor : Functor {
+            typedef void(C::*method_t)(A);
+
+            method_t method;
+            A arg;
+            C* class_c;
+
+            virtual void call() {
+                (class_c->method)(arg);
+            }
+
+            ArgumentClassFunctor(method_t f, const A& a, C* p) : method(f), arg(a), class_c(p) {}
+
         };
 
     public:
@@ -72,6 +89,11 @@ namespace ql {
         template <class C>
         inline bool create(void(C::*f)(), C* p) {
             return make_functors(new ClassFunctor<C>(f,p));
+        }
+
+        template <class C, class A>
+        inline bool create(void(C::*f)(A), const A& a, C* p) {
+            return make_functors(new ArgumentClassFunctor<C,A>(f,a,p));
         }
 
         bool isLegit();

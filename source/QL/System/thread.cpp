@@ -31,7 +31,7 @@ bool ql::Thread::destroy() {
 }
 
 bool ql::Thread::make_functors(ql::Thread::Functor* f) {
-    bool r = create_c(doThread,(void*)f);
+    bool r = create_c(doThread,f);
     d_data = f;
 
     return r;

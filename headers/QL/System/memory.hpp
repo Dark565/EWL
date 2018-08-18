@@ -8,7 +8,7 @@ namespace ql {
     namespace memory {
 
         /* Exports bytes what are in the range */
-        size_t filterForRange(const void*, void*, size_t, const uint8_t*, size_t);
+        size_t filterByRange(const void*, void*, size_t, const uint8_t*, size_t);
 
     }
 }

@@ -36,6 +36,10 @@ ql::platform::id_t ql::platform::getUserID(const std::string &str)
     return r;
 }
 
+bool ql::platform::changeCurrentDir(const std::string& dir) {
+    return !chdir(dir.c_str());
+}
+
 std::string ql::platform::getHomeDir(ql::platform::id_t id)
 {
     passwd *pw = getpwuid(id);
@@ -44,7 +48,7 @@ std::string ql::platform::getHomeDir(ql::platform::id_t id)
     return rets;
 }
 
-std::string ql::platform::getProgramDir()
+std::string ql::platform::getCurrentDir()
 {
     char buf[1024];
     buf[0] = 0;

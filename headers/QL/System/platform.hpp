@@ -31,8 +31,11 @@ namespace ql {
         /*Gets count of logical CPUs*/
         uint32_t getCPUsCount();
 
-        /*Gets directory of current program*/
-        std::string getProgramDir();
+        /*Sets current working dir*/
+        bool changeCurrentDir(const std::string& dir);
+
+        /*Gets current working dir*/
+        std::string getCurrentDir();
 
         /*Gets home dir of user*/
         std::string getHomeDir(id_t id);

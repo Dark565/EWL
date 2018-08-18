@@ -37,15 +37,13 @@ std::string ql::cpu::getName() {
 
         ql::cpu::cpuid(ql::cpu::input::PROC_NAME_1+i,regs);
 
-        char filtered[16] = {0};
+        char filtered[sizeof regs] = {0};
 
-        filtered[ql::memory::filterForRange(regs,filtered,16,(const ql::uint8_t[2]){32,127},1)] = 0;
+        filtered[ql::memory::filterByRange(regs,filtered,sizeof regs,(const ql::uint8_t[2]){32,127},1)] = 0;
 
         name += filtered;
     }
 
     return name;
-
-
 
 }
