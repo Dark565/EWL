@@ -71,10 +71,6 @@ namespace ql {
 
         SoundBuffer();
         ~SoundBuffer();
-
-    protected:
-
-        void init();
         
     };
 }

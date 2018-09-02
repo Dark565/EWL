@@ -24,24 +24,40 @@ namespace ql {
     public:
 
         enum Channels {
-            C_R = 1,
-            C_G = 1 << 1,
-            C_B = 1 << 2,
-            C_A = 1 << 3,
-            C_RGB = C_R | C_G | C_B,
-            C_RGBA = C_R | C_G | C_B | C_A
+            C_R     =  1,
+            C_G     =  1 << 1,
+            C_B     =  1 << 2,
+            C_A     =  1 << 3,
+            C_RGB   = (1 << 3) - 1,
+            C_RGBA  = (1 << 4) - 1
 
         };
 
         enum Bytes {
-            B_RGB = 3,
-            B_RGBA = 4,
-            B_MAX_256 = 1
+            B_RGB       = 3,
+            B_RGBA      = 4,
+            B_MAX_256   = 1
+        };
+
+        enum Bits {
+            b_RGB   = B_RGB*8,
+            b_RGBA  = B_RGBA*8,
+            b_256   = B_MAX_256
         };
         
         /*Creates image filled with color*/
 
-        void create(uint32_t size_x, uint32_t size_y, const Pixel& col = Black, uint32_t bpp = Bytes::B_RGBA);
+        void create(uint32_t size_x, uint32_t size_y, uint32_t bpp = Bytes::B_RGBA);
+
+        /*Fills the pixmap with color*/
+
+        bool fill(const Pixel& col);
+
+        inline bool create(uint32_t size_x, uint32_t size_y, const Pixel& col, uint32_t bpp = Bytes::B_RGBA)
+        {
+            create(size_x,size_y,bpp);
+            return fill(col);
+        }
 
         /*Copies pixmap but only with channels in 'ch'*/
 
@@ -50,6 +66,10 @@ namespace ql {
         /*Copies pixmap with other bytes per pixel count*/
 
         Pixmap constructDecreased(uint32_t ch_count) const;
+
+        /*Changes bytes and resetting colors*/
+
+        Pixmap reconstructBySize(uint32_t bpp, uint32_t channels = B_RGB, int32_t max_bytes_to_set = -1, int32_t ch_oth = -1) const;
 
         /*Sets compressor*/
         /*If you don't wanna have any compressor set it to NULL*/
@@ -139,9 +159,9 @@ namespace ql {
 
         bool setPixelY(uint32_t y, const Pixel& col);
 
-        /*Gets careful pixel*/
+        /*Gets pixel safely*/
 
-        Pixel getPixelXCareful(uint32_t x) const;
+        Pixel getPixelXSafely(uint32_t x) const;
 
         /*Gets pixel color on axis x,y*/
 

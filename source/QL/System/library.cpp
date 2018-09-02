@@ -1,5 +1,5 @@
 #include <QL/System/library.hpp>
-#include <QL/Definitions/defs.hpp>
+#include <QL/Definitions/os.hpp>
 
 #include <string.h>
 

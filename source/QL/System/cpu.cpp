@@ -47,3 +47,16 @@ std::string ql::cpu::getName() {
     return name;
 
 }
+
+ql::uint32_t ql::cpu::surroundingCycles() {
+
+    
+    ql::uint32_t num;
+
+    asm volatile
+    #include "cpu.asm"
+
+    return num;
+
+
+}

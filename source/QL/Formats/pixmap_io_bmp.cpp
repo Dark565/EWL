@@ -10,11 +10,9 @@ bool ql::Pixmap::loadFromBMP(const char* path) {
         ql::bmp::Headers heads;
         ql::bmp::loadHeaders(f,&heads);
 
-        ql::Pixmap pix;
-        pix.create(heads.dib_header.width, heads.dib_header.height,ql::Black,3);
+        create(heads.dib_header.width, heads.dib_header.height,ql::Black,heads.dib_header.bits_per_pixel/8);
 
-        ql::bmp::readImage(f,&heads,(ql::uint8_t*)pix.pixels);
-        copy(pix,false);
+        ql::bmp::readImage(f,&heads,pixels);
 
         fclose(f);
 
@@ -28,12 +26,10 @@ bool ql::Pixmap::exportToBMP(const char* path) const {
     if(isLegit()) {
         FILE* f = fopen(path,"w");
         if(f) {
-            ql::Pixmap px2 = constructDecreased(3);
-
             ql::bmp::Headers heads;
-            ql::bmp::constructHeaders(&heads,size_x,size_y);
+            ql::bmp::constructHeaders(&heads,size_x,size_y,bytes_per_pixel);
 
-            ql::bmp::writeImage(f,&heads,(const ql::uint8_t*)px2.pixels);
+            ql::bmp::writeImage(f,&heads,pixels);
 
             fclose(f);
             return 1;

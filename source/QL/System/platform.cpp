@@ -1,5 +1,5 @@
 #include <QL/System/platform.hpp>
-#include <QL/Definitions/defs.hpp>
+#include <QL/Definitions/os.hpp>
 
 #if defined(__QL_OS_UNIX)
     #include "Platform/impl_unix.inl"

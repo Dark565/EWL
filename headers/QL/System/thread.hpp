@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QL/Definitions/NotCopyable.hpp>
+#include <QL/Definitions/Objects/NotCopyable.hpp>
 #include <QL/Definitions/int.hpp>
 
 #include <stddef.h>
@@ -13,6 +13,7 @@ namespace ql {
 
         struct Functor {
             virtual void call() {}
+            virtual ~Functor() {}
         };
 
         template <class T>

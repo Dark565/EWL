@@ -40,10 +40,10 @@ namespace ql {
 
             /*Imports the movie*/
 
-            bool loadFromMP4(const char* path) const;
-            bool loadFromMKV(const char* path) const;
-            bool loadFromWMV(const char* path) const;
-            bool loadFromGIF(const char* path) const;
+            bool loadFromMP4(const char* path);
+            bool loadFromMKV(const char* path);
+            bool loadFromWMV(const char* path);
+            bool loadFromGIF(const char* path);
 
             /*Sets compressor*/
 

@@ -13,12 +13,6 @@ namespace ql {
             BI_RLE4
         };
 
-        enum {
-            Magics = 2,
-            BMPs = 12,
-            DIBs = 40,
-            FILEs = Magics + BMPs + DIBs
-        };
 
         struct BMPMagic {
             char signature[2];
@@ -51,7 +45,14 @@ namespace ql {
             struct DIBHeader dib_header;
         } QL_ATR_PACKED;
 
-        void constructHeaders(struct Headers* heads, uint32_t width, uint32_t height);
+        enum {
+            Magics  = sizeof(BMPMagic),
+            BMPs    = sizeof(BMPHeader),
+            DIBs    = sizeof(DIBHeader),
+            FILEs   = Magics + BMPs + DIBs
+        };
+
+        void constructHeaders(struct Headers* heads, uint32_t width, uint32_t height, uint32_t bps);
         void loadHeaders(FILE* f, struct Headers* heads);
         void writeImage(FILE* f, struct Headers* heads, const uint8_t* pixels);
         void readImage(FILE* f, struct Headers* head, uint8_t* pixels);

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <QL/Definitions/NotCopyable.hpp>
-#include <QL/Definitions/defs.hpp>
+#include <QL/Definitions/Objects/NotCopyable.hpp>
+#include <QL/Definitions/os.hpp>
 
 #if defined(__QL_OS_UNIX)
     #include "library_unix.inl"

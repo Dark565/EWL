@@ -7,6 +7,12 @@
 namespace ql  {
     namespace cpu {
 
+        template <class T> inline T rdtsc() {
+            T ret;
+            asm volatile ("rdtsc" : "=a"(ret));
+            return ret;
+        }
+
         enum input {
             VENDOR      = 0x00000000,
             PROC_NAME_1 = 0x80000002,
@@ -23,6 +29,9 @@ namespace ql  {
 
         /* Gets processor model */
         std::string getName();
+
+        /* Gets cycles how many core is not in this program */
+        uint32_t surroundingCycles();
 
     }
 }

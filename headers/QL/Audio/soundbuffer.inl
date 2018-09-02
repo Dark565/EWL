@@ -22,7 +22,7 @@ inline bool ql::SoundBuffer::isGood() const {
 }
 
 constexpr ql::uint32_t ql::SoundBuffer::getSamplesCount() {
-    return size / channels / bytes_per_sample;
+    return size / bytes_per_sample;
 }
 
 constexpr ql::uint32_t ql::SoundBuffer::bytesPerSecond() {

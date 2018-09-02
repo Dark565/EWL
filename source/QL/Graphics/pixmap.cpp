@@ -14,19 +14,25 @@
 
 ////
 
-void ql::Pixmap::create(ql::uint32_t a_size_x, ql::uint32_t a_size_y, const Pixel& col, ql::uint32_t bps) {
+void ql::Pixmap::create(ql::uint32_t a_size_x, ql::uint32_t a_size_y, ql::uint32_t bps) {
     destroy();
     deletable = true;
 
-    pixels = (ql::uint8_t*)malloc(sizeof(ql::uint32_t)*a_size_x*a_size_y*bps);
+    pixels = (ql::uint8_t*)malloc(a_size_x*a_size_y*bps);
     size_x = a_size_x;
     size_y = a_size_y;
 
     bytes_per_pixel = bps;
-    
-    for(ql::uint32_t x = 0; x < a_size_x * a_size_y; x++) {
-        memcpy(&pixels[x*bps],&col,bps);
+}
+
+bool ql::Pixmap::fill(const ql::Pixel& col) {
+    if(isLegit()) {
+        for(uint32_t i = 0; i < getSize(); i++) {
+            memcpy(&getPixelX(i),&col,bytes_per_pixel);
+        }
+        return true;
     }
+    return false;
 }
 
 void ql::Pixmap::setCompressor(ql::Compressor* comp) {
@@ -56,7 +62,7 @@ ql::Pixmap ql::Pixmap::constructLesser(ql::uint64_t ch) const {
                 if(ql::maths::isBit(ch,i)) ch_sz++;
             }
             ql::uint32_t s = size_x * size_y * ch_sz;
-            px.create(size_x,size_y,ql::Black,ch_sz);
+            px.create(size_x,size_y,ch_sz);
 
             for(ql::uint32_t x = 0; x < size_x*size_y; x++) {
                 ql::Pixel px;
@@ -66,7 +72,7 @@ ql::Pixmap ql::Pixmap::constructLesser(ql::uint64_t ch) const {
                 ql::uint32_t curr_c = 0;
                 for(ql::uint32_t c = 0; c < ch_sz; c++) {
                     while(!ql::maths::isBit(ch,curr_c)) curr_c++;
-                    px_c_ptr[curr_c] = getPixelX(x).getAsCharPtr()[curr_c];
+                    px_c_ptr[curr_c] = getPixelX(x)[curr_c];
                 }
             }
 
@@ -81,15 +87,27 @@ ql::Pixmap ql::Pixmap::constructDecreased(ql::uint32_t ch_count) const {
     ql::Pixmap px;
 
     if(isLegit()) {
-        px.create(size_x, size_y, ql::Black, ch_count);
+        px.create(size_x, size_y, ch_count);
         for(ql::uint32_t x = 0; x < size_x * size_y; x++) {
-            px.setPixelX(x,getPixelXCareful(x));
+            px.setPixelX(x,getPixelXSafely(x));
         }
 
     }
     return px;
-
 }
+
+/*ql::Pixmap ql::Pixmap::reconstructBySize(ql::uint32_t bpp, ql::uint32_t channels, ql::int32_t max_bytes_to_set, ql::int32_t ch_otr) {
+    ql::Pixmap px;
+    if(isLegit()) {
+        uint32_t curr_bits_pp = bytes_per_pixel * 8, new_bits_pp = bpp * 8;
+
+        px.create(size_x,size_y,bpp);
+
+
+
+    }
+    return px;
+}*/
 
 bool ql::Pixmap::copy(const ql::Pixmap& from, bool COPY_BPP_VALUE) {
     if(from.isLegit()) {
@@ -114,7 +132,7 @@ bool ql::Pixmap::scale(ql::uint32_t n_x, ql::uint32_t n_y) {
     if(isLegit()) {
         if(n_x != size_x && n_x != size_y) {
             ql::Pixmap n_p;
-            n_p.create(n_x, n_y,ql::Black,bytes_per_pixel);
+            n_p.create(n_x, n_y, bytes_per_pixel);
 
             ql::float32_t px = (ql::float32_t)size_x / n_x;
             ql::float32_t py = (ql::float32_t)size_y / n_y;
@@ -165,7 +183,7 @@ bool ql::Pixmap::cut(ql::uint32_t from_x, ql::uint32_t from_y, ql::uint32_t to_x
 
     if(isLegit() && n_width >= 0 && n_height >= 0) {
         Pixmap n;
-        n.create(n_width, n_height,ql::Black, bytes_per_pixel);
+        n.create(n_width, n_height, bytes_per_pixel);
         for(ql::uint32_t x = 0; x < n_width; x++) {
             for(ql::uint32_t y = 0; y < n_height; y++) {
                 n.setPixelXY(x,y,getPixelXY(x+from_x,y+from_y));
@@ -199,7 +217,7 @@ bool ql::Pixmap::rotate(ql::float32_t rad, ql::Pixel emptyColor) {
         ql::uint32_t r_w = n_w - m_w, r_h = n_h - m_h;
 
         Pixmap n_p;
-        n_p.create(r_w, r_h, emptyColor, bytes_per_pixel);
+        n_p.create(r_w, r_h, bytes_per_pixel);
         for(ql::int32_t x = m_w; x < n_w; x++) {
             for(ql::int32_t y = m_h; y < n_h; y++) {
                 
@@ -285,7 +303,7 @@ bool ql::Pixmap::setPixelY(ql::uint32_t y, const ql::Pixel& col) {
     return setPixelX(index,col);
 }
 
-ql::Pixel ql::Pixmap::getPixelXCareful(ql::uint32_t x) const {
+ql::Pixel ql::Pixmap::getPixelXSafely(ql::uint32_t x) const {
     ql::Pixel px = {0,0,0,0};
     if(x < size_x * size_y) {
         memcpy(&px,&pixels[x*bytes_per_pixel],bytes_per_pixel);

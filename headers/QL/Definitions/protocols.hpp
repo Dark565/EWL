@@ -1,6 +1,6 @@
 #pragma once
 
-#include "defs.hpp"
+#include "os.hpp"
 
 #if defined(__QL_OS_UNIX) && !defined(__QL_OS_MACOS) && !defined(__QL_OS_ANDROID)
     #define __QL_WINSERVER_XORG

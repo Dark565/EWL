@@ -86,16 +86,11 @@ bool ql::SoundBuffer::setNonDestroyablePtr(ql::uint8_t* ptr, ql::uint32_t size, 
     flags |= 1;
 }
 
-void ql::SoundBuffer::init() {
+ql::SoundBuffer::SoundBuffer() {
     samples = NULL;
     size = 0;
     sample_rate = 0;
     bytes_per_sample = 0;
-
-}
-
-ql::SoundBuffer::SoundBuffer() {
-    init();
 }
 
 ql::SoundBuffer::~SoundBuffer() {
