@@ -1,7 +1,7 @@
-<img src = http://qerlib.ct8.pl/Assets/Qer.png>
-<h1> Dev 0.3 </h1>
+<img src = http://olekolek1000.pl/F/dark/small.png>
+<h1> <b>Qer Library</b> - Beta 0.3 </h1>
 <br>
-QL gives you complete API for creating apps integrated with operating system. <br>
+QL gives you API for creating apps integrated with operating system. <br>
 This gives you a possiblity to <b>create windows, manage audio, render images and much more.</b> 
 <h1>How to use QL</h1>
 <br>
