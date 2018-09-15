@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QL/Definitions/Objects/NotCopyable.hpp>
-#include <QL/Graphics/Windows/window.hpp>
 #include <QL/Definitions/protocols.hpp>
 #include "monitors.hpp"
 
