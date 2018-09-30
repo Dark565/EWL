@@ -17,7 +17,7 @@ namespace ql {
 
         enum Style {
             all       = (0),            //All these things are on their places
-            no_border = (1 << 0),       //Border goes out the window
+            no_border = (1 << 0),       //Border goes out of the window
             no_exit   = (1 << 1),       //Exit button similarly
             no_resize = (1 << 2),       //Resize button too
             no_fold   = (1 << 3),       //And lovely fold. What should we do with him? Fuck out
