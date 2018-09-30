@@ -14,7 +14,7 @@ namespace ql {
             return x[i];
         }
 
-        constexpr const T& operator[](uint32_t i) {
+        constexpr const T& operator[](uint32_t i) const {
             return x[i];
         }
     };
