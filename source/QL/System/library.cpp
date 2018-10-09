@@ -20,12 +20,7 @@ namespace impl {
 bool ql::Library::load(const std::string& p) {
     free();
 
-    if(l_p = impl::load(p.c_str())) {
-        return 1;
-    }
-    else {
-        return l_p = NULL;
-    }
+    return l_p = impl::load(p.c_str());
 }
 
 bool ql::Library::free() {

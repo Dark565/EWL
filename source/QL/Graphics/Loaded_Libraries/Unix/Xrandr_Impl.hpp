@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QL/Definitions/libs.hpp>
-#include "../../dynamic_lib.hpp"
+#include "QL-src/dynamic_lib.hpp"
 
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>

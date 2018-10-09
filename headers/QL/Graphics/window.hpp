@@ -16,12 +16,12 @@ namespace ql {
         public:
 
         enum Style {
-            all       = (0),            //All these things are on their places
+            all       = (1),            //All these things are on their places
             no_border = (1 << 0),       //Border goes out of the window
             no_exit   = (1 << 1),       //Exit button similarly
             no_resize = (1 << 2),       //Resize button too
-            no_fold   = (1 << 3),       //And lovely fold. What should we do with him? Fuck out
-            nothing   = (1 << 4) - 1    //All window's manager addons are bad and they should never exist, lol
+            no_fold   = (1 << 3),       //And lovely fold. What shall we do with him? Fuck out
+            nothing   = (1 << 4) - 1    //All window manager's addons are bad and they should never exist, lol
         };
 
         /* Function called on event */

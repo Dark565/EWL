@@ -2,8 +2,9 @@
 #include <X11/Xlib.h>
 
 #include <QL/Graphics/Display/monitors.hpp>
-#include "../Loaded_Libraries/Xrandr_Impl.hpp"
-#include "../Loaded_Libraries/X11_Impl.hpp"
+
+#include <QL-src/Graphics/Loaded_Libraries/Unix/Xrandr_Impl.hpp>
+#include <QL-src/Graphics/Loaded_Libraries/Unix/X11_Impl.hpp>
 
 #include <vector>
 
