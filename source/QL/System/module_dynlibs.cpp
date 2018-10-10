@@ -1,1 +1,1 @@
-#include <QL-src/Libraries/dynamic_lib.hpp>
+#include <QL-src/Libraries/dynamic_lib.inl>
