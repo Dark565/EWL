@@ -4,12 +4,6 @@
 
 #include <stddef.h>
 
-namespace impl {
-    inline bool join(ql::Thread::id_t);
-    inline bool detach(ql::Thread::id_t);
-    inline bool kill(ql::Thread::id_t);
-}
-
 #if defined(__QL_OS_UNIX)
     #include "Thread/impl_unix.inl"
 #elif defined(__QL_OS_WINDOWS)
@@ -45,7 +39,7 @@ bool ql::Thread::make_functors(ql::Thread::Functor* f) {
 
 bool ql::Thread::join() {
     if(isLegit()) {
-        bool r = impl::join(p_data);
+        bool r = _THREAD_join(p_data);
         destroy();
         return r;
     }
@@ -54,14 +48,14 @@ bool ql::Thread::join() {
 
 bool ql::Thread::detach() {
     if(isLegit()) {
-        return impl::detach(p_data);
+        return _THREAD_detach(p_data);
     }
     return false;
 }
 
 bool ql::Thread::kill() {
     if(isLegit()) {
-        return impl::detach(p_data);
+        return _THREAD_kill(p_data);
     }
     return false;
 }

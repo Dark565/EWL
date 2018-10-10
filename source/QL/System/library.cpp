@@ -3,12 +3,6 @@
 
 #include <string.h>
 
-namespace impl {
-    inline void* load(const char*);
-    inline void free(void*);
-    inline void* getFunc(void*,const char*);
-}
-
 #if defined(__QL_OS_UNIX)
     #include "Library/impl_unix.inl"
 #elif defined(__QL_OS_WIN32)
@@ -20,12 +14,12 @@ namespace impl {
 bool ql::Library::load(const std::string& p) {
     free();
 
-    return l_p = impl::load(p.c_str());
+    return l_p = _LIBRARY_load(p.c_str());
 }
 
 bool ql::Library::free() {
     if(isLegit()) {
-        impl::free(l_p);
+        _LIBRARY_free(l_p);
         l_p = NULL;
     }
 }
@@ -36,7 +30,7 @@ bool ql::Library::isLegit() {
 
 void* ql::Library::loadFunction(const std::string& p) {
     if(isLegit()) {
-        return impl::getFunc(l_p,p.c_str());
+        return _LIBRARY_getFunc(l_p,p.c_str());
     }
     return NULL;
 }

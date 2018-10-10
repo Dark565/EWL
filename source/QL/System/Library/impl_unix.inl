@@ -1,13 +1,10 @@
 #include <dlfcn.h>
 
-inline void* impl::load(const char* p) {
-    return dlopen(p,RTLD_LAZY);
-}
+#define _LIBRARY_load(p) \
+    dlopen(p,RTLD_LAZY)
 
-inline void impl::free(void* t) {
-    dlclose(t);
-}
+#define _LIBRARY_free(t) \
+    dlclose(t)
 
-inline void* impl::getFunc(void* t, const char* p) {
-    return dlsym(t,p);
-}
+#define _LIBRARY_getFunc(t,p) \
+    dlsym(t,p)
