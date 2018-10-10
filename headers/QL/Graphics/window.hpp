@@ -5,7 +5,6 @@
 
 #include <QL/Definitions/Objects/type_arrays.hpp>
 #include <QL/Graphics/pixmap.hpp>
-#include "event.hpp"
 
 namespace ql {
 
@@ -26,9 +25,9 @@ namespace ql {
 
         /* Function called on event */
 
-        virtual void onEvent(ql::Event) {}
+        //virtual void onEvent(ql::Event) {}
         
-        bool popEvent(ql::Event&);
+        //bool popEvent(ql::Event&);
 
         /* Creates a window */
 

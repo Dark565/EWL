@@ -2,7 +2,6 @@
 
 #include <QL/System/Time/units.hpp>
 #include <QL/System/thread.hpp>
-#include <QL/Definitions/defs.hpp>
 
 #include <string>
 #include <QL/Definitions/int.hpp>
