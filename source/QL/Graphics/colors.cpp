@@ -6,7 +6,7 @@
 void ql::Pixel::alpha_compose(ql::Pixel what) {
     what.alpha = 255 - what.alpha;
     ql::float32_t d = (ql::float32_t)what.alpha / 255;
-    
+
     what.r -= (d*what.r);
     what.g -= (d*what.g);
     what.b -= (d*what.b);

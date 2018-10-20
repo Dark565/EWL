@@ -2,14 +2,17 @@
 
 ql::Time& ql::Time::operator=(const ql::Time::us& a) {
     t = a.t * 1000;
+    return *this;
 }
 
 ql::Time& ql::Time::operator=(const ql::Time::ms& a) {
     t = a.t * 1000000;
+    return *this;
 }
 
 ql::Time& ql::Time::operator=(const ql::Time::sec& a) {
     t = a.t * 1000000000;
+    return *this;
 }
 
 ql::Time::us ql::Time::getUS() {

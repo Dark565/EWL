@@ -21,7 +21,9 @@ bool ql::Library::free() {
     if(isLegit()) {
         _LIBRARY_free(l_p);
         l_p = NULL;
+        return true;
     }
+    return false;
 }
 
 bool ql::Library::isLegit() {

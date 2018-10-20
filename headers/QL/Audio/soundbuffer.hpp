@@ -18,7 +18,7 @@ namespace ql {
 
         /* Allocates memory for the buffer */
 
-        bool create(uint32_t samples_a, uint16_t bps_a, uint32_t sample_rate_a, uint8_t channels_a);
+        void create(uint32_t samples_a, uint16_t bps_a, uint32_t sample_rate_a, uint8_t channels_a);
 
         /* Removes the buffer */
 
@@ -59,7 +59,7 @@ namespace ql {
 
         bool isDestroyable() const;
 
-        bool setNonDestroyablePtr(uint8_t* ptr_a, uint32_t size_a, uint32_t bps_a, uint32_t sample_rate_a, uint8_t channels_a);
+        void setNonDestroyablePtr(uint8_t* ptr_a, uint32_t size_a, uint32_t bps_a, uint32_t sample_rate_a, uint8_t channels_a);
 
         /* Gets buffer bytes per second */
 

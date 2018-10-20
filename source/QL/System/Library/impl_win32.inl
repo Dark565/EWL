@@ -1,13 +1,11 @@
-#include <winapi.h>
+#include <windows.h>
 
-inline void* impl::load(const char* p) {
-    return (void*)LoadLibrary(p);
+#define _LIBRARY_load(p)\
+    (void*)LoadLibrary(p)
+
+#define _LIBRARY_free(t)\
+    FreeLibrary((HMODULE)t)
 }
 
-inline void impl::free(void* t) {
-    FreeLibrary((HMODULE)t);
-}
-
-inline void* impl::getFunc(void* t, const char* p) {
-    return GetProcAddress((HMODULE)t,p);
-}
+#define _LIBRARY_getFunc(t,p)\
+    GetProcAddress((HMODULE)t,p)

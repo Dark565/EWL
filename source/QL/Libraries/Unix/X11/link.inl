@@ -1,38 +1,26 @@
-#define _X11_OpenDisplay(s) \
-    XOpenDisplay(s)
+#define _X11_OpenDisplay\
+    XOpenDisplay
 
-#define _X11_CloseDisplay(d) \
-    XCloseDisplay(d)
+#define _X11_CloseDisplay\
+    XCloseDisplay
 
-#define _X11_CreateWindow(dsp,parent,x,y,width,height,border_width,depth,c_class,visual,valuemask,attributes) \
-    XCreateWindow\
-            (\
-                dsp,\
-                parent,\
-                x,y,\
-                width, height,\
-                border_width,\
-                depth,\
-                c_class,\
-                visual,\
-                valuemask,\
-                attributes\
-            )
+#define _X11_CreateWindow\
+    XCreateWindow
 
-#define _X11_StoreName(dsp,wnd,n)\
-    XStoreName(dsp,wnd,n)
+#define _X11_StoreName\
+    XStoreName
 
-#define _X11_GetAtomName(dsp,a)\
-    XGetAtomName(dsp,a)
+#define _X11_GetAtomName\
+    XGetAtomName
 
-#define _X11_Free(d)\
-    XFree(d)
+#define _X11_Free\
+    XFree
 
-#define _X11_DefaultRootWindow(d)\
-    XDefaultRootWindow(d)
+#define _X11_DefaultRootWindow\
+    XDefaultRootWindow
 
-#define _X11_lib_load()\
+#define _X11_lib_load( )\
     1
 
-#define _X11_lib_unload()\
+#define _X11_lib_unload( )\
     1

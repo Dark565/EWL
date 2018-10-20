@@ -34,7 +34,7 @@ namespace X11 {
 
 namespace Xrandr {
 
-    typedef XRRMonitorInfo*(*_XRRGetMonitors_p)(Display*,Window,bool,int*);
-    typedef void(*_XRRFreeMonitors_p)(XRRMonitorInfo*);
+    typedef XRRMonitorInfo*(*XRRGetMonitors_p)(Display*,Window,bool,int*);
+    typedef void(*XRRFreeMonitors_p)(XRRMonitorInfo*);
 
 }

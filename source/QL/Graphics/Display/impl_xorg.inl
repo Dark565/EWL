@@ -3,8 +3,8 @@
 
 #include <QL/Graphics/Display/monitors.hpp>
 
-#include <QL-src/Libraries/Unix/Xrandr_Impl.hpp>
-#include <QL-src/Libraries/Unix/X11_Impl.hpp>
+#include <QL-src/Libraries/Unix/Xrandr.hpp>
+#include <QL-src/Libraries/Unix/X11.hpp>
 
 #include <vector>
 
@@ -37,7 +37,7 @@ bool ql::Display::open(const char* name) {
 }
 
 bool ql::Display::isOpen() {
-    return (Xdsp != NULL);
+    return Xdsp != NULL;
 }
 
 int ql::Display::getMonitorCount() {
@@ -88,7 +88,9 @@ bool ql::Display::close() {
     if(isOpen()) {
         _X11_CloseDisplay(Xdsp);
         Xdsp = NULL;
+        return true;
     }
+    return false;
 }
 
 bool ql::Display::init() {

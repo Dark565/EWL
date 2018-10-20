@@ -5,6 +5,10 @@
 #include <QL/Definitions/int.hpp>
 
 #if defined(__QL_WINSERVER_XORG)
+
+    #include <QL-src/Libraries/Unix/X11-impl.inl>
+    #include <QL-src/Libraries/Unix/Xrandr-impl.inl>
+
     #include "Display/impl_xorg.inl"
 #elif defined(__QL_WINSERVER_WINAPI)
     #include "Display/impl_win32.inl"

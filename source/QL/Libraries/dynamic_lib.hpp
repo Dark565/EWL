@@ -1,22 +1,39 @@
 #pragma once
 
 #include <string>
-#include <map>
 #include <QL/System/library.hpp>
 
 namespace ql {
     namespace native {
 
-        enum tags {
+         enum tags {
             X11,
-            Xrandr
+            Xrandr,
+
+            count
         };
+
+        struct libraryData {
+            void* data;
+            ql::Library object;
+        };
+
+        struct librariesStore {
+            libraryData library[tags::count]; 
+        };
+
+        int zeroFunc();
         
-        std::map<int,ql::Library>* getLibraryHash();
+        librariesStore* getLibrariesStore();
+
+        inline libraryData* getLibraryData(int i)
+        {
+            return &getLibrariesStore()->library[i];
+        }
 
         inline void* loadFunc(int i, const std::string& s)
         {
-            return getLibraryHash()->at(i).loadFunction(s);
+            return getLibraryData(i)->object.loadFunction(s);
         }
         
         template <class T>
@@ -27,7 +44,7 @@ namespace ql {
 
         inline ql::Library& getLibrary(int i)
         {
-            return (*getLibraryHash())[i];
+            return getLibraryData(i)->object;
         }
 
         inline bool loadLibrary(int i, const std::string& s)
@@ -41,7 +58,8 @@ namespace ql {
 
         inline bool unloadLibrary(int i)
         {
-            return getLibraryHash()->erase(i);
+            ql::Library& lib = getLibrary(i);
+            return lib.free();
         }
     }
 }

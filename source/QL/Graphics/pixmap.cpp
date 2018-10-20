@@ -11,7 +11,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-
 ////
 
 void ql::Pixmap::create(ql::uint32_t a_size_x, ql::uint32_t a_size_y, ql::uint32_t bps) {
@@ -35,10 +34,10 @@ bool ql::Pixmap::fill(const ql::Pixel& col) {
     return false;
 }
 
-void ql::Pixmap::setCompressor(ql::Compressor* comp) {
+/*void ql::Pixmap::setCompressor(ql::Compressor* comp) {
     if(compressor != NULL) delete compressor;
     compressor = comp;
-}
+}*/
 
 bool ql::Pixmap::destroy() {
     if(pixels && deletable) {
@@ -328,7 +327,7 @@ ql::Pixel& ql::Pixmap::getPixelXY(ql::uint32_t x, ql::uint32_t y) const {
     return getPixelX(index);
 }
 
-bool ql::Pixmap::drawCircle(ql::float32_t radius, int sensitivity, int middle_x, int middle_y, const Pixel& col) {
+void ql::Pixmap::drawCircle(ql::float32_t radius, int sensitivity, int middle_x, int middle_y, const Pixel& col) {
     for(int i = 0; i < sensitivity; i++) {
         for(int ang_x = 0; ang_x < 360; ang_x++) {
             int x = middle_x + cos(ang_x * (M_PI/180)) * (radius+i);
@@ -370,8 +369,8 @@ ql::Pixmap& ql::Pixmap::operator=(const ql::Pixmap& pix) {
 void ql::Pixmap::init() {
     pixels = NULL;
     deletable = false;
-    compressor = NULL;
-    compressed = NULL;
+    /*compressor = NULL;
+    compressed = NULL;*/
     bytes_per_pixel = 4;
 }
 

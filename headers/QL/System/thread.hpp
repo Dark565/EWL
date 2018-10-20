@@ -117,7 +117,7 @@ namespace ql {
     public:
 
         ~Thread();
-        Thread() : d_data(NULL), p_data(NULL) {}
+        Thread() : d_data(NULL), p_data(0) {}
 
     };
 

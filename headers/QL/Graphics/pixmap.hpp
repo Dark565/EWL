@@ -3,7 +3,6 @@
 #include <string>
 
 #include <QL/Graphics/colors.hpp>
-#include <QL/System/Compression/compressors.hpp>
 #include <QL/Definitions/Objects/array.hpp>
 #include <QL/Definitions/int.hpp>
 
@@ -14,11 +13,11 @@ namespace ql {
         uint32_t bytes_per_pixel;
         bool deletable;
 
-        bool compressed;
+        /*bool compressed;*/
 
         /*Data compressor*/
 
-        Compressor* compressor;
+        /*Compressor* compressor;*/
 
 
     public:
@@ -74,11 +73,11 @@ namespace ql {
         /*Sets compressor*/
         /*If you don't wanna have any compressor set it to NULL*/
 
-        void setCompressor(Compressor* comp);
+        /*void setCompressor(Compressor* comp);*/
 
         /*Gets compressor*/
 
-        Compressor* getCompressor() const;
+        /*Compressor* getCompressor() const;*/
 
         /*Compress the image with set compressor or not if compressor is NULL or image is already compressed*/
 
@@ -191,7 +190,7 @@ namespace ql {
 
         /*Draws a circle*/
 
-        bool drawCircle(float32_t radius, int sensitivity, int middle_x, int middle_y, const Pixel& col);
+        void drawCircle(float32_t radius, int sensitivity, int middle_x, int middle_y, const Pixel& col);
 
         /*Sets a new pixels pointer as non-deletable
         /Removes existing image*/

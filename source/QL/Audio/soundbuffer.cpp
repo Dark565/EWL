@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool ql::SoundBuffer::create(ql::uint32_t samples_a, ql::uint16_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
+void ql::SoundBuffer::create(ql::uint32_t samples_a, ql::uint16_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
     destroy();
 
     samples = (ql::uint8_t*)malloc(samples_a*bps_a*channels_a);
@@ -74,7 +74,7 @@ bool ql::SoundBuffer::isDestroyable() const {
     return (flags & 1);
 }
 
-bool ql::SoundBuffer::setNonDestroyablePtr(ql::uint8_t* ptr, ql::uint32_t size, ql::uint32_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
+void ql::SoundBuffer::setNonDestroyablePtr(ql::uint8_t* ptr, ql::uint32_t size, ql::uint32_t bps_a, ql::uint32_t sample_rate_a, ql::uint8_t channels_a) {
     destroy();
     
     samples = ptr;
