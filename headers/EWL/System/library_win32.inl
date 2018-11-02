@@ -1,0 +1,1 @@
+#define __EWL_LIBRARY_SUFFIX ".dll"

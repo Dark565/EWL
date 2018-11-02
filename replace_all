@@ -1,0 +1,101 @@
+#!/bin/sh
+
+# Script replaces the word in all the files
+
+FLAG_DIR=-d
+FLAG_FIL=-f
+FLAG_WRD=-w
+FLAG_RE0=-r0
+FLAG_RE1=-r1
+FLAG_PNT=-p
+
+REC=1
+
+proc_dir() {
+
+	if [ -d "$1" ]; then
+		
+		if [[ ${REC} == 1 ]]; then
+			FILES="${FILES} $(find "$1/." -type f)"
+		else
+
+			local FND_FILES="$(ls -A -p "$1" | grep -v /)"
+				
+			if [[ ${FND_FILES} != "" ]]; then
+				for i in ${FND_FILES}; do
+					FILES="${FILES} $1/$i"
+				done
+			fi
+		fi
+		return 0
+
+	fi
+	return 1
+}
+
+proc_file() {
+	if [ -f $1 ]; then
+		FILES=${FILES}$1
+		return 0
+	fi
+	return 1
+}
+
+proc_targets() {
+	local TARGETS_ARRAY_C=${#TARGETS[@]}
+	TARGETS[${TARGETS_ARRAY_C}]=$1
+}
+
+safe_print() {
+	if [ ! -z ${PRNT} ]; then
+		printf "$1"
+		return 0
+	fi
+	return 1
+}
+
+CURR_FUNC=proc_targets
+for i in $@; do
+	case ${i} in
+	${FLAG_DIR} )
+		CURR_FUNC=proc_dir
+		;;
+	${FLAG_FIL} )
+		CURR_FUNC=proc_file
+		;;
+	${FLAG_WRD} )
+		CURR_FUNC=proc_targets
+		;;
+	${FLAG_RE0} )
+		REC=0
+		;;
+	${FLAG_RE1} )
+		REC=1
+		;;
+	${FLAG_PNT} )
+		PRNT=1
+		;;
+	* )
+		${CURR_FUNC} ${i}
+		;;
+	esac
+done
+
+if [ -z ${TARGETS[0]} ]; then
+	printf "You have to specify the old word\n" >&2
+	exit 1
+fi
+
+if [ -z ${TARGETS[1]} ]; then
+	printf "You have to specify the new word\n" >&2
+	exit 1
+fi
+
+safe_print "Files: ${FILES}\n\n"
+
+safe_print "${TARGETS[0]}\n"
+
+for i in ${FILES}; do
+	safe_print "Current file: $i\n"
+	sed -i "s/${TARGETS[0]}/${TARGETS[1]}/g" $i
+done
