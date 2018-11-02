@@ -1,7 +1,7 @@
 # EverWord Library
 
 ## EWL is an another answer to SDL or SFML for a fast and easy multimedia library.
-The library has four different submodules compilled to another shared objects:
+#### The library has four different submodules compilled to another shared objects:
 
 
 - **System**
@@ -25,9 +25,14 @@ The library has four different submodules compilled to another shared objects:
 
 ## How to play with it
 
-The first you have to do is configure build data.
-Run your terminal emulator. Then give the execute permissions for `autogen.sh` and run it.
-It should create `.config` file for you. It has some configuration settings you can change.
-If you finish this, you can create Makefile. To do it, run `./configure` or `autogen.sh` second time.
-Finally you can compile project by typing `make -j <threads count>` and install it by `sudo make install`.
-Done. You compilled the library. Good job :)
+#### To compile the library you have to make a few steps
+
+- Prepare the build configuration. Give the execute permissions for `autogen.sh` and run it. This will create a `.config` file for you, when you can choose some config sets in.
+
+- Generate `Makefile`. Write `./autogen.sh` the second time.
+
+- Build the library. Type `make -j <threads count>`
+
+- And finally install it via `sudo make install`
+
+- Done. Be enjoy with the word, which hasn't got a beginning :)
