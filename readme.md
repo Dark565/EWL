@@ -4,19 +4,19 @@
 The library has four different submodules compilled to another shared objects:
 
 
--<b>System</b>
-<p>Offers basic core functions like managing with threads, playing with the time or getting CPU informations;
+- <b>System</b>
+<br>Offers basic core functions like managing with threads, playing with the time or getting CPU informations;
 
--<b>Graphics</b>
-<p>Visual fragments. Creating windows, manipulating with pixmaps and image rendering;
+- <b>Graphics</b>
+<br>Visual fragments. Creating windows, manipulating with pixmaps and image rendering;
 
--<b>Audio</b>
-<p>Part for audio guys who wanna drown out the silence. Gives audio buffers, abbility of playing and registering sounds and simple audio effects;
+- <b>Audio</b>
+<br>Part for audio guys who wanna drown out the silence. Gives audio buffers, abbility of playing and registering sounds and simple audio effects;
 
--<b>Formats</b>
-<p>Library's IO manager and native converter. It takes the seal for importing/exporting media. Required by Graphics and Audio.
+- <b>Formats</b>
+<br>Library's IO manager and native converter. It takes the seal for importing/exporting media. Required by Graphics and Audio.
 
-<h1> How to play with it </h1>
+<h2> How to play with it </h2>
 
 The first you have to do is configure build data.
 Run your terminal emulator. Then give the execute permissions for `autogen.sh` and run it.
