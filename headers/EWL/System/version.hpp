@@ -1,8 +1,8 @@
 #pragma once
 
 #define QL_VERSION "Dev 0.3"
-#define QL_NAME "Qer Library"
-#define QL_RELEASE "Qer Library 0.3 07.2018"
+#define QL_NAME "EWL"
+#define QL_RELEASE "EWL 0.3 07.2018"
 
 namespace ewl {
 

@@ -9,7 +9,7 @@
 #elif defined(__EWL_OS_WIN32)
     #include "library_win32.inl"
 #else
-    #error Your target system is not supported by Qer Library
+    #error Your target system is not supported by EWL
 #endif
 
 namespace ewl {

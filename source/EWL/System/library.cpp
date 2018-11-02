@@ -8,7 +8,7 @@
 #elif defined(__EWL_OS_WIN32)
     #include "Library/impl_win32.inl"
 #else
-    #error Your target system is not supported by Qer Library
+    #error Your target system is not supported by EWL
 #endif
 
 bool ewl::Library::load(const std::string& p) {
