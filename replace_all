@@ -14,6 +14,8 @@ REC=1
 
 proc_dir() {
 
+	local i
+
 	if [ -d "$1" ]; then
 		
 		if [[ ${REC} != 1 ]]; then local DEPTH_FLAGS="-maxdepth 1"; fi
@@ -21,8 +23,8 @@ proc_dir() {
 		if [ -z "${SUFFIX[0]}" ]; then
 			FILES="${FILES}$(find "$1" ${DEPTH_FLAGS} -type f -name "*") "
 		else
-			for j in "${SUFFIX[@]}"; do
-				FILES="${FILES}$(find "$1" ${DEPTH_FLAGS} -type f -name "${j}") "
+			for i in "${SUFFIX[@]}"; do
+				FILES="${FILES}$(find "$1" ${DEPTH_FLAGS} -type f -name "${i}") "
 			done
 		fi
 		
@@ -108,5 +110,7 @@ for i in ${FILES}; do
 	safe_print "\nCurrent file: $i"
 	sed -i "s/${TARGETS[0]}/${TARGETS[1]}/g" $i
 done
+
+safe_print "\n"
 
 exit 0

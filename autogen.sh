@@ -12,12 +12,49 @@ shopt -s expand_aliases
 
 CONFIG_BEGINNING_HINT=\
 "\
-#######################\n\
-## EWL CONFIGURATION ##\n\
-#######################\n\
-#\n\
-# Leave the variable empty or set it to 'auto' to determine its value automatically\n\
-\n\
+#######################
+## EWL CONFIGURATION ##
+#######################
+#
+# Leave the variable empty or set it to 'auto' to determine its value automatically
+"
+
+HINT_TARGET=\
+"\
+# Define an output platform:
+#	> linux
+#	> win32
+#	> macos
+#	> android
+"
+
+HINT_ARCH=\
+"\
+# Define a bit architecture:
+#	> 32
+#	> 64
+"
+
+HINT_LIBFORMAT=\
+"\
+# Define shared objects' compiling method:
+#	> separate
+#	> merge
+"
+
+HINT_GLOBLOAD=\
+"\
+# Define how to link submodules' libraries:
+#	> manual
+#	> link
+#	> load
+"
+
+HINT_FLIBOGG=\
+"\
+# Define libraries linking method for each submodule in the case when 'manual' for CONFIG_GLOBAL_LOAD was choosen
+#	> link
+#	> load
 "
 
 CONFIG_LABELS=(\
@@ -35,35 +72,22 @@ CONFIG_FORMS_LIBOGG_LOAD \
 
 CONFIG_HINTS=(\
 \
-"#=> (win32, unix, macos, android) <=#" \
-"#=> (i386, amd64, arm, aarm64) <=#" \
-\
-"\n\
-# Method for placing library's shared object\n\
-#\n\
-# separated => An object for each module\n\
-# merged => Instead of the above, merge all objects into one common\n\
-\n\
-#=> (separated, merged) <=#" \
-\
-"\n\
-# Method for linking dynamic libraries for each module\n\
-\n\
-#=> (link, load, manual) <=#" \
-\
-"\n\
-# Below there are configuration labels valid in the reason when 'CONFIG_GLOBAL_LOAD=manual' was chosen\n\
-\n\
-#=> (link, load) <=#" \
-"" \
-"#" \
+HINT_TARGET \
+HINT_ARCH \
+HINT_LIBFORMAT \
+HINT_GLOBLOAD \
+HINT_UGLIBX11 \
+HINT_UGLIBXRANDR \
+HINT_FLIBTIFF \
+HINT_FLIBPNG \
+HINT_FLIBOGG \
 )
 
 CONFIG_DEF_VALS=(\
 \
 auto \
 auto \
-separated \
+separate \
 manual \
 link \
 link \
@@ -79,21 +103,34 @@ config_file=.config
 
 ### Functions ###
 
-function GenerateConfig() {
 
-	if [ -f "${config_file}" ]; then
-		rm "${config_file}"
+function writeTab() { #arg: tab file opt
+
+	eval tab=( '${'$1'[@]}' )
+	local i
+
+	if [[ ${#tab[@]} != 0 ]] && [[ "$2" != "" ]]; then
+
+		if [[ "$3" != "" ]]; then printf "$3" >>"$2"; fi
+
+		for i in ${tab[@]}; do
+			printf "$i\n" >>"$2"
+		done
+
+		return 0
+
 	fi
 
-	printf "${CONFIG_BEGINNING_HINT}" >> "${config_file}"
+	return 1
 
+}
+
+function GenerateConfig() {
+
+	printf "${CONFIG_BEGINNING_HINT}" >${config_file}
 
 	for i in ${!CONFIG_LABELS[@]}
 	do
-
-		if [[ "${CONFIG_HINTS[i]}" != "" ]]; then
-			printf "\n${CONFIG_HINTS[i]}" >> "${config_file}"
-		fi
 	
 		local curr_l=${CONFIG_LABELS[i]}	
 
@@ -104,7 +141,15 @@ function GenerateConfig() {
 			eval ${curr_l}=${set_val}
 		fi
 
-		printf "\n${CONFIG_LABELS[i]}=${set_val}" >> "${config_file}"
+		printf "\n${CONFIG_LABELS[i]}=${set_val}" >>"${config_file}"
+
+		if [[ ${CONFIG_HINTS[i]} != "" ]]; then
+			local hnt_text="${!CONFIG_HINTS[i]}"
+
+			if [[ "${hnt_text}" != "" ]]; then
+				printf "\n${hnt_text}" >>${config_file}
+			fi
+		fi
 
 	done
 
