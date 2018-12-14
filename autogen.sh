@@ -242,9 +242,9 @@ tryInstall() { #args: dependence_name
 			"y" | "yes" )
 				if sudo apt install -y "$1"
 				then
-					printf "\nSuccess!\n"
+					printf "\nSuccess!\n\n"
 				else
-					printf "\nFailed!\n"
+					printf "\nFailed!\n\n"
 				fi
 				;;
 		esac
@@ -261,27 +261,32 @@ warningDependence() { #args: dependence_name
 	printf \
 "${YELLOW}Warning!${NOCOLOR}
 ${RED}'$1'${NOCOLOR} - a program necessary to build the project, not found
-You can try to install it from a repository writing eg. \`sudo apt install \"$1\"\`.\n\n"
+You can try to install this from a repository by writing eg. \`sudo apt install \"$1\"\`.\n\n"
 
+	
 	tryInstall "$1"
 
 	return 0
 }
 
-reportDependence() { #args: program_name
-	if ! findProgram "$1" "$PATH"; then
-		warningDependence "$1"
-		return 1
-	fi
-	return 0
+reportDependences() { #args: program_name ...
+	local err=0
+	local i
+	for i in $(seq 1 $#); do
+		if ! findProgram "${!i}" "$PATH"; then
+			warningDependence "${!i}"
+			err=1
+		fi
+	done
+	return ${err}
 }
 
 checkDependences() {
 
-	if \
-		reportDependence "make" && \
-		reportDependence "gcc" && \
-		reportDependence "g++"
+	if reportDependences \
+		"make" \
+		"gcc" \
+		"g++"
 	then
 		return 0
 	fi
