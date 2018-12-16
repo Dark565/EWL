@@ -121,6 +121,10 @@ load \
 load \
 )
 
+CONFIG_PROCEDURE=\
+\
+CONFIG_MK_PROC
+
 ### Functions ###
 
 #Find program in directories specified by variable in PATH format
@@ -207,14 +211,26 @@ LoadFixedConf() {
 	return 0
 }
 
+
+YELLOW="\033[1;33m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+NOCOLOR="\033[0m"
+
+
 CONF_SAVED=""
 APT_EXISTS=""
+PRECOMMAND=""
 
 tryInstall() { #args: dependence_name
 
 	if ! test -z "${APT_EXISTS}" || findProgram "apt" "$PATH"; then
 
 		APT_EXISTS=1
+
+		if ! test -z "${PRECOMMAND}" && findProgram "sudo" "$PATH"; then
+			PRECOMMAND="sudo"
+		fi
 
 		local confirmation
 
@@ -223,7 +239,7 @@ tryInstall() { #args: dependence_name
 			confirmation="${CONF_SAVED}"
 		else
 			
-			printf "Try it now? (yes[y]/no[n]/always[yy]/never[nn])\n"
+			printf "${GREEN}Try it now?${NOCOLOR} (yes[y]/no[n]/always[yy]/never[nn])\n"
 			read confirmation
 		fi
 
@@ -240,11 +256,11 @@ tryInstall() { #args: dependence_name
 
 		case "${confirmation}" in
 			"y" | "yes" )
-				if sudo apt install -y "$1"
+				if "${PRECOMMAND}" apt install -y "$1"
 				then
-					printf "\nSuccess!\n\n"
+					printf "\n${GREEN}Instalation ended with success!${NOCOLOR}\n\n"
 				else
-					printf "\nFailed!\n\n"
+					printf "\n${YELLOW}Installation ended with error!${NOCOLOR}\n\n"
 				fi
 				;;
 		esac
@@ -254,13 +270,9 @@ tryInstall() { #args: dependence_name
 
 warningDependence() { #args: dependence_name
 
-	local YELLOW="\033[1;33m"
-	local RED="\033[0;31m"
-	local NOCOLOR="\033[0m"
-
 	printf \
-"${YELLOW}Warning!${NOCOLOR}
-${RED}'$1'${NOCOLOR} - a program necessary to build the project, not found
+"\n${YELLOW}Warning!${NOCOLOR}
+'${YELLOW}$1${NOCOLOR}'${NOCOLOR} - a program necessary to build the project, not found
 You can try to install this from a repository by writing eg. \`sudo apt install \"$1\"\`.\n\n"
 
 	
@@ -281,22 +293,150 @@ reportDependences() { #args: program_name ...
 	return ${err}
 }
 
-checkDependences() {
+reportText() { #args: text possibles ...
 
-	if reportDependences \
-		"make" \
-		"gcc" \
-		"g++"
-	then
-		return 0
-	fi
+	for i in $(seq 2 $#); do
+		if test "${1}" == "${!i}"; then
+			return 0
+		fi
+	done
+
 	return 1
+
+}
+
+CONFIG_PREPPROC_TARGET() {	
+	if ! reportText "${CONFIG_TARGET}" \
+			"win32" \
+			"linux" \
+			"macos" \
+			"android"
+	then #when 'auto' or whatever
+
+		local SYS_NAME="$(uname -s)"
+		case "${SYS_NAME}" in
+			"Windows_NT" )
+				CONFIG_TARGET="win32"
+				;;
+			"Darwin" )
+				CONFIG_TARGET="macos"
+				;;
+			* )
+				if \
+					echo "${SYS_NAME}" | grep -e "MINGW" >>/dev/null
+				then
+					CONFIG_TARGET="win32"
+				else
+					CONFIG_TARGET="linux"
+				fi
+				;;
+		esac
+	fi
+
+	return 0
+}
+
+CONFIG_PREPPROC_ARCH() {
+	if ! reportText "${CONFIG_ARCH}" \
+		"32" \
+		"64"
+	then
+
+		case "$(uname -m)" in
+			"i686" )
+				CONFIG_ARCH="32"
+				;;
+			*)
+				CONFIG_ARCH="64"
+				;;
+		esac
+
+	fi
+
+	return 0
+}
+
+CONFIG_PREPPROC_LIBRARY_FORMAT() {
+	if ! reportText "${CONFIG_LIBRARY_FORMAT}" \
+		"separate" \
+		"merge"
+	then
+		CONFIG_LIBRARY_FORMAT="separate"
+	fi
+
+	return 0
+}
+
+CONFIG_PREPPROC_GLOBLOAD() {	
+	if ! reportText "${CONFIG_GLOBAL_LOAD}" \
+		"manual" \
+		"link" \
+		"load"
+	then
+		CONFIG_GLOBAL_LOAD="manual"
+	fi
+
+	return 0
+}
+
+CONFIG_PREPPROC_MASTER_LIBRARY() {
+
+	if ! reportText "${!1}" \
+		"link" \
+		"load"
+	then
+		eval "${!1}"="link"
+
+	fi
+	return 0
+}
+
+CONFIG_PREPARE_PROCS=(\
+\
+CONFIG_PREPPROC_TARGET \
+CONFIG_PREPPROC_ARCH \
+CONFIG_PREPPROC_LIBRARY_FORMAT \
+CONFIG_PREPPROC_GLOBLOAD \
+CONFIG_PREPPROC_MASTER_LIBRARY \
+)
+
+CONFIG_PREPARE_VARS() {
+
+	local i
+	for i in ${!CONFIG_LABELS[@]}; do
+		local func
+		if test $i -lt ${#CONFIG_PREPARE_PROCS[@]}; then
+			func=${CONFIG_PREPARE_PROCS[i]}
+		else
+			local l_index=$((${#CONFIG_PREPARE_PROCS[@]}-1))
+			func=${CONFIG_PREPARE_PROCS[l_index]}
+		fi
+		${func} ${CONFIG_LABELS[i]}
+	done
+
+	return 0
+
+}
+
+CONFIG_MK_PROC() {
+
+	CONFIG_PREPARE_VARS
+
+	echo "Target: ${CONFIG_TARGET}"
+	echo "Architecture: ${CONFIG_ARCH}"
+
+	return 0
+
 }
 
 GenerateBuildEnv() {
 	LoadFixedConf
 
-	checkDependences
+	reportDependences \
+		"make" \
+		"gcc"
+
+	"${CONFIG_PROCEDURE}"
 
 	return 0
 }
