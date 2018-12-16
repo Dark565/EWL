@@ -228,7 +228,7 @@ tryInstall() { #args: dependence_name
 
 		APT_EXISTS=1
 
-		if ! test -z "${PRECOMMAND}" && findProgram "sudo" "$PATH"; then
+		if test -z "${PRECOMMAND}" && test "$(id -u)" != "0" && findProgram "sudo" "$PATH"; then
 			PRECOMMAND="sudo"
 		fi
 
@@ -256,7 +256,7 @@ tryInstall() { #args: dependence_name
 
 		case "${confirmation}" in
 			"y" | "yes" )
-				if "${PRECOMMAND}" apt install -y "$1"
+				if ${PRECOMMAND} apt install -y "$1"
 				then
 					printf "\n${GREEN}Instalation ended with success!${NOCOLOR}\n\n"
 				else
@@ -313,22 +313,23 @@ CONFIG_PREPPROC_TARGET() {
 			"android"
 	then #when 'auto' or whatever
 
-		local SYS_NAME="$(uname -s)"
+		local SYS_NAME="$(uname -o)"
+		if test $? != 0; then
+			SYS_NAME="$(uname -s)"
+		fi
+
 		case "${SYS_NAME}" in
-			"Windows_NT" )
+			"MS/Windows" | "Msys" )
 				CONFIG_TARGET="win32"
 				;;
 			"Darwin" )
 				CONFIG_TARGET="macos"
 				;;
+			"Android" )
+				CONFIG_TARGET="android"
+				;;
 			* )
-				if \
-					echo "${SYS_NAME}" | grep -e "MINGW" >>/dev/null
-				then
-					CONFIG_TARGET="win32"
-				else
-					CONFIG_TARGET="linux"
-				fi
+				CONFIG_TARGET="linux"
 				;;
 		esac
 	fi
@@ -423,7 +424,7 @@ CONFIG_MK_PROC() {
 	CONFIG_PREPARE_VARS
 
 	echo "Target: ${CONFIG_TARGET}"
-	echo "Architecture: ${CONFIG_ARCH}"
+	echo "Architecture: ${CONFIG_ARCH} bits"
 
 	return 0
 
@@ -434,7 +435,8 @@ GenerateBuildEnv() {
 
 	reportDependences \
 		"make" \
-		"gcc"
+		"gcc" \
+		"lll"
 
 	"${CONFIG_PROCEDURE}"
 
