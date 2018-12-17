@@ -43,6 +43,12 @@ CONFIG_BEGINNING_HINT=\
 # Leave the variable empty or set it to 'auto' to determine its value automatically
 "
 
+HINT_COMPILER=\
+"\
+# Define the compiler
+#	> ...
+"
+
 HINT_TARGET=\
 "\
 # Define an output platform:
@@ -50,13 +56,6 @@ HINT_TARGET=\
 #	> win32
 #	> macos
 #	> android
-"
-
-HINT_ARCH=\
-"\
-# Define a bit architecture:
-#	> 32
-#	> 64
 "
 
 HINT_LIBFORMAT=\
@@ -83,8 +82,8 @@ HINT_FLIBOGG=\
 
 CONFIG_LABELS=(\
 \
+CONFIG_COMPILER \
 CONFIG_TARGET \
-CONFIG_ARCH \
 CONFIG_LIBRARY_FORMAT \
 CONFIG_GLOBAL_LOAD \
 CONFIG_UNIX_GRAPH_LIBX11_LOAD \
@@ -96,8 +95,8 @@ CONFIG_FORMS_LIBOGG_LOAD \
 
 CONFIG_HINTS=(\
 \
+HINT_COMPILER \
 HINT_TARGET \
-HINT_ARCH \
 HINT_LIBFORMAT \
 HINT_GLOBLOAD \
 HINT_UGLIBX11 \
@@ -287,6 +286,7 @@ reportDependences() { #args: program_name ...
 	for i in $(seq 1 $#); do
 		if ! findProgram "${!i}" "$PATH"; then
 			warningDependence "${!i}"
+			eval "NODEP_${!i}"=1
 			err=1
 		fi
 	done
@@ -305,6 +305,37 @@ reportText() { #args: text possibles ...
 
 }
 
+reportGrep() { #args: text possibles ...
+
+	for i in $(seg 2 $#); do
+		if echo "$1" | grep ${!i} >/dev/null; then
+			return 0
+		fi
+	done
+	return 1
+}
+
+CONFIG_PREPPROC_COMPILER() {
+	if ! reportText "${CONFIG_COMPILER}" \
+		"auto"
+	then
+		if ! test -x "${CONFIG_COMPILER}"; then
+			printf "\n# Cannot find '"${CONFIG_COMPILER}"'\n# Looking for gcc\n\n" 1>&2
+				
+		else
+			return 0
+		fi
+	fi
+
+	if reportDependences \
+		"gcc"
+	then
+		CONFIG_COMPILER="gcc"
+	fi
+
+
+}
+
 CONFIG_PREPPROC_TARGET() {	
 	if ! reportText "${CONFIG_TARGET}" \
 			"win32" \
@@ -313,45 +344,31 @@ CONFIG_PREPPROC_TARGET() {
 			"android"
 	then #when 'auto' or whatever
 
-		local SYS_NAME="$(uname -o)"
-		if test $? != 0; then
-			SYS_NAME="$(uname -s)"
+		if test -z "${NODEP_gcc}"; then
+			local SYS_NAME="$("${CONFIG_COMPILER}" -dumpmachine | sed 's/^.*-\{1\}\(.*\)/\1/g')"
+		else
+			printf "\n# No gcc accessible\n# Detecting target from system\n\n" 1>&2
+
+			local SYS_NAME="$(uname -o)"
+			if test $? != 0; then
+				SYS_NAME="$(uname -s)"
+			fi
 		fi
 
 		case "${SYS_NAME}" in
-			"MS/Windows" | "Msys" )
+			"MS/Windows" | "Msys" | "mingw32" )
 				CONFIG_TARGET="win32"
 				;;
-			"Darwin" )
+			"Darwin" | "darwin" )
 				CONFIG_TARGET="macos"
 				;;
-			"Android" )
+			"Android" | "android" ) 
 				CONFIG_TARGET="android"
 				;;
 			* )
 				CONFIG_TARGET="linux"
 				;;
 		esac
-	fi
-
-	return 0
-}
-
-CONFIG_PREPPROC_ARCH() {
-	if ! reportText "${CONFIG_ARCH}" \
-		"32" \
-		"64"
-	then
-
-		case "$(uname -m)" in
-			"i686" )
-				CONFIG_ARCH="32"
-				;;
-			*)
-				CONFIG_ARCH="64"
-				;;
-		esac
-
 	fi
 
 	return 0
@@ -394,8 +411,8 @@ CONFIG_PREPPROC_MASTER_LIBRARY() {
 
 CONFIG_PREPARE_PROCS=(\
 \
+CONFIG_PREPPROC_COMPILER \
 CONFIG_PREPPROC_TARGET \
-CONFIG_PREPPROC_ARCH \
 CONFIG_PREPPROC_LIBRARY_FORMAT \
 CONFIG_PREPPROC_GLOBLOAD \
 CONFIG_PREPPROC_MASTER_LIBRARY \
@@ -423,8 +440,8 @@ CONFIG_MK_PROC() {
 
 	CONFIG_PREPARE_VARS
 
+	echo "Compiler: ${CONFIG_COMPILER}"
 	echo "Target: ${CONFIG_TARGET}"
-	echo "Architecture: ${CONFIG_ARCH} bits"
 
 	return 0
 
@@ -434,9 +451,7 @@ GenerateBuildEnv() {
 	LoadFixedConf
 
 	reportDependences \
-		"make" \
-		"gcc" \
-		"lll"
+		"make"
 
 	"${CONFIG_PROCEDURE}"
 
